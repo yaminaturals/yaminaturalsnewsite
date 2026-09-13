@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container } from '../../components/ui/Container/Container';
-import { Button } from '../../components/ui/Button/Button';
 import { Card } from '../../components/ui/Card/Card';
 import { HeroSection } from '../../components/sections/HeroSection/HeroSection';
 import { CapabilityStrip } from '../../components/sections/CapabilityStrip/CapabilityStrip';
 import { ProductCategoriesSection } from '../../components/sections/ProductCategoriesSection/ProductCategoriesSection';
 import { ProcurementSection } from '../../components/sections/ProcurementSection';
+import { RequirementCtaSection } from '../../components/sections/RequirementCtaSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -23,7 +23,10 @@ export const HomePage: React.FC = () => {
       {/* 4. PROCUREMENT / SOURCING SECTION (Step 5D: Tell Us What You Need) */}
       <ProcurementSection />
 
-      {/* 4. HOW PROCUREMENT WORKS */}
+      {/* 5. HOMEPAGE REQUIREMENT CTA (Step 5E: Primary Conversion Section) */}
+      <RequirementCtaSection />
+
+      {/* 6. HOW SOURCING WORKS (Placeholder - to be implemented in future step) */}
       <section className="section bg-botanical-tint">
         <Container size="default">
           <div className="section-header text-center" style={{ maxWidth: '720px', margin: '0 auto var(--space-10)' }}>
@@ -66,27 +69,6 @@ export const HomePage: React.FC = () => {
                 Secure packaging, batch documentation, and dispatch to your specified destination.
               </p>
             </Card>
-          </div>
-        </Container>
-      </section>
-
-      {/* 5. PRIMARY ACTION CALLOUT */}
-      <section className="section bg-dark-forest">
-        <Container size="narrow">
-          <div className="text-center">
-            <span className="eyebrow eyebrow-accent">Ready to Source?</span>
-            <h2 style={{ color: '#ffffff' }}>Have a Specific Material or Volume Requirement?</h2>
-            <p style={{ color: '#b5cebf', maxWidth: '600px', margin: '0 auto var(--space-6)' }}>
-              Whether you require a standard botanical extract or a custom formulated blend, our procurement team is ready to assist.
-            </p>
-            <div className="flex justify-center gap-4 flex-wrap">
-              <Button to="/submit-requirement" variant="accent" size="lg">
-                Submit Your Requirement Now
-              </Button>
-              <Button to="/contact" variant="outline" size="lg" style={{ color: '#ffffff', borderColor: '#ffffff' }}>
-                Contact Sourcing Desk
-              </Button>
-            </div>
           </div>
         </Container>
       </section>

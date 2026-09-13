@@ -1,0 +1,291 @@
+/* ==========================================================================
+   HOMEPAGE REQUIREMENT CTA SECTION - YAMI NATURALS (STEP 5E)
+   High-Contrast Deep Green Editorial Conversion Section
+   ========================================================================== */
+
+.requirement-cta-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-deep-green);
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    #0c4e31 0%,
+    #073B24 60%,
+    #042416 100%
+  );
+  color: #ffffff;
+  padding: clamp(4rem, 7vw, 6.5rem) 0;
+  border-top: 1px solid rgba(232, 245, 238, 0.1);
+  border-bottom: 1px solid rgba(7, 59, 36, 0.5);
+}
+
+/* Background Botanical Parallax Decorations */
+.requirement-cta-bg-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.cta-parallax-leaf {
+  position: absolute;
+  width: clamp(180px, 22vw, 320px);
+  height: clamp(260px, 32vw, 440px);
+  opacity: 0.18;
+  color: #E8F5EE;
+}
+
+.cta-parallax-left {
+  top: 50%;
+  left: -2%;
+  transform: translateY(-50%);
+}
+
+.cta-parallax-right {
+  top: 50%;
+  right: -2%;
+  transform: translateY(-50%);
+}
+
+.cta-leaf-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cta-ambient-glow {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 350px;
+  background: radial-gradient(
+    circle,
+    rgba(13, 92, 58, 0.25) 0%,
+    rgba(7, 59, 36, 0) 70%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Container & Content */
+.requirement-cta-container {
+  position: relative;
+  z-index: 1;
+}
+
+.requirement-cta-content {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Eyebrow */
+.requirement-cta-eyebrow-wrapper {
+  margin-bottom: var(--space-3);
+}
+
+.requirement-cta-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #e8b75a;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+}
+
+.requirement-cta-eyebrow-icon {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+/* Heading */
+.requirement-cta-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 1.8rem + 1.6vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0 0 var(--space-4) 0;
+  text-wrap: balance;
+}
+
+.cta-heading-line {
+  display: block;
+}
+
+.cta-heading-emphasis {
+  font-style: italic;
+  font-weight: 500;
+  color: #e5f5ec;
+  margin-top: 0.12em;
+}
+
+/* Supporting Text */
+.requirement-cta-supporting-text {
+  font-size: clamp(1.02rem, 0.96rem + 0.25vw, 1.18rem);
+  line-height: 1.65;
+  color: #b7d1c3;
+  margin: 0 auto var(--space-8);
+  max-width: 620px;
+  text-wrap: pretty;
+}
+
+/* CTA Actions Group */
+.requirement-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+  width: 100%;
+}
+
+.requirement-cta-btn-primary {
+  min-width: 240px;
+  box-shadow: 0 4px 18px rgba(201, 138, 30, 0.35);
+  transition: transform var(--duration-fast) var(--ease-spring), box-shadow var(--duration-fast) ease;
+}
+
+.requirement-cta-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(201, 138, 30, 0.45);
+}
+
+/* Secondary Button Contrast Tuning on Deep Green */
+.requirement-cta-btn-secondary.btn-outline {
+  min-width: 200px;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+  background-color: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(4px);
+  transition: transform var(--duration-fast) var(--ease-spring), background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.requirement-cta-btn-secondary.btn-outline:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Conversion Guidance Note */
+.requirement-cta-guidance {
+  display: flex;
+  justify-content: center;
+}
+
+.cta-guidance-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 1.15rem;
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  color: #d6e8de;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  backdrop-filter: blur(6px);
+}
+
+.cta-guidance-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #deb04b;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(222, 176, 75, 0.6);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .requirement-cta-section {
+    padding: clamp(3.5rem, 6vw, 5rem) 0;
+  }
+
+  .cta-parallax-leaf {
+    opacity: 0.12;
+    width: 200px;
+  }
+
+  .cta-parallax-left {
+    left: -4%;
+  }
+
+  .cta-parallax-right {
+    right: -4%;
+  }
+
+  .requirement-cta-actions {
+    gap: var(--space-4);
+  }
+}
+
+/* Mobile (360px - 767px) */
+@media (max-width: 767px) {
+  .requirement-cta-section {
+    padding: clamp(3rem, 7vw, 4rem) 0;
+  }
+
+  .cta-parallax-leaf {
+    opacity: 0.08;
+    width: 140px;
+    height: 220px;
+  }
+
+  .cta-parallax-left {
+    left: -8%;
+    top: 20%;
+  }
+
+  .cta-parallax-right {
+    right: -8%;
+    top: 75%;
+  }
+
+  .requirement-cta-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .requirement-cta-btn-primary,
+  .requirement-cta-btn-secondary {
+    width: 100%;
+    min-width: 100%;
+    justify-content: center;
+  }
+
+  .cta-guidance-pill {
+    padding: 0.5rem 0.85rem;
+    text-align: center;
+    line-height: 1.45;
+  }
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .requirement-cta-btn-primary:hover,
+  .requirement-cta-btn-secondary:hover {
+    transform: none !important;
+  }
+
+  .cta-parallax-leaf {
+    transform: translateY(-50%) !important;
+  }
+}
