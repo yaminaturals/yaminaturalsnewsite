@@ -6,6 +6,7 @@ import { Badge } from '../../components/ui/Badge/Badge';
 import { categoryService } from '../../services/CategoryService';
 import { ProductCategory } from '../../types';
 import { HeroSection } from '../../components/sections/HeroSection/HeroSection';
+import { CapabilityStrip } from '../../components/sections/CapabilityStrip/CapabilityStrip';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -24,60 +25,8 @@ export const HomePage: React.FC = () => {
       {/* 1. HERO SECTION (Step 5A: Dedicated Editorial Procurement Hero) */}
       <HeroSection />
 
-      {/* 2. TRUST & CAPABILITY HIGHLIGHTS */}
-      <section className="section-sm bg-warm-subtle">
-        <Container size="default">
-          <div className="grid grid-cols-1 tablet-grid-cols-2 desktop-grid-cols-4 gap-4">
-            <Card variant="surface" padding="sm">
-              <div className="trust-card-inner">
-                <span className="trust-icon">🔬</span>
-                <div>
-                  <h6 style={{ margin: 0 }}>Specification-Driven</h6>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    Assay, mesh size & active marker testing
-                  </p>
-                </div>
-              </div>
-            </Card>
-
-            <Card variant="surface" padding="sm">
-              <div className="trust-card-inner">
-                <span className="trust-icon">📦</span>
-                <div>
-                  <h6 style={{ margin: 0 }}>Flexible Volumes</h6>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    Kilograms to multi-tonne commercial supply
-                  </p>
-                </div>
-              </div>
-            </Card>
-
-            <Card variant="surface" padding="sm">
-              <div className="trust-card-inner">
-                <span className="trust-icon">📋</span>
-                <div>
-                  <h6 style={{ margin: 0 }}>Documented Quality</h6>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    CoA, TDS & traceability records available
-                  </p>
-                </div>
-              </div>
-            </Card>
-
-            <Card variant="surface" padding="sm">
-              <div className="trust-card-inner">
-                <span className="trust-icon">🤝</span>
-                <div>
-                  <h6 style={{ margin: 0 }}>B2B & B2C Support</h6>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    Dedicated assistance for every order size
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </Container>
-      </section>
+      {/* 2. CAPABILITY / OFFERING STRIP (Step 5B: Breadth of Natural Offerings) */}
+      <CapabilityStrip />
 
       {/* 3. PRODUCT CATEGORIES DISCOVERY */}
       <section className="section bg-surface">
