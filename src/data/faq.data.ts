@@ -93,7 +93,7 @@ export const faqSectionContent: FAQSectionContent = {
     title: 'Still have a specific requirement?',
     text: 'Tell us about the botanical ingredient or formulation you need, and we can discuss the appropriate sourcing path.',
     primaryCta: {
-      text: 'Submit Your Requirement',
+      text: 'Discuss Your Requirement',
       link: '/submit-requirement',
     },
     secondaryCta: {

@@ -1,76 +1,75 @@
-export interface ProcurementStageItem {
+export interface ProcurementCapabilityItem {
   id: string;
-  step: string;
   number: string;
   title: string;
   description: string;
-  iconName: 'requirement' | 'matching' | 'specification' | 'sourcing';
+  iconName: 'discovery' | 'matching' | 'specification' | 'sourcing';
 }
 
 export interface ProcurementSectionContent {
   eyebrow: string;
   heading: string;
-  headingHighlight: string;
+  headingHighlight?: string;
   supportingText: string;
-  noteText: string;
-  primaryCta: {
+  noteText?: string;
+  directionalCta: {
     label: string;
     path: string;
   };
-  secondaryCta: {
+  secondaryLink?: {
     label: string;
     path: string;
   };
-  stages: ProcurementStageItem[];
+  capabilities: ProcurementCapabilityItem[];
 }
 
 export const procurementContent: ProcurementSectionContent = {
   eyebrow: 'PROCUREMENT SUPPORT',
-  heading: 'Tell Us What You Need.',
-  headingHighlight: "We'll Help You Find the Right Path.",
+  heading: 'What We Help',
+  headingHighlight: 'You Source.',
   supportingText:
-    'Share your product, ingredient or formulation requirement and our sourcing desk can help you identify the appropriate category and procurement route.',
+    'Explore product categories and share your requirement so the appropriate sourcing path can be discussed around the product, application and specifications that matter to you.',
   noteText:
-    "You don't have to know exactly what to buy. Tell us your requirement and we can help identify the appropriate product/category and sourcing path.",
-  primaryCta: {
-    label: 'Submit Your Requirement',
+    'Whether you have an established ingredient specification or an early formulation requirement, our sourcing desk assists in evaluating viable product paths.',
+  directionalCta: {
+    label: 'Discuss Your Requirement',
     path: '/submit-requirement',
   },
-  secondaryCta: {
-    label: 'Explore Products',
+  secondaryLink: {
+    label: 'Browse Product Catalogue',
     path: '/products',
   },
-  stages: [
+  capabilities: [
     {
-      id: 'procurement-stage-requirement',
-      step: 'Stage 01',
+      id: 'cap-product-discovery',
       number: '01',
-      title: 'Requirement',
-      description: 'Tell us what product or ingredient you need.',
-      iconName: 'requirement',
+      title: 'PRODUCT DISCOVERY',
+      description:
+        'Explore relevant product and ingredient categories based on your requirement.',
+      iconName: 'discovery',
     },
     {
-      id: 'procurement-stage-matching',
-      step: 'Stage 02',
+      id: 'cap-requirement-matching',
       number: '02',
-      title: 'Product Matching',
-      description: 'Identify relevant product or category options.',
+      title: 'REQUIREMENT MATCHING',
+      description:
+        'Share the product, ingredient or formulation details you are looking for.',
       iconName: 'matching',
     },
     {
-      id: 'procurement-stage-specification',
-      step: 'Stage 03',
+      id: 'cap-specification-discussion',
       number: '03',
-      title: 'Specification',
-      description: 'Discuss the required specifications and application.',
+      title: 'SPECIFICATION DISCUSSION',
+      description:
+        'Discuss the specifications and application details relevant to your requirement.',
       iconName: 'specification',
     },
     {
-      id: 'procurement-stage-sourcing',
-      step: 'Stage 04',
+      id: 'cap-sourcing-path',
       number: '04',
-      title: 'Sourcing',
-      description: 'Proceed toward the appropriate sourcing/fulfilment route.',
+      title: 'SOURCING PATH',
+      description:
+        'Move toward the appropriate sourcing or fulfilment discussion.',
       iconName: 'sourcing',
     },
   ],

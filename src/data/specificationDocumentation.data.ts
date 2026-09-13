@@ -56,7 +56,7 @@ export const specificationDocumentationContent: SpecificationDocumentationConten
   ],
   callout: {
     text: 'Have a detailed specification sheet? You can include it with your requirement.',
-    ctaText: 'Submit Your Requirement',
+    ctaText: 'Start a Requirement',
     ctaLink: '/submit-requirement',
   },
 };

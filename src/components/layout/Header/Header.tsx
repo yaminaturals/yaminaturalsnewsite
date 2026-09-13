@@ -264,9 +264,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                     <div className="mega-menu-header">
                       <div>
                         <span className="eyebrow">Natural Catalog</span>
-                        <h4 className="mega-menu-title">Botanical & Herbal Categories</h4>
+                        <p className="mega-menu-title">Botanical & Herbal Categories</p>
                         <p className="mega-menu-subtitle">
-                          Verified whole powders, standardized extracts, cold-pressed oils, mineral clays, and dietary ingredients.
+                          Botanical whole powders, herbal extracts, natural oils, cosmetic clays, and dietary ingredients.
                         </p>
                       </div>
                       <Link

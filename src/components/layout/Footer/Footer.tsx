@@ -33,7 +33,7 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Quick Links</h4>
+            <p className="footer-col-title">Quick Links</p>
             <ul className="footer-links-list">
               <li><Link to="/" className="footer-link">Home</Link></li>
               <li><Link to="/about" className="footer-link">About</Link></li>
@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
 
           {/* Products */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Products</h4>
+            <p className="footer-col-title">Products</p>
             <ul className="footer-links-list">
               <li><Link to="/products?category=herbal-powders" className="footer-link">Herbal Powders</Link></li>
               <li><Link to="/products?category=herbal-extracts" className="footer-link">Herbal Extracts</Link></li>
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
 
           {/* Support */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Support</h4>
+            <p className="footer-col-title">Support</p>
             <ul className="footer-links-list">
               <li><Link to="/submit-requirement" className="footer-link">Submit Requirement</Link></li>
               <li><Link to="/faq" className="footer-link">FAQ</Link></li>
@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
 
           {/* Contact Section with Neutral Placeholders */}
           <div className="footer-col footer-contact-col">
-            <h4 className="footer-col-title">Contact</h4>
+            <p className="footer-col-title">Contact</p>
             <div className="footer-contact-box">
               <div className="footer-contact-item">
                 <span className="footer-contact-label">Procurement Email</span>

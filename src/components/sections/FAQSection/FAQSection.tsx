@@ -108,12 +108,12 @@ export const FAQSection: React.FC = () => {
             <div className="faq-cta-card">
               <div className="faq-cta-card-inner">
                 <span className="faq-cta-badge" aria-hidden="true">📋 SOURCING DESK</span>
-                <h4 className="faq-cta-title">{callout.title}</h4>
+                <h3 className="faq-cta-title">{callout.title}</h3>
                 <p className="faq-cta-text">{callout.text}</p>
                 <div className="faq-cta-actions">
                   <Button
                     to={callout.primaryCta.link}
-                    variant="primary"
+                    variant="secondary"
                     size="md"
                     className="faq-primary-btn"
                     iconRight={

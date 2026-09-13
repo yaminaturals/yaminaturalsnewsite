@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Container } from '../../ui/Container/Container';
-import { Button } from '../../ui/Button/Button';
 import { ParallaxLayer } from '../../ui/ParallaxLayer/ParallaxLayer';
 import { specificationDocumentationContent } from '../../../data/specificationDocumentation.data';
 import { SpecificationArea } from './SpecificationArea';
@@ -119,30 +119,13 @@ export const SpecificationDocumentationSection: React.FC = () => {
               <p className="spec-doc-callout-text">{callout.text}</p>
             </div>
             <div className="spec-doc-callout-action">
-              <Button
+              <Link
                 to={callout.ctaLink}
-                variant="primary"
-                size="md"
-                className="spec-doc-callout-btn"
-                iconRight={
-                  <svg
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="spec-callout-arrow-svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3 8h10M9 4l4 4-4 4"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                }
+                className="spec-doc-directional-link"
               >
-                {callout.ctaText}
-              </Button>
+                <span>{callout.ctaText}</span>
+                <span className="spec-doc-link-arrow" aria-hidden="true">→</span>
+              </Link>
             </div>
           </div>
         </div>
