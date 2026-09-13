@@ -19,23 +19,25 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
-  // Load categories dynamically from CategoryService
+  // Subscribe to dynamic categories from CategoryService
   useEffect(() => {
-    let isMounted = true;
-    categoryService.getCategories().then((cats) => {
-      if (isMounted) {
-        setCategories(cats);
-      }
+    const unsubscribe = categoryService.subscribe((cats) => {
+      setCategories(cats);
     });
     return () => {
-      isMounted = false;
+      unsubscribe();
     };
   }, []);
 
-  // Close mega-menu on route change
+  // Close mega-menu on route change unless testMenu is active
   useEffect(() => {
-    setIsProductsOpen(false);
-  }, [location.pathname]);
+    const params = new URLSearchParams(location.search);
+    if (params.get('testMenu') === 'products') {
+      setIsProductsOpen(true);
+    } else {
+      setIsProductsOpen(false);
+    }
+  }, [location.pathname, location.search]);
 
   // Handle sticky header scroll elevation
   useEffect(() => {
@@ -47,15 +49,26 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle clicks outside the mega-menu
+  // Handle clicks outside and escape key for the mega-menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsProductsOpen(false);
       }
     };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsProductsOpen(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleEscape);
+    };
   }, []);
 
   // Hover handlers with debounce to prevent flickering

@@ -28,14 +28,17 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(88vw, 380px);
+  width: min(85vw, 360px);
   background-color: #ffffff;
   z-index: var(--z-drawer);
   display: flex;
   flex-direction: column;
   box-shadow: -10px 0 40px rgba(7, 59, 36, 0.18);
   transform: translate3d(100%, 0, 0);
-  transition: transform var(--duration-slow) var(--ease-spring);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform var(--duration-slow) var(--ease-spring),
+              visibility var(--duration-slow) ease;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
@@ -43,6 +46,8 @@
 
 .mobile-nav-drawer.open {
   transform: translate3d(0, 0, 0);
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Drawer Header */
@@ -56,6 +61,8 @@
   position: sticky;
   top: 0;
   z-index: 2;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .mobile-nav-logo {
@@ -70,6 +77,13 @@
   border-radius: var(--radius-sm);
   color: var(--color-deep-green);
   cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  flex-shrink: 0;
   transition: background-color var(--duration-fast) ease,
               color var(--duration-fast) ease;
 }

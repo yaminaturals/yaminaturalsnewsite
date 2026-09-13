@@ -22,7 +22,7 @@ export const initialCategories: ProductCategory[] = [
   {
     id: 'cat-oils',
     slug: 'natural-oils',
-    name: 'Natural & Essential Oils',
+    name: 'Natural Oils',
     shortDescription: 'Cold-pressed carrier oils and steam-distilled essential oils with verified fatty acid profiles.',
     productCount: 26,
     featured: true,
@@ -31,7 +31,7 @@ export const initialCategories: ProductCategory[] = [
   {
     id: 'cat-cosmetic-clays',
     slug: 'cosmetic-clay-powders',
-    name: 'Cosmetic Clay Powders',
+    name: 'Cosmetic Clays',
     shortDescription: 'Sun-dried, ultra-fine mineral and cosmetic clays ideal for skin detox and formulation bases.',
     productCount: 18,
     featured: true,
@@ -49,7 +49,7 @@ export const initialCategories: ProductCategory[] = [
   {
     id: 'cat-capsules',
     slug: 'formula-capsules',
-    name: 'Formula-Based Capsules',
+    name: 'Capsules',
     shortDescription: 'Targeted single-herb and synergy formulations available for custom packaging and private label.',
     productCount: 22,
     featured: true,
@@ -58,7 +58,7 @@ export const initialCategories: ProductCategory[] = [
   {
     id: 'cat-other-botanicals',
     slug: 'other-botanicals',
-    name: 'Other Natural & Herbal Products',
+    name: 'Other Products',
     shortDescription: 'Herbal cuts, crude botanicals, gums, and specialty sourcing materials upon custom request.',
     productCount: 15,
     featured: false,

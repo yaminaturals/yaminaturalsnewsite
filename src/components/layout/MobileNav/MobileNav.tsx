@@ -17,25 +17,23 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
 
-  // Load categories from CategoryService
+  // Subscribe to dynamic categories from CategoryService
   useEffect(() => {
-    let isMounted = true;
-    categoryService.getCategories().then((cats) => {
-      if (isMounted) {
-        setCategories(cats);
-      }
+    const unsubscribe = categoryService.subscribe((cats) => {
+      setCategories(cats);
     });
     return () => {
-      isMounted = false;
+      unsubscribe();
     };
   }, []);
 
-  // Open accordion if current route is within products
+  // Open accordion if current route is within products or testDrawer is active
   useEffect(() => {
-    if (location.pathname.startsWith('/products')) {
+    const params = new URLSearchParams(location.search);
+    if (location.pathname.startsWith('/products') || params.get('testDrawer') === 'true') {
       setIsProductsExpanded(true);
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   // Lock background scroll when drawer is active
   useEffect(() => {
