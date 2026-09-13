@@ -9,6 +9,7 @@ import { SolutionsSection } from '../../components/sections/SolutionsSection';
 import { HowItWorksSection } from '../../components/sections/HowItWorksSection';
 import { SpecificationDocumentationSection } from '../../components/sections/SpecificationDocumentationSection';
 import { TrustExperienceSection } from '../../components/sections/TrustExperienceSection';
+import { FAQSection } from '../../components/sections/FAQSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -43,6 +44,9 @@ export const HomePage: React.FC = () => {
 
       {/* 10. TRUST & EXPERIENCE (Step 5J: Requirement-First Trust Principles) */}
       <TrustExperienceSection />
+
+      {/* 11. FAQ SECTION (Step 5K: Common Questions & Sourcing Guidance) */}
+      <FAQSection />
     </div>
   );
 };
