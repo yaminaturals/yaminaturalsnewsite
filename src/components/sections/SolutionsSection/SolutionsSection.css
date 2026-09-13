@@ -1,0 +1,451 @@
+/* ==========================================================================
+   SolutionsSection.css — B2B & B2C Sourcing Solutions
+   Step 5G: Dedicated Editorial 50/50 Dual Pathway
+   ========================================================================== */
+
+.solutions-section {
+  position: relative;
+  background-color: #F4F7F5;
+  padding: clamp(var(--space-16, 4rem), 7vw, var(--space-24, 6rem)) 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(13, 92, 58, 0.08);
+  border-bottom: 1px solid rgba(13, 92, 58, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Background Decorative Parallax Motif
+   -------------------------------------------------------------------------- */
+.solutions-bg-decoration {
+  position: absolute;
+  top: 10%;
+  right: -5%;
+  width: 380px;
+  height: 380px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.solutions-watermark-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Section Header
+   -------------------------------------------------------------------------- */
+.solutions-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(var(--space-10, 2.5rem), 5vw, var(--space-14, 3.5rem));
+}
+
+.solutions-eyebrow-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+  padding: 0.35rem 0.9rem;
+  background-color: rgba(13, 92, 58, 0.08);
+  border: 1px solid rgba(13, 92, 58, 0.15);
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.solutions-eyebrow-icon {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.solutions-eyebrow-text {
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary-green, #0D5C3A);
+}
+
+.solutions-title {
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--color-primary-dark, #073B24);
+  margin: 0 0 var(--space-4, 1rem);
+  letter-spacing: -0.015em;
+}
+
+.solutions-title-emphasis {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-primary-green, #0D5C3A);
+}
+
+.solutions-supporting-text {
+  font-size: clamp(1rem, 1.15vw, 1.125rem);
+  line-height: 1.65;
+  color: #384A41;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+/* --------------------------------------------------------------------------
+   50/50 Dual Pathway Grid
+   -------------------------------------------------------------------------- */
+.solutions-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(var(--space-6, 1.5rem), 3vw, var(--space-8, 2rem));
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .solutions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Individual Solution Panel
+   -------------------------------------------------------------------------- */
+.solution-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border-radius: var(--radius-xl, 1rem);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(7, 59, 36, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+  position: relative;
+}
+
+/* Distinct Panel Top Accent & Border Treatment */
+.solution-panel--b2b {
+  border: 1px solid rgba(13, 92, 58, 0.16);
+  border-top: 4px solid var(--color-primary-green, #0D5C3A);
+}
+
+.solution-panel--b2c {
+  border: 1px solid rgba(217, 131, 36, 0.22);
+  border-top: 4px solid var(--color-amber-accent, #D98324);
+}
+
+/* Hover State */
+@media (hover: hover) and (pointer: fine) {
+  .solution-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(7, 59, 36, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .solution-panel--b2b:hover {
+    border-color: rgba(13, 92, 58, 0.3);
+  }
+
+  .solution-panel--b2c:hover {
+    border-color: rgba(217, 131, 36, 0.4);
+  }
+
+  .solution-panel:hover .solution-panel-img {
+    transform: scale(1.035);
+  }
+
+  .solution-panel:hover .solution-arrow-svg {
+    transform: translateX(4px);
+  }
+}
+
+/* Active State for Touch Devices */
+.solution-panel:active {
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Panel Media Header
+   -------------------------------------------------------------------------- */
+.solution-panel-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 260px;
+  overflow: hidden;
+  background-color: #EBF1EE;
+}
+
+.solution-panel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.solution-panel-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 59, 36, 0.08) 0%,
+    rgba(7, 59, 36, 0.35) 100%
+  );
+  pointer-events: none;
+}
+
+/* Media Badges */
+.solution-media-badge {
+  position: absolute;
+  bottom: var(--space-3, 0.75rem);
+  left: var(--space-4, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  background-color: rgba(7, 59, 36, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+.solution-media-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-amber-accent, #D98324);
+}
+
+.solution-panel--b2b .solution-media-badge-dot {
+  background-color: #5CD497;
+}
+
+.solution-media-badge-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+}
+
+/* Watermark Motif in Image Top-Right */
+.solution-media-motif {
+  position: absolute;
+  top: var(--space-3, 0.75rem);
+  right: var(--space-4, 1rem);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.solution-panel--b2b .solution-motif-svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary-green, #0D5C3A);
+}
+
+.solution-panel--b2c .solution-motif-svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-amber-accent, #D98324);
+}
+
+/* --------------------------------------------------------------------------
+   Panel Body
+   -------------------------------------------------------------------------- */
+.solution-panel-body {
+  padding: clamp(var(--space-6, 1.5rem), 3vw, var(--space-8, 2rem));
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Eyebrow & Badges */
+.solution-panel-badges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 0.75rem);
+  margin-bottom: var(--space-3, 0.75rem);
+  flex-wrap: wrap;
+}
+
+.solution-eyebrow-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm, 0.25rem);
+  line-height: 1.2;
+}
+
+.solution-eyebrow-pill--b2b {
+  background-color: rgba(13, 92, 58, 0.12);
+  color: var(--color-primary-green, #0D5C3A);
+  border: 1px solid rgba(13, 92, 58, 0.2);
+}
+
+.solution-eyebrow-pill--b2c {
+  background-color: rgba(217, 131, 36, 0.12);
+  color: #B36510;
+  border: 1px solid rgba(217, 131, 36, 0.25);
+}
+
+.solution-category-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #5A6D63;
+  letter-spacing: 0.01em;
+}
+
+/* Title */
+.solution-panel-title {
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-primary-dark, #073B24);
+  margin: 0 0 var(--space-3, 0.75rem);
+  letter-spacing: -0.01em;
+}
+
+/* Description */
+.solution-panel-desc {
+  font-size: var(--text-sm, 0.875rem);
+  line-height: 1.6;
+  color: #43544C;
+  margin: 0 0 var(--space-6, 1.5rem);
+}
+
+/* Supporting Points */
+.solution-points-wrapper {
+  margin-top: auto;
+  margin-bottom: var(--space-6, 1.5rem);
+  padding: var(--space-4, 1rem) var(--space-5, 1.25rem);
+  background-color: #F8FAF9;
+  border-radius: var(--radius-md, 0.5rem);
+  border: 1px solid rgba(13, 92, 58, 0.07);
+}
+
+.solution-points-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6B7E74;
+  margin-bottom: var(--space-2, 0.5rem);
+}
+
+.solution-points-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+}
+
+.solution-point-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+}
+
+.solution-point-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.solution-panel--b2b .solution-point-icon {
+  background-color: rgba(13, 92, 58, 0.12);
+  color: var(--color-primary-green, #0D5C3A);
+}
+
+.solution-panel--b2c .solution-point-icon {
+  background-color: rgba(217, 131, 36, 0.14);
+  color: #B36510;
+}
+
+.solution-check-svg {
+  width: 11px;
+  height: 11px;
+}
+
+.solution-point-text {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-neutral-dark, #1A2421);
+}
+
+/* --------------------------------------------------------------------------
+   CTA Button / Footer
+   -------------------------------------------------------------------------- */
+.solution-panel-footer {
+  margin-top: auto;
+}
+
+.solution-cta-btn {
+  min-height: 48px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.solution-cta-btn--b2b {
+  background-color: var(--color-primary-green, #0D5C3A);
+  color: #FFFFFF;
+  border-color: var(--color-primary-green, #0D5C3A);
+}
+
+.solution-cta-btn--b2b:hover {
+  background-color: var(--color-primary-dark, #073B24);
+  border-color: var(--color-primary-dark, #073B24);
+}
+
+.solution-cta-btn--b2c {
+  border-color: var(--color-primary-green, #0D5C3A);
+  color: var(--color-primary-green, #0D5C3A);
+  background-color: transparent;
+}
+
+.solution-cta-btn--b2c:hover {
+  background-color: var(--color-primary-green, #0D5C3A);
+  color: #FFFFFF;
+}
+
+.solution-arrow-svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.25s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .solution-panel,
+  .solution-panel-img,
+  .solution-arrow-svg {
+    transition: none !important;
+    transform: none !important;
+  }
+}

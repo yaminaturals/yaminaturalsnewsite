@@ -7,6 +7,7 @@ import { ProductCategoriesSection } from '../../components/sections/ProductCateg
 import { ProcurementSection } from '../../components/sections/ProcurementSection';
 import { RequirementCtaSection } from '../../components/sections/RequirementCtaSection';
 import { WhyYamiSection } from '../../components/sections/WhyYamiSection';
+import { SolutionsSection } from '../../components/sections/SolutionsSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -30,7 +31,10 @@ export const HomePage: React.FC = () => {
       {/* 6. WHY YAMI NATURALS (Step 5F: Requirement-First Procurement Approach) */}
       <WhyYamiSection />
 
-      {/* 7. HOW SOURCING WORKS (Placeholder - to be implemented in future step) */}
+      {/* 7. B2B & B2C SOLUTIONS (Step 5G: Dedicated Editorial Pathways) */}
+      <SolutionsSection />
+
+      {/* 8. HOW SOURCING WORKS (Placeholder - to be implemented in future step) */}
       <section className="section bg-botanical-tint">
         <Container size="default">
           <div className="section-header text-center" style={{ maxWidth: '720px', margin: '0 auto var(--space-10)' }}>
