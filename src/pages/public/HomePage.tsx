@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container } from '../../components/ui/Container/Container';
 import { Button } from '../../components/ui/Button/Button';
 import { Card } from '../../components/ui/Card/Card';
-import { Badge } from '../../components/ui/Badge/Badge';
-import { categoryService } from '../../services/CategoryService';
-import { ProductCategory } from '../../types';
 import { HeroSection } from '../../components/sections/HeroSection/HeroSection';
 import { CapabilityStrip } from '../../components/sections/CapabilityStrip/CapabilityStrip';
+import { ProductCategoriesSection } from '../../components/sections/ProductCategoriesSection/ProductCategoriesSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
-  const [categories, setCategories] = useState<ProductCategory[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    categoryService.getCategories().then((cats) => {
-      setCategories(cats);
-      setLoading(false);
-    });
-  }, []);
-
   return (
     <div className="home-page animate-fade-in">
       {/* 1. HERO SECTION (Step 5A: Dedicated Editorial Procurement Hero) */}
@@ -28,42 +16,8 @@ export const HomePage: React.FC = () => {
       {/* 2. CAPABILITY / OFFERING STRIP (Step 5B: Breadth of Natural Offerings) */}
       <CapabilityStrip />
 
-      {/* 3. PRODUCT CATEGORIES DISCOVERY */}
-      <section className="section bg-surface">
-        <Container size="default">
-          <div className="section-header text-center" style={{ maxWidth: '720px', margin: '0 auto var(--space-10)' }}>
-            <span className="eyebrow">Product Catalog</span>
-            <h2>Explore Natural & Herbal Categories</h2>
-            <p className="text-muted">
-              Discover verified pure whole powders, standardized extracts, cold-pressed oils, mineral clays, and dietary capsules.
-            </p>
-          </div>
-
-          {loading ? (
-            <div className="text-center" style={{ padding: 'var(--space-12)' }}>
-              <div className="btn-spinner" style={{ display: 'inline-block', position: 'static' }} />
-              <p className="text-sm text-muted" style={{ marginTop: 'var(--space-3)' }}>Loading categories...</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 tablet-grid-cols-2 desktop-grid-cols-3 gap-6">
-              {categories.map((cat) => (
-                <Card key={cat.id} variant="surface" hoverable padding="md" className="category-card">
-                  <div className="category-card-top">
-                    <Badge variant="primary">{cat.productCount} Materials</Badge>
-                  </div>
-                  <h3>{cat.name}</h3>
-                  <p className="text-sm text-muted">{cat.shortDescription}</p>
-                  <div style={{ marginTop: 'var(--space-4)' }}>
-                    <Button to={`/products?category=${cat.slug}`} variant="outline" size="sm">
-                      View Ingredients →
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          )}
-        </Container>
-      </section>
+      {/* 3. PRODUCT CATEGORIES (Step 5C: Editorial Natural Catalogue) */}
+      <ProductCategoriesSection />
 
       {/* 4. HOW PROCUREMENT WORKS */}
       <section className="section bg-botanical-tint">

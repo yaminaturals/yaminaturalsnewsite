@@ -1,0 +1,468 @@
+/* ==========================================================================
+   PRODUCT CATEGORIES SECTION - YAMI NATURALS (STEP 5C)
+   Editorial Asymmetric Natural Ingredient & Product Catalogue Band
+   ========================================================================== */
+
+.product-categories-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-surface);
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgba(232, 245, 238, 0.4) 0%,
+    var(--color-bg-surface) 50%
+  );
+  padding: clamp(3.5rem, 6.5vw, 5.5rem) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* Background Parallax Subtle Botanical Motif */
+.categories-bg-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.categories-parallax-motif {
+  position: absolute;
+  top: 10%;
+  left: -5%;
+  width: clamp(280px, 32vw, 480px);
+  height: clamp(280px, 32vw, 480px);
+  opacity: 0.04;
+  color: var(--color-primary-green);
+}
+
+.categories-leaf-watermark {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Container */
+.categories-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Section Header */
+.categories-header {
+  text-align: center;
+  max-width: 740px;
+  margin: 0 auto clamp(2.25rem, 4.5vw, 3.5rem);
+}
+
+.categories-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 1.7rem + 1.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--color-deep-green);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-3);
+  text-wrap: balance;
+}
+
+.categories-intro {
+  font-size: clamp(0.98rem, 0.94rem + 0.2vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--color-text-body);
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+/* ==========================================================================
+   LOADING & EMPTY STATES
+   ========================================================================== */
+.categories-loading-state,
+.categories-empty-state {
+  text-align: center;
+  padding: clamp(3rem, 6vw, 5rem) var(--space-4);
+  background: var(--color-bg-base);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.categories-spinner {
+  display: inline-block;
+  position: static;
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+  margin-bottom: var(--space-3);
+}
+
+.empty-state-leaf {
+  font-size: 2.25rem;
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+.categories-empty-state h3 {
+  font-family: var(--font-heading);
+  color: var(--color-deep-green);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state-actions {
+  margin-top: var(--space-5);
+}
+
+/* ==========================================================================
+   CATEGORY CARD BASE STYLES
+   ========================================================================== */
+.category-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(13, 92, 58, 0.12);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 16px rgba(7, 59, 36, 0.04);
+  transition: transform var(--duration-base) cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow var(--duration-base) cubic-bezier(0.16, 1, 0.3, 1),
+              border-color var(--duration-base) ease;
+  position: relative;
+}
+
+/* Image Container */
+.category-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background-color: var(--color-bg-botanical);
+}
+
+.category-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--duration-slow) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(7, 59, 36, 0.15) 100%
+  );
+  pointer-events: none;
+  transition: opacity var(--duration-base) ease;
+}
+
+.category-image-placeholder,
+.category-image-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-bg-botanical) 0%, rgba(200, 230, 215, 0.5) 100%);
+}
+
+.placeholder-icon {
+  font-size: 2.5rem;
+  opacity: 0.6;
+}
+
+/* Content Area */
+.category-card-content {
+  padding: clamp(1.25rem, 2vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.featured-category-pill {
+  align-self: flex-start;
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-botanical);
+  color: var(--color-deep-green);
+  border: 1px solid rgba(13, 92, 58, 0.18);
+  margin-bottom: var(--space-3);
+}
+
+.category-card-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.18rem, 1.10rem + 0.3vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-deep-green);
+  margin: 0 0 var(--space-2);
+  transition: color var(--duration-fast) ease;
+}
+
+.category-card-description {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Action Link */
+.category-card-action {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(13, 92, 58, 0.08);
+}
+
+.action-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-primary-green);
+  transition: color var(--duration-fast) ease;
+}
+
+.action-arrow {
+  color: var(--color-primary-green);
+  flex-shrink: 0;
+  transition: transform var(--duration-fast) ease;
+}
+
+/* ==========================================================================
+   DESKTOP ASYMMETRIC GRID (>= 1024px / 1280px / 1440px)
+   ========================================================================== */
+.categories-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(1.25rem, 2vw, 1.85rem);
+}
+
+@media (min-width: 1024px) {
+  .categories-grid-asymmetric {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.35rem, 2vw, 1.85rem);
+  }
+
+  /* Large Featured Card (Heroic 2x2 asymmetric block) */
+  .categories-grid-asymmetric .category-card-large {
+    grid-column: span 2;
+    grid-row: span 2;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: stretch;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-image-wrapper {
+    height: 100%;
+    min-height: 380px;
+    aspect-ratio: auto;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-card-content {
+    padding: clamp(1.75rem, 2.5vw, 2.5rem);
+    justify-content: center;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-card-name {
+    font-size: clamp(1.45rem, 1.30rem + 0.5vw, 1.75rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-card-description {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-card-action {
+    margin-top: auto;
+    padding-top: var(--space-4);
+  }
+}
+
+/* ==========================================================================
+   HOVER & INTERACTION STATES
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  .category-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(13, 92, 58, 0.32);
+    box-shadow: 0 16px 36px rgba(7, 59, 36, 0.09),
+                0 2px 8px rgba(0, 0, 0, 0.02);
+  }
+
+  .category-card:hover .category-image {
+    transform: scale(1.03);
+  }
+
+  .category-card:hover .category-card-name {
+    color: var(--color-primary-green);
+  }
+
+  .category-card:hover .action-arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Touch active state */
+.category-card:active {
+  transform: scale(0.988);
+}
+
+/* Keyboard focus */
+.category-card:focus-visible {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   SECTION BOTTOM CTA
+   ========================================================================== */
+.categories-bottom-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: clamp(2.5rem, 4.5vw, 3.75rem);
+}
+
+.categories-all-btn {
+  background-color: #ffffff;
+  border: 1px solid rgba(13, 92, 58, 0.28);
+  color: var(--color-deep-green);
+  box-shadow: 0 4px 14px rgba(7, 59, 36, 0.04);
+}
+
+.categories-all-btn:hover {
+  background-color: var(--color-bg-botanical);
+  border-color: var(--color-primary-green);
+  color: var(--color-deep-green);
+}
+
+/* ==========================================================================
+   TABLET BREAKPOINTS (768px to 1023px)
+   ========================================================================== */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .categories-grid-asymmetric {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.35rem;
+  }
+
+  .categories-grid-asymmetric .category-card-large {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-image-wrapper {
+    height: 100%;
+    min-height: 280px;
+    aspect-ratio: auto;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-card-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   MOBILE BREAKPOINTS (< 768px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .product-categories-section {
+    padding: 2.75rem 0 3.25rem;
+  }
+
+  .categories-header {
+    text-align: left;
+    margin-bottom: 2rem;
+  }
+
+  .categories-heading {
+    font-size: clamp(1.75rem, 1.45rem + 1.2vw, 2.2rem);
+    line-height: 1.2;
+  }
+
+  .categories-grid-asymmetric,
+  .categories-grid-compact {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+  }
+
+  .categories-grid-asymmetric .category-card-large {
+    grid-column: auto;
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-image-wrapper {
+    aspect-ratio: 16 / 10;
+    min-height: auto;
+  }
+
+  .categories-grid-asymmetric .category-card-large .category-card-content {
+    padding: 1.2rem;
+  }
+
+  .category-image-wrapper {
+    aspect-ratio: 16 / 10;
+  }
+
+  .category-card-content {
+    padding: 1.15rem 1.2rem;
+  }
+
+  .categories-parallax-motif {
+    display: none;
+  }
+
+  .categories-all-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Small Mobile (< 430px: 360px, 375px, 390px, 430px) */
+@media (max-width: 430px) {
+  .category-card-content {
+    padding: 1rem 1.05rem;
+  }
+
+  .category-card-name {
+    font-size: 1.15rem;
+  }
+
+  .category-card-description {
+    font-size: 0.85rem;
+  }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .category-card,
+  .category-image,
+  .action-arrow,
+  .categories-parallax-motif {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
