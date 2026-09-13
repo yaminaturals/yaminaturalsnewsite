@@ -165,8 +165,8 @@ export const HeroSection: React.FC = () => {
                   </svg>
                 </div>
                 <div className="floating-badge-text">
-                  <span className="floating-badge-title">Specification-Driven</span>
-                  <span className="floating-badge-sub">Botanical Sourcing</span>
+                  <span className="floating-badge-title">Requirement-Based</span>
+                  <span className="floating-badge-sub">Sourcing</span>
                 </div>
               </div>
             </div>

@@ -164,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
             <div className="header-top-left">
               <span className="header-top-tag">
                 <span className="header-top-leaf">🌿</span>
-                <span>Certified Botanical & Natural Procurement Support</span>
+                <span>Botanical & Natural Procurement Support</span>
               </span>
               <span className="header-top-divider">•</span>
               <span className="header-top-tag">
