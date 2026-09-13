@@ -33,8 +33,12 @@ class CategoryService implements ICategoryService {
     const stored = storageService.getItem<ProductCategory[]>(this.storageKey, initialCategories);
     return stored.map((cat) => {
       const initial = initialCategories.find((ic) => ic.id === cat.id);
-      if (initial && !cat.imageUrl && initial.imageUrl) {
-        return { ...cat, imageUrl: initial.imageUrl };
+      if (initial) {
+        return {
+          ...cat,
+          imageUrl: cat.imageUrl || initial.imageUrl,
+          shortDescription: initial.shortDescription,
+        };
       }
       return cat;
     });
