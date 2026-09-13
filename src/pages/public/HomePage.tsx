@@ -7,6 +7,7 @@ import { RequirementCtaSection } from '../../components/sections/RequirementCtaS
 import { WhyYamiSection } from '../../components/sections/WhyYamiSection';
 import { SolutionsSection } from '../../components/sections/SolutionsSection';
 import { HowItWorksSection } from '../../components/sections/HowItWorksSection';
+import { SpecificationDocumentationSection } from '../../components/sections/SpecificationDocumentationSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -35,6 +36,9 @@ export const HomePage: React.FC = () => {
 
       {/* 8. HOW IT WORKS (Step 5H: Customer Journey & Entry Paths) */}
       <HowItWorksSection />
+
+      {/* 9. SPECIFICATION & DOCUMENTATION (Step 5I: Requirement Details & Context) */}
+      <SpecificationDocumentationSection />
     </div>
   );
 };
