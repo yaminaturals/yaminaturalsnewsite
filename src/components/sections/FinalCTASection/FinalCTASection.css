@@ -1,0 +1,329 @@
+/* ==========================================================================
+   FinalCTASection.css
+   Step 5L: Final Conversion CTA Section
+   ========================================================================== */
+
+.final-cta-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-deep-green, #073B24);
+  background: radial-gradient(
+    ellipse at 50% 35%,
+    #0c4e31 0%,
+    #073B24 60%,
+    #052c1b 100%
+  );
+  color: #FFFFFF;
+  padding: clamp(var(--space-16, 4.5rem), 8vw, var(--space-24, 7rem)) 0;
+  border-top: 1px solid rgba(232, 245, 238, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Background Decorative Elements
+   -------------------------------------------------------------------------- */
+.final-cta-bg-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.final-cta-ambient-glow {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(13, 92, 58, 0.3) 0%,
+    rgba(7, 59, 36, 0) 70%
+  );
+  filter: blur(50px);
+}
+
+.final-cta-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #FFFFFF;
+  opacity: 0.025;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.final-cta-leaf-layer {
+  position: absolute;
+  width: clamp(180px, 22vw, 300px);
+  height: clamp(280px, 34vw, 440px);
+  color: #E8F5EE;
+}
+
+.final-cta-leaf-left {
+  top: 50%;
+  left: -2%;
+  transform: translateY(-50%);
+}
+
+.final-cta-leaf-right {
+  top: 50%;
+  right: -2%;
+  transform: translateY(-50%);
+}
+
+.final-cta-leaf-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Content Box (Centered Editorial Composition)
+   -------------------------------------------------------------------------- */
+.final-cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Eyebrow Badge */
+.final-cta-eyebrow-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+  padding: 0.35rem 0.95rem;
+  background-color: rgba(232, 245, 238, 0.1);
+  border: 1px solid rgba(232, 245, 238, 0.22);
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: var(--space-5, 1.25rem);
+  backdrop-filter: blur(6px);
+}
+
+.final-cta-eyebrow-icon {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.final-cta-eyebrow-text {
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #DDEEE5;
+}
+
+/* Title */
+.final-cta-title {
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.35rem, 4.5vw, 3.65rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0 0 var(--space-4, 1rem);
+  letter-spacing: -0.02em;
+}
+
+.final-cta-emphasis {
+  font-style: italic;
+  font-weight: 400;
+  color: #E2B056;
+}
+
+/* Description */
+.final-cta-desc {
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.7;
+  color: #D5E5DC;
+  margin: 0 0 var(--space-8, 2rem);
+  max-width: 620px;
+}
+
+/* CTA Action Buttons Group */
+.final-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4, 1rem);
+  margin-bottom: var(--space-6, 1.5rem);
+  width: 100%;
+}
+
+.final-cta-primary-btn {
+  min-width: 240px;
+  min-height: 48px;
+  box-shadow: 0 4px 20px rgba(201, 138, 30, 0.38);
+  transition: transform var(--duration-fast) ease,
+              box-shadow var(--duration-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .final-cta-primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(201, 138, 30, 0.5);
+  }
+}
+
+.final-cta-arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: 0.35rem;
+  transition: transform 0.2s ease;
+}
+
+.final-cta-primary-btn:hover .final-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* Secondary Button Contrast on Deep Green */
+.final-cta-secondary-btn.btn-outline {
+  min-width: 200px;
+  min-height: 48px;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  transition: transform var(--duration-fast) ease,
+              background-color var(--duration-fast) ease,
+              border-color var(--duration-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .final-cta-secondary-btn.btn-outline:hover {
+    transform: translateY(-2px);
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: #FFFFFF !important;
+    color: #FFFFFF !important;
+  }
+}
+
+/* Supporting Microcopy */
+.final-cta-microcopy-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 1.15rem;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: var(--space-7, 1.75rem);
+  backdrop-filter: blur(4px);
+}
+
+.final-cta-microcopy-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #E2B056;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(226, 176, 86, 0.6);
+}
+
+.final-cta-microcopy-text {
+  font-size: var(--text-xs, 0.8125rem);
+  color: #D5E5DC;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Secondary Pathway Links */
+.final-cta-pathways {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4, 1rem);
+  flex-wrap: wrap;
+  padding-top: var(--space-2, 0.5rem);
+}
+
+.final-cta-pathway-link {
+  font-size: 0.8125rem;
+  color: #A8C4B5;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm, 0.25rem);
+}
+
+.final-cta-pathway-link:focus-visible {
+  outline: 2px solid #E2B056;
+  outline-offset: 2px;
+}
+
+.final-cta-pathway-link:hover {
+  color: #FFFFFF;
+}
+
+.final-cta-pathway-arrow {
+  transition: transform 0.2s ease;
+}
+
+.final-cta-pathway-link:hover .final-cta-pathway-arrow {
+  transform: translateX(2px);
+}
+
+.final-cta-pathway-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Viewport Adjustments (360px - 767px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .final-cta-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .final-cta-primary-btn,
+  .final-cta-secondary-btn {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .final-cta-leaf-layer {
+    opacity: 0.08;
+    width: 160px;
+  }
+
+  .final-cta-pathways {
+    flex-direction: column;
+    gap: var(--space-2, 0.5rem);
+  }
+
+  .final-cta-pathway-divider {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .final-cta-primary-btn,
+  .final-cta-secondary-btn,
+  .final-cta-arrow,
+  .final-cta-pathway-arrow,
+  .final-cta-pathway-link {
+    transition: none !important;
+    transform: none !important;
+  }
+}

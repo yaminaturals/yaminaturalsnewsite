@@ -10,6 +10,7 @@ import { HowItWorksSection } from '../../components/sections/HowItWorksSection';
 import { SpecificationDocumentationSection } from '../../components/sections/SpecificationDocumentationSection';
 import { TrustExperienceSection } from '../../components/sections/TrustExperienceSection';
 import { FAQSection } from '../../components/sections/FAQSection';
+import { FinalCTASection } from '../../components/sections/FinalCTASection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -47,6 +48,9 @@ export const HomePage: React.FC = () => {
 
       {/* 11. FAQ SECTION (Step 5K: Common Questions & Sourcing Guidance) */}
       <FAQSection />
+
+      {/* 12. FINAL CONVERSION CTA (Step 5L: Tell Us What You Need) */}
+      <FinalCTASection />
     </div>
   );
 };
