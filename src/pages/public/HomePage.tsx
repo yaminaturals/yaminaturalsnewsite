@@ -5,6 +5,7 @@ import { Card } from '../../components/ui/Card/Card';
 import { HeroSection } from '../../components/sections/HeroSection/HeroSection';
 import { CapabilityStrip } from '../../components/sections/CapabilityStrip/CapabilityStrip';
 import { ProductCategoriesSection } from '../../components/sections/ProductCategoriesSection/ProductCategoriesSection';
+import { ProcurementSection } from '../../components/sections/ProcurementSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -18,6 +19,9 @@ export const HomePage: React.FC = () => {
 
       {/* 3. PRODUCT CATEGORIES (Step 5C: Editorial Natural Catalogue) */}
       <ProductCategoriesSection />
+
+      {/* 4. PROCUREMENT / SOURCING SECTION (Step 5D: Tell Us What You Need) */}
+      <ProcurementSection />
 
       {/* 4. HOW PROCUREMENT WORKS */}
       <section className="section bg-botanical-tint">

@@ -1,0 +1,527 @@
+/* ==========================================================================
+   PROCUREMENT / SOURCING SECTION - YAMI NATURALS (STEP 5D)
+   Editorial Two-Column Botanical Sourcing Journey
+   ========================================================================== */
+
+.procurement-section {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-base);
+  background: linear-gradient(
+    180deg,
+    var(--color-bg-surface) 0%,
+    var(--color-bg-base) 35%,
+    var(--color-bg-base) 80%,
+    rgba(232, 245, 238, 0.35) 100%
+  );
+  padding: clamp(3.75rem, 6.5vw, 6rem) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+/* Background Subtle Botanical Watermark Motif */
+.procurement-bg-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.procurement-parallax-leaf {
+  position: absolute;
+  top: 8%;
+  right: -2%;
+  width: clamp(260px, 30vw, 440px);
+  height: clamp(260px, 30vw, 440px);
+  opacity: 0.05;
+  color: var(--color-primary-green);
+}
+
+.procurement-watermark-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Container */
+.procurement-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   TWO-COLUMN LAYOUT (DESKTOP)
+   ========================================================================== */
+.procurement-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .procurement-layout {
+    grid-template-columns: 1fr 1.08fr;
+    gap: clamp(3rem, 5vw, 5rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .procurement-layout {
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(3.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+}
+
+/* ==========================================================================
+   LEFT COLUMN: EDITORIAL CONTENT
+   ========================================================================== */
+.procurement-editorial-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.procurement-badge-wrapper {
+  margin-bottom: var(--space-3);
+}
+
+.procurement-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--color-primary-green);
+}
+
+.procurement-eyebrow-leaf {
+  font-size: 0.95em;
+  line-height: 1;
+}
+
+.procurement-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.1rem, 1.8rem + 1.4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  color: var(--color-deep-green);
+  margin-top: 0;
+  margin-bottom: var(--space-4);
+  text-wrap: balance;
+}
+
+.procurement-heading-main {
+  display: block;
+  color: var(--color-deep-green);
+}
+
+.procurement-heading-highlight {
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-primary-green);
+  margin-top: 0.15em;
+}
+
+.procurement-supporting-text {
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  line-height: 1.62;
+  color: var(--color-text-body);
+  margin-bottom: var(--space-6);
+  max-width: 580px;
+}
+
+/* Differentiator Value Box */
+.procurement-differentiator-box {
+  position: relative;
+  display: flex;
+  gap: var(--space-4);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-8);
+  box-shadow: 0 4px 18px rgba(13, 92, 58, 0.04);
+  max-width: 580px;
+}
+
+.differentiator-accent-bar {
+  flex-shrink: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-primary-green) 0%, var(--color-amber-accent) 100%);
+  border-radius: var(--radius-full);
+}
+
+.differentiator-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.differentiator-tag {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-amber-accent);
+}
+
+.differentiator-text {
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+  color: var(--color-text-body);
+  margin: 0;
+}
+
+/* CTA Group */
+.procurement-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.procurement-primary-btn {
+  box-shadow: 0 4px 14px rgba(13, 92, 58, 0.2);
+  transition: transform var(--duration-fast) var(--ease-spring), box-shadow var(--duration-fast) ease;
+}
+
+.procurement-primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(13, 92, 58, 0.28);
+}
+
+.procurement-secondary-btn {
+  transition: transform var(--duration-fast) var(--ease-spring), background-color var(--duration-fast) ease;
+}
+
+.procurement-secondary-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: CONNECTED PROCUREMENT JOURNEY
+   ========================================================================== */
+.procurement-journey-col {
+  width: 100%;
+}
+
+.procurement-journey-panel {
+  position: relative;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3.5vw, 2.5rem);
+  box-shadow: 0 10px 30px rgba(13, 92, 58, 0.04);
+}
+
+/* Decorative SVG Stem Behind List */
+.journey-stem-wrapper {
+  position: absolute;
+  top: clamp(2rem, 4vw, 3rem);
+  bottom: clamp(3rem, 5vw, 4.5rem);
+  left: clamp(2.45rem, 4.2vw, 3.2rem);
+  width: 20px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.journey-stem-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Ordered List */
+.procurement-journey-list {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Stage Item Container */
+.procurement-stage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.2vw, 1.5rem);
+  position: relative;
+}
+
+/* Visual Step Node & Vertical Connector */
+.stage-node-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  padding-top: 0.35rem;
+}
+
+.stage-node {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-surface);
+  border: 2px solid var(--color-primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(13, 92, 58, 0.12);
+  transition: transform var(--duration-fast) var(--ease-spring), border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.procurement-stage-item:hover .stage-node {
+  transform: scale(1.08);
+  background-color: var(--color-primary-green);
+}
+
+.stage-number {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-primary-green);
+  line-height: 1;
+  transition: color var(--duration-fast) ease;
+}
+
+.procurement-stage-item:hover .stage-number {
+  color: #ffffff;
+}
+
+.stage-connector-line {
+  width: 2px;
+  flex-grow: 1;
+  min-height: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 92, 58, 0.35) 0%,
+    rgba(13, 92, 58, 0.15) 100%
+  );
+  margin-top: 0.25rem;
+}
+
+/* Stage Card Content */
+.stage-card {
+  flex-grow: 1;
+  background: var(--color-bg-base);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: clamp(1rem, 2vw, 1.25rem) clamp(1.15rem, 2.2vw, 1.45rem);
+  transition: transform var(--duration-fast) var(--ease-spring), box-shadow var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.procurement-stage-item:hover .stage-card {
+  transform: translateX(4px);
+  box-shadow: 0 6px 20px rgba(13, 92, 58, 0.07);
+  border-color: rgba(13, 92, 58, 0.25);
+  background: var(--color-bg-surface);
+}
+
+.stage-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.stage-icon-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: rgba(13, 92, 58, 0.08);
+  color: var(--color-primary-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.procurement-stage-item:hover .stage-icon-badge {
+  background: var(--color-primary-green);
+  color: #ffffff;
+}
+
+.stage-icon-svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.stage-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-step-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-amber-accent);
+  line-height: 1.2;
+}
+
+.stage-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.05rem, 1rem + 0.2vw, 1.2rem);
+  font-weight: 600;
+  color: var(--color-deep-green);
+  line-height: 1.25;
+  margin: 0;
+}
+
+.stage-description {
+  font-size: clamp(0.85rem, 0.82rem + 0.1vw, 0.92rem);
+  line-height: 1.5;
+  color: var(--color-text-body);
+  margin: 0;
+}
+
+/* Journey Footer */
+.journey-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--color-border-subtle);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.journey-footer-leaf {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.journey-footer-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN BREAKPOINTS
+   ========================================================================== */
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .procurement-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .procurement-editorial-col {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .procurement-badge-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .procurement-supporting-text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .procurement-differentiator-box {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+
+  .procurement-cta-group {
+    justify-content: center;
+  }
+
+  .procurement-journey-col {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile (360px - 430px & below 768px) */
+@media (max-width: 767px) {
+  .procurement-section {
+    padding: clamp(2.75rem, 7vw, 3.75rem) 0;
+  }
+
+  .procurement-layout {
+    gap: var(--space-7);
+  }
+
+  .procurement-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .procurement-primary-btn,
+  .procurement-secondary-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .procurement-journey-panel {
+    padding: var(--space-4);
+  }
+
+  .stage-node-container {
+    width: 30px;
+  }
+
+  .stage-node {
+    width: 30px;
+    height: 30px;
+  }
+
+  .stage-number {
+    font-size: 0.75rem;
+  }
+
+  .journey-stem-wrapper {
+    left: 2rem;
+    width: 16px;
+  }
+
+  .stage-card {
+    padding: var(--space-3) var(--space-3);
+  }
+
+  .stage-icon-badge {
+    width: 28px;
+    height: 28px;
+  }
+
+  .stage-icon-svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .procurement-primary-btn:hover,
+  .procurement-secondary-btn:hover,
+  .procurement-stage-item:hover .stage-node,
+  .procurement-stage-item:hover .stage-card {
+    transform: none !important;
+  }
+
+  .procurement-parallax-leaf {
+    transform: none !important;
+  }
+}
