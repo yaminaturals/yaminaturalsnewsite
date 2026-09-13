@@ -90,7 +90,10 @@ export const RequirementCtaSection: React.FC = () => {
         <div className="requirement-cta-content text-center">
           {/* Eyebrow */}
           <div className="requirement-cta-eyebrow-wrapper animate-fade-up">
-            <span className="eyebrow requirement-cta-eyebrow">
+            <span
+              className="requirement-cta-eyebrow"
+              style={{ color: '#C2DFCE' }}
+            >
               <span className="requirement-cta-eyebrow-icon" aria-hidden="true">🌿</span>
               {eyebrow}
             </span>
@@ -102,8 +105,11 @@ export const RequirementCtaSection: React.FC = () => {
             <span className="cta-heading-line cta-heading-emphasis">{headingPart2}</span>
           </h2>
 
-          {/* Supporting Text */}
-          <p className="requirement-cta-supporting-text animate-fade-up delay-2 text-lead">
+          {/* Supporting Text - Guaranteed #D5E5DC */}
+          <p
+            className="requirement-cta-supporting-text animate-fade-up delay-2"
+            style={{ color: '#D5E5DC' }}
+          >
             {supportingText}
           </p>
 
@@ -162,7 +168,7 @@ export const RequirementCtaSection: React.FC = () => {
 
           {/* Helpful Guidance Line */}
           <div className="requirement-cta-guidance animate-fade-up delay-4" role="note">
-            <span className="cta-guidance-pill">
+            <span className="cta-guidance-pill" style={{ color: '#DDEEE5' }}>
               <span className="cta-guidance-dot" aria-hidden="true" />
               {guidanceLine}
             </span>
