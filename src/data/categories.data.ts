@@ -1,0 +1,67 @@
+import { ProductCategory } from '../types';
+
+export const initialCategories: ProductCategory[] = [
+  {
+    id: 'cat-herbal-powders',
+    slug: 'herbal-powders',
+    name: 'Herbal Powders',
+    shortDescription: 'Pure, micro-pulverized whole herb powders with consistent mesh size and natural active integrity.',
+    productCount: 42,
+    featured: true,
+    displayOrder: 1,
+  },
+  {
+    id: 'cat-herbal-extracts',
+    slug: 'herbal-extracts',
+    name: 'Herbal Extracts',
+    shortDescription: 'Standardized botanical extracts with verified active marker compounds and HPLC assay testing.',
+    productCount: 38,
+    featured: true,
+    displayOrder: 2,
+  },
+  {
+    id: 'cat-oils',
+    slug: 'natural-oils',
+    name: 'Natural & Essential Oils',
+    shortDescription: 'Cold-pressed carrier oils and steam-distilled essential oils with verified fatty acid profiles.',
+    productCount: 26,
+    featured: true,
+    displayOrder: 3,
+  },
+  {
+    id: 'cat-cosmetic-clays',
+    slug: 'cosmetic-clay-powders',
+    name: 'Cosmetic Clay Powders',
+    shortDescription: 'Sun-dried, ultra-fine mineral and cosmetic clays ideal for skin detox and formulation bases.',
+    productCount: 18,
+    featured: true,
+    displayOrder: 4,
+  },
+  {
+    id: 'cat-nutraceutical-ingredients',
+    slug: 'nutraceutical-ingredients',
+    name: 'Nutraceutical Ingredients',
+    shortDescription: 'Functional dietary ingredients, polyphenols, and herbal bioactives for dietary formulation.',
+    productCount: 31,
+    featured: true,
+    displayOrder: 5,
+  },
+  {
+    id: 'cat-capsules',
+    slug: 'formula-capsules',
+    name: 'Formula-Based Capsules',
+    shortDescription: 'Targeted single-herb and synergy formulations available for custom packaging and private label.',
+    productCount: 22,
+    featured: true,
+    displayOrder: 6,
+  },
+  {
+    id: 'cat-other-botanicals',
+    slug: 'other-botanicals',
+    name: 'Other Natural & Herbal Products',
+    shortDescription: 'Herbal cuts, crude botanicals, gums, and specialty sourcing materials upon custom request.',
+    productCount: 15,
+    featured: false,
+    displayOrder: 7,
+  }
+];

@@ -1,0 +1,132 @@
+/* ==========================================================================
+   TYPOGRAPHY SYSTEM
+   Google Fonts: Playfair Display (Botanical Heading) & Plus Jakarta Sans (Modern Body)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* Base Headings */
+h1, .h1 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-primary-950);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4);
+  text-wrap: balance;
+}
+
+h2, .h2 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-primary-950);
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-3);
+  text-wrap: balance;
+}
+
+h3, .h3 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  color: var(--color-primary-900);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-3);
+}
+
+h4, .h4 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+  color: var(--color-primary-900);
+  margin-bottom: var(--space-2);
+}
+
+h5, .h5 {
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+  color: var(--color-text-main);
+  margin-bottom: var(--space-2);
+}
+
+h6, .h6 {
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-main);
+  margin-bottom: var(--space-1);
+}
+
+/* Paragraphs & Text Content */
+p, .text-body {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text-body);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.text-lead {
+  font-size: var(--font-size-md);
+  color: var(--color-text-body);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Category Eyebrow / Overline */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-primary-600);
+  margin-bottom: var(--space-2);
+}
+
+.eyebrow-accent {
+  color: var(--color-accent-600);
+}
+
+/* Text Size Utilities */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-md { font-size: var(--font-size-md); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+
+/* Font Weight Utilities */
+.font-regular { font-weight: var(--font-weight-regular); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+
+/* Color Utilities */
+.text-main { color: var(--color-text-main); }
+.text-muted { color: var(--color-text-muted); }
+.text-subtle { color: var(--color-text-subtle); }
+.text-primary { color: var(--color-primary-600); }
+.text-primary-dark { color: var(--color-primary-900); }
+.text-accent { color: var(--color-accent-600); }
+.text-inverse { color: var(--color-text-inverse); }
+.text-inverse-muted { color: var(--color-text-inverse-muted); }
+
+/* Text Alignment */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }

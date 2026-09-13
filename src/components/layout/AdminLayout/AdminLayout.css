@@ -1,0 +1,110 @@
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f6f8f7;
+  color: var(--color-text-main);
+  font-family: var(--font-body);
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 260px;
+  background-color: var(--color-primary-950);
+  color: #c0d8cb;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-sidebar-brand {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.admin-sidebar-logo {
+  height: 36px;
+  filter: brightness(0) invert(1);
+}
+
+.admin-sidebar-nav {
+  padding: var(--space-4) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  font-size: var(--font-size-sm);
+  color: #b5cebf;
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-fast) ease;
+  text-decoration: none;
+}
+
+.admin-nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.admin-nav-item.active {
+  background-color: var(--color-primary-700);
+  color: #ffffff;
+  font-weight: var(--font-weight-semibold);
+}
+
+.admin-sidebar-footer {
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Main Admin Content */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-top-banner {
+  background-color: #fbf0d8;
+  color: #85550c;
+  padding: 0.45rem var(--space-6);
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ebd39f;
+}
+
+.admin-top-bar {
+  background-color: #ffffff;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  border-bottom: 1px solid rgba(13, 92, 58, 0.12);
+}
+
+.admin-content-area {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  flex: 1;
+}
+
+@media (max-width: 1023px) {
+  .admin-sidebar {
+    display: none;
+  }
+}

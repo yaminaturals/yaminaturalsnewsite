@@ -1,0 +1,173 @@
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM
+   Mobile-First Breakpoint Architecture: 360px, 375px, 430px, 768px, 1024px, 1280px, 1440px+
+   ========================================================================== */
+
+/* Containers */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+/* Sections */
+.section {
+  padding-top: clamp(2.5rem, 5vw, 5.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 5.5rem);
+  position: relative;
+}
+
+.section-sm {
+  padding-top: clamp(1.5rem, 3vw, 3rem);
+  padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+
+.section-lg {
+  padding-top: clamp(3.5rem, 7vw, 7rem);
+  padding-bottom: clamp(3.5rem, 7vw, 7rem);
+}
+
+/* Touch Target Minimum (44x44px for accessibility) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Flexbox Helpers */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-end { justify-content: flex-end; }
+
+/* Gap Utilities */
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/* Responsive Grids (Mobile-First) */
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* ==========================================================================
+   BREAKPOINT ADAPTATIONS
+   ========================================================================== */
+
+/* Small Mobile (< 430px) */
+@media (max-width: 429px) {
+  .btn-full-sm-mobile {
+    width: 100% !important;
+  }
+  .hide-sm-mobile {
+    display: none !important;
+  }
+}
+
+/* Mobile Devices (< 768px) */
+@media (max-width: 767px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  .show-mobile {
+    display: initial !important;
+  }
+  .show-mobile-flex {
+    display: flex !important;
+  }
+
+  /* Force multi-column grids down to single column on mobile */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-reverse {
+    flex-direction: column-reverse;
+  }
+
+  .mobile-text-center {
+    text-align: center;
+  }
+}
+
+/* Tablet & Desktop (>= 768px) */
+@media (min-width: 768px) {
+  .hide-tablet-up {
+    display: none !important;
+  }
+  .show-mobile {
+    display: none !important;
+  }
+  .show-mobile-flex {
+    display: none !important;
+  }
+
+  .tablet-grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .tablet-grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Desktop Only (>= 1024px) */
+@media (min-width: 1024px) {
+  .hide-desktop {
+    display: none !important;
+  }
+  .show-desktop {
+    display: initial !important;
+  }
+  .show-desktop-flex {
+    display: flex !important;
+  }
+
+  .desktop-grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .desktop-grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

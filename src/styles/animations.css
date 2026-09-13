@@ -1,0 +1,158 @@
+/* ==========================================================================
+   ANIMATION & INTERACTION SYSTEM
+   GPU-Accelerated, Mobile-Adaptive & Accessibility Compliant
+   ========================================================================== */
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.95, 0.95, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes floatBotanical {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) rotate(1.5deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Reusable Animation Classes */
+.animate-fade-in {
+  animation: fadeIn var(--duration-base) var(--ease-standard) forwards;
+}
+
+.animate-fade-up {
+  animation: fadeUp var(--duration-slow) var(--ease-spring) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--duration-base) var(--ease-spring) forwards;
+}
+
+.animate-float {
+  animation: floatBotanical 6s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Stagger Helpers */
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+.delay-4 { animation-delay: 320ms; }
+
+/* Micro-Interactions: Tap feedback on mobile */
+.tap-effect {
+  transition: transform var(--duration-fast) var(--ease-standard), opacity var(--duration-fast) ease;
+}
+
+.tap-effect:active {
+  transform: scale(0.97);
+}
+
+/* Hover transitions (applied only on hover-capable devices) */
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift {
+    transition: transform var(--duration-base) var(--ease-spring), box-shadow var(--duration-base) ease;
+  }
+  .hover-lift:hover {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .hover-glow {
+    transition: border-color var(--duration-fast) ease, box-shadow var(--duration-base) ease;
+  }
+  .hover-glow:hover {
+    border-color: var(--color-primary-400);
+    box-shadow: 0 0 0 3px rgba(13, 92, 58, 0.12);
+  }
+
+  .hover-scale-img img {
+    transition: transform var(--duration-slow) var(--ease-spring);
+  }
+  .hover-scale-img:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: REDUCED MOTION PREFERENCE
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-float,
+  .animate-fade-up,
+  .animate-fade-in,
+  .hover-lift:hover,
+  .tap-effect:active {
+    transform: none !important;
+  }
+}

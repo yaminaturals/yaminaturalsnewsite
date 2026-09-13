@@ -1,0 +1,23 @@
+.site-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.site-container-default {
+  max-width: var(--container-max-width);
+}
+
+.site-container-narrow {
+  max-width: 860px;
+}
+
+.site-container-wide {
+  max-width: 1440px;
+}
+
+.site-container-fluid {
+  max-width: 100%;
+}

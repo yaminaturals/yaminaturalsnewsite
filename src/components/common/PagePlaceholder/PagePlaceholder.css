@@ -1,0 +1,67 @@
+.page-placeholder {
+  padding: clamp(3rem, 6vw, 5.5rem) 0;
+}
+
+.page-placeholder-hero {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto clamp(2rem, 4vw, 3.5rem);
+}
+
+.page-placeholder-breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-4);
+}
+
+.page-placeholder-breadcrumbs a {
+  color: var(--color-primary-600);
+}
+
+.page-placeholder-badge {
+  display: inline-flex;
+  margin-bottom: var(--space-3);
+}
+
+.page-placeholder-desc {
+  font-size: var(--font-size-md);
+  color: var(--color-text-body);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-6);
+}
+
+.page-placeholder-notice {
+  background-color: var(--color-primary-50);
+  border: 1px dashed var(--color-primary-300);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-800);
+  margin: 0 auto var(--space-8);
+  max-width: 640px;
+}
+
+.page-placeholder-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.page-placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+@media (max-width: 767px) {
+  .page-placeholder-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,73 @@
+.hero-section {
+  padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(2.5rem, 5vw, 4.5rem);
+  background: radial-gradient(circle at 50% 15%, rgba(215, 240, 226, 0.5) 0%, rgba(250, 248, 245, 0.8) 70%);
+  position: relative;
+}
+
+.hero-title {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--space-5);
+}
+
+.hero-subtitle {
+  max-width: 740px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: var(--space-8);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+.hero-disclaimer-note {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.trust-card-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.trust-icon {
+  font-size: 1.6rem;
+  background-color: var(--color-primary-50);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.category-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.category-card-top {
+  margin-bottom: var(--space-3);
+}
+
+.category-card h3 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-2);
+}
+
+.step-num {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary-400);
+  opacity: 0.6;
+  display: block;
+  margin-bottom: var(--space-2);
+}

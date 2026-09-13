@@ -1,0 +1,79 @@
+/* ==========================================================================
+   GLOBAL STYLESHEET - YAMI NATURALS
+   Assembles Design Tokens, Reset, Typography, Animations & Responsive Utilities
+   ========================================================================== */
+@import './tokens.css';
+@import './reset.css';
+@import './typography.css';
+@import './animations.css';
+@import './responsive.css';
+
+/* Root Layout Container */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+main {
+  flex: 1;
+}
+
+/* Custom Botanical Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-200);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-400);
+}
+
+/* Text Selection */
+::selection {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-950);
+}
+
+/* Botanical Subtle Pattern / Background Accents */
+.bg-botanical-tint {
+  background-color: var(--color-bg-tinted);
+}
+
+.bg-dark-forest {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-inverse);
+}
+
+.bg-warm-subtle {
+  background-color: var(--color-bg-subtle);
+}
+
+.bg-surface {
+  background-color: var(--color-bg-surface);
+}
+
+/* Frosted Glass Effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.glass-dark {
+  background: rgba(7, 38, 24, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--color-border-inverse);
+}
