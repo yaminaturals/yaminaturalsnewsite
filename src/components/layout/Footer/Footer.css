@@ -1,14 +1,20 @@
+/* ==========================================================================
+   FOOTER STYLES - YAMI NATURALS
+   Deep green botanical ground, balanced editorial typography, neutral placeholders
+   ========================================================================== */
+
 .site-footer {
-  background-color: var(--color-primary-950);
+  background-color: var(--color-deep-green);
   color: var(--color-text-inverse-muted);
-  padding-top: clamp(3rem, 6vw, 5rem);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: clamp(3.5rem, 6vw, 5.5rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.2fr;
-  gap: clamp(2rem, 4vw, 3.5rem);
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.3fr;
+  gap: clamp(1.75rem, 3vw, 3rem);
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
@@ -18,73 +24,121 @@
   gap: var(--space-4);
 }
 
+.footer-logo-link {
+  display: inline-block;
+  background-color: #ffffff;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
 .footer-logo {
-  height: 44px;
+  height: 38px;
   width: auto;
-  filter: brightness(0) invert(1); /* Clean white logo in dark footer */
+  display: block;
   object-fit: contain;
 }
 
 .footer-tagline {
-  font-size: var(--font-size-sm);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
   line-height: var(--line-height-relaxed);
-  color: #b3cdc0;
-  max-width: 340px;
+  color: #b7d1c3;
+  max-width: 330px;
+  margin: 0;
+}
+
+.footer-neutral-badge {
+  font-size: 0.74rem;
+  color: #8faea0;
+  line-height: 1.45;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-xs);
+  border-left: 2px solid var(--color-amber-accent);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-col-title {
   font-family: var(--font-body);
-  font-size: var(--font-size-sm);
+  font-size: 0.82rem;
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: #ffffff;
   margin-bottom: var(--space-4);
 }
 
 .footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 0.65rem;
 }
 
 .footer-link {
-  font-size: var(--font-size-sm);
-  color: #b3cdc0;
-  transition: color var(--duration-fast) ease;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: #b7d1c3;
+  text-decoration: none;
+  transition: color var(--duration-fast) ease,
+              padding-left var(--duration-fast) ease;
 }
 
 .footer-link:hover {
   color: #ffffff;
+  padding-left: 3px;
 }
 
+.footer-admin-link {
+  font-size: 0.80rem;
+  color: #8faea0;
+}
+
+.footer-admin-link:hover {
+  color: var(--color-amber-accent);
+}
+
+/* Contact Details */
 .footer-contact-box {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  font-size: var(--font-size-sm);
-  color: #b3cdc0;
 }
 
 .footer-contact-item {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
 }
 
 .footer-contact-label {
-  font-size: var(--font-size-xs);
-  color: #7d9e8e;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  color: #8faea0;
+  font-weight: var(--font-weight-semibold);
+}
+
+.footer-contact-val {
+  font-size: 0.84rem;
+  color: #d1e5db;
+  word-break: break-word;
 }
 
 /* Bottom Bar */
 .footer-bottom-bar {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: var(--space-6) 0;
-  font-size: var(--font-size-xs);
-  color: #7d9e8e;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0;
+  font-size: 0.78rem;
+  color: #8faea0;
 }
 
 .footer-bottom-inner {
@@ -98,25 +152,46 @@
 .footer-legal-links {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
-.footer-placeholder-note {
-  font-size: 0.72rem;
-  color: #638474;
-  margin-top: var(--space-2);
+.footer-legal-link {
+  color: #8faea0;
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
 }
 
-@media (max-width: 1023px) {
+.footer-legal-link:hover {
+  color: #ffffff;
+}
+
+.footer-legal-divider {
+  opacity: 0.4;
+}
+
+.footer-legal-note {
+  color: #6f8d7f;
+  font-style: italic;
+}
+
+/* Responsive Adaptations */
+@media (max-width: 1199px) {
   .footer-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .footer-brand-col {
+    grid-column: span 3;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: var(--space-8);
+  }
+  .footer-brand-col {
+    grid-column: span 1;
   }
   .footer-bottom-inner {
     flex-direction: column;

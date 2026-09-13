@@ -1,13 +1,20 @@
+/* ==========================================================================
+   MOBILE NAVIGATION DRAWER & PRODUCTS ACCORDION - YAMI NATURALS
+   Smooth right-side drawer, >=44px touch targets, accessible accordion
+   ========================================================================== */
+
+/* Dimmed Blurred Backdrop */
 .mobile-nav-backdrop {
   position: fixed;
   inset: 0;
-  z-index: var(--z-drawer);
-  background: rgba(4, 31, 18, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-drawer-backdrop);
+  background: rgba(7, 59, 36, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--duration-base) ease, visibility var(--duration-base) ease;
+  transition: opacity var(--duration-base) ease,
+              visibility var(--duration-base) ease;
 }
 
 .mobile-nav-backdrop.open {
@@ -15,58 +22,70 @@
   visibility: visible;
 }
 
+/* Slide-in Drawer Container */
 .mobile-nav-drawer {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(84vw, 360px);
-  background-color: var(--color-bg-surface);
-  z-index: calc(var(--z-drawer) + 1);
+  width: min(88vw, 380px);
+  background-color: #ffffff;
+  z-index: var(--z-drawer);
   display: flex;
   flex-direction: column;
-  box-shadow: -8px 0 32px rgba(4, 31, 18, 0.2);
+  box-shadow: -10px 0 40px rgba(7, 59, 36, 0.18);
   transform: translate3d(100%, 0, 0);
   transition: transform var(--duration-slow) var(--ease-spring);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 .mobile-nav-drawer.open {
   transform: translate3d(0, 0, 0);
 }
 
+/* Drawer Header */
 .mobile-nav-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-5);
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-base);
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .mobile-nav-logo {
-  height: 36px;
+  height: 38px;
   width: auto;
+  object-fit: contain;
 }
 
 .mobile-nav-close {
-  background: none;
-  border: 1px solid var(--color-border-subtle);
+  background: #ffffff;
+  border: 1px solid var(--color-border-medium);
   border-radius: var(--radius-sm);
-  padding: 0.5rem;
-  min-height: 44px;
-  min-width: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-body);
+  color: var(--color-deep-green);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease,
+              color var(--duration-fast) ease;
 }
 
+.mobile-nav-close:hover,
+.mobile-nav-close:active {
+  background-color: var(--color-bg-botanical);
+  color: var(--color-primary-green);
+}
+
+/* Drawer Body Nav Links */
 .mobile-nav-body {
-  padding: var(--space-4) var(--space-5);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 0.35rem;
   flex: 1;
 }
 
@@ -74,44 +93,191 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0.5rem;
+  padding: 0.75rem 0.85rem;
   font-family: var(--font-body);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-main);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-charcoal);
+  text-decoration: none;
   border-radius: var(--radius-sm);
-  min-height: 44px;
-  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+  min-height: 46px; /* Guaranteed comfortable touch target */
+  background: none;
+  border: 1px solid transparent;
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease,
+              color var(--duration-fast) ease,
+              padding-left var(--duration-fast) ease;
 }
 
 .mobile-nav-link:active {
-  background-color: var(--color-primary-50);
-  color: var(--color-primary-700);
+  background-color: var(--color-bg-botanical);
+  color: var(--color-primary-green);
+  transform: scale(0.99);
 }
 
 .mobile-nav-link.active {
-  color: var(--color-primary-700);
+  background-color: var(--color-bg-botanical);
+  color: var(--color-primary-green);
   font-weight: var(--font-weight-bold);
-  background-color: var(--color-primary-50);
+  border-left: 3px solid var(--color-primary-green);
 }
 
-.mobile-nav-divider {
-  height: 1px;
-  background-color: var(--color-border-subtle);
-  margin: var(--space-4) 0;
+.mobile-nav-arrow {
+  color: var(--color-text-subtle);
+  font-size: 1.1rem;
+  transition: transform var(--duration-fast) ease;
 }
 
-.mobile-nav-footer {
-  padding: var(--space-4) var(--space-5);
+.mobile-nav-link:active .mobile-nav-arrow {
+  transform: translateX(3px);
+}
+
+/* Products Accordion Group */
+.mobile-accordion-group {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.mobile-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-accordion-trigger.expanded {
   background-color: var(--color-bg-subtle);
+  color: var(--color-primary-green);
+}
+
+.mobile-accordion-title {
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.mobile-accordion-indicator {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-green);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Accordion Content Panel */
+.mobile-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: var(--color-bg-subtle);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+.mobile-accordion-content.open {
+  max-height: 520px;
+}
+
+.mobile-accordion-inner {
+  padding: 0.5rem 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-sublink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.90rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-body);
+  text-decoration: none;
+  border-radius: var(--radius-xs);
+  min-height: 44px; /* Touch target accessibility */
+  background-color: #ffffff;
+  border: 1px solid rgba(13, 92, 58, 0.08);
+  box-sizing: border-box;
+  transition: background-color var(--duration-fast) ease,
+              color var(--duration-fast) ease;
+}
+
+.mobile-sublink:active {
+  background-color: var(--color-bg-botanical);
+  color: var(--color-primary-green);
+}
+
+.mobile-sublink-all {
+  background-color: var(--color-bg-botanical);
+  color: var(--color-deep-green);
+  font-weight: var(--font-weight-bold);
+  border-color: rgba(13, 92, 58, 0.2);
+}
+
+.mobile-sublink-count {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.mobile-sublink-arrow {
+  color: var(--color-primary-green);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Drawer Footer */
+.mobile-nav-footer {
+  padding: 1.25rem;
+  background-color: var(--color-bg-base);
   border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-nav-cta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .mobile-nav-contact-meta {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
+  gap: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-subtle);
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+}
+
+.mobile-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mobile-meta-label {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-charcoal);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.70rem;
+}
+
+.mobile-meta-value {
+  color: var(--color-text-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-drawer,
+  .mobile-accordion-content {
+    transition: none !important;
+  }
 }

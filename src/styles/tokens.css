@@ -1,55 +1,64 @@
 :root {
   /* ==========================================================================
-     BRAND COLOURS - Derived from Official Yami Naturals Botanical Logo
+     BRAND COLOURS - YAMI NATURALS SPECIFICATION
+     Derived directly from the official botanical brand identity
      ========================================================================== */
-  --color-primary-950: #041f12; /* Deep ground / footer forest */
-  --color-primary-900: #072e1c;
-  --color-primary-800: #0a4328;
-  --color-primary-700: #0c5132;
-  --color-primary-600: #0d5c3a; /* Primary Brand Green from Logo */
-  --color-primary-500: #12754a;
-  --color-primary-400: #1a925e;
-  --color-primary-300: #3cb07d;
-  --color-primary-200: #7fd4aa;
-  --color-primary-100: #daf0e4;
-  --color-primary-50:  #f0f8f4;
+  --color-primary-green: #0D5C3A;       /* Primary Brand Green */
+  --color-deep-green: #073B24;          /* Deep Green */
+  --color-bg-botanical: #E8F5EE;        /* Light Botanical Background */
+  --color-bg-warm-neutral: #FAF8F5;     /* Warm Neutral */
+  --color-charcoal: #1A2421;           /* Charcoal */
+  --color-amber-accent: #C98A1E;       /* Amber Accent */
 
-  /* Botanical Secondary / Accent Gold & Amber (Quality, CoA Certified, Stars) */
+  /* Palette Scale based on Brand Green */
+  --color-primary-950: #073B24;        /* Deep Green */
+  --color-primary-900: #09472c;
+  --color-primary-800: #0b5233;
+  --color-primary-700: #0c5736;
+  --color-primary-600: #0D5C3A;        /* Primary Brand Green */
+  --color-primary-500: #12744a;
+  --color-primary-400: #1b935f;
+  --color-primary-300: #4bb485;
+  --color-primary-200: #8fd4b3;
+  --color-primary-100: #E8F5EE;        /* Light Botanical Background */
+  --color-primary-50:  #f3faf6;
+
+  /* Amber Accent Palette */
   --color-accent-700: #85550c;
   --color-accent-600: #a76e10;
-  --color-accent-500: #c98a1e; /* Warm Amber */
+  --color-accent-500: #C98A1E;        /* Warm Amber Accent */
   --color-accent-400: #deb04b;
   --color-accent-100: #fbf0d8;
   --color-accent-50:  #fefaf2;
 
-  /* Earth Neutrals & Surfaces */
-  --color-bg-base: #faf8f5;     /* Warm editorial organic white */
-  --color-bg-surface: #ffffff;  /* Pure white cards */
-  --color-bg-subtle: #f4efe9;   /* Soft warm gray/beige */
-  --color-bg-tinted: #eef6f1;   /* Soft botanical tinted container */
-  --color-bg-dark: #072618;     /* High-contrast dark sections */
-  --color-bg-dark-card: #0c3623;
+  /* Semantic Background Surfaces */
+  --color-bg-base: #FAF8F5;            /* Warm Neutral Base */
+  --color-bg-surface: #ffffff;         /* Pure White Surface / Cards */
+  --color-bg-subtle: #f3efe9;          /* Slightly deeper warm neutral */
+  --color-bg-tinted: #E8F5EE;          /* Light Botanical Tint */
+  --color-bg-dark: #073B24;            /* Deep Green dark sections */
+  --color-bg-dark-card: #0b452c;
 
-  /* Typography / Content Colors */
-  --color-text-main: #142019;   /* Near-black deep botanical slate */
-  --color-text-body: #32473c;   /* Readable body copy */
-  --color-text-muted: #5d7367;  /* Captions & secondary descriptions */
-  --color-text-subtle: #899c92; /* Breadcrumbs & minor meta */
+  /* Semantic Typography & Content Colors */
+  --color-text-main: #1A2421;          /* Charcoal Main Heading & Body */
+  --color-text-body: #2e3c36;          /* Readable body text */
+  --color-text-muted: #566960;         /* Secondary / muted descriptions */
+  --color-text-subtle: #7f9389;        /* Subtle hints & borders */
   --color-text-inverse: #ffffff;
-  --color-text-inverse-muted: #b0c7ba;
+  --color-text-inverse-muted: #b7d1c3;
 
-  /* Borders & Rules */
+  /* Semantic Borders & Dividers */
   --color-border-subtle: rgba(13, 92, 58, 0.10);
   --color-border-medium: rgba(13, 92, 58, 0.20);
   --color-border-strong: rgba(13, 92, 58, 0.38);
-  --color-border-focus: #0d5c3a;
-  --color-border-inverse: rgba(255, 255, 255, 0.16);
+  --color-border-focus: #0D5C3A;
+  --color-border-inverse: rgba(255, 255, 255, 0.15);
 
   /* Status Indicators */
-  --color-success: #127c4d;
-  --color-success-bg: #e6f7ef;
-  --color-warning: #b87500;
-  --color-warning-bg: #fff8e8;
+  --color-success: #0D5C3A;
+  --color-success-bg: #E8F5EE;
+  --color-warning: #C98A1E;
+  --color-warning-bg: #fef8ee;
   --color-error: #c52929;
   --color-error-bg: #fdeeee;
   --color-info: #146ba8;
@@ -57,22 +66,34 @@
 
   /* ==========================================================================
      TYPOGRAPHY TOKENS
+     Headings: Playfair Display | Body/UI: Plus Jakarta Sans
      ========================================================================== */
   --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 
   /* Fluid Font Sizes using clamp() */
-  --font-size-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);      /* ~12px */
-  --font-size-sm: clamp(0.84rem, 0.8rem + 0.2vw, 0.90rem);      /* ~14px */
-  --font-size-base: clamp(0.96rem, 0.92rem + 0.2vw, 1.05rem);   /* ~16px */
-  --font-size-md: clamp(1.08rem, 1.02rem + 0.3vw, 1.18rem);     /* ~18px */
-  --font-size-lg: clamp(1.2rem, 1.12rem + 0.4vw, 1.35rem);      /* ~20px */
-  --font-size-xl: clamp(1.35rem, 1.25rem + 0.5vw, 1.6rem);      /* ~24px */
-  --font-size-2xl: clamp(1.6rem, 1.45rem + 0.8vw, 2.0rem);      /* ~30px */
-  --font-size-3xl: clamp(2.0rem, 1.75rem + 1.2vw, 2.6rem);      /* ~38px */
-  --font-size-4xl: clamp(2.4rem, 2.0rem + 2.0vw, 3.5rem);       /* ~50px */
-  --font-size-5xl: clamp(2.8rem, 2.2rem + 3.0vw, 4.4rem);       /* ~64px */
+  --font-size-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);    /* 12px - 13px */
+  --font-size-sm: clamp(0.84rem, 0.82rem + 0.2vw, 0.90rem);       /* ~13.5px - 14.5px */
+  --font-size-base: clamp(0.95rem, 0.92rem + 0.2vw, 1.05rem);     /* 15px - 16.5px */
+  --font-size-md: clamp(1.05rem, 1.0rem + 0.3vw, 1.15rem);        /* ~17px - 18.5px */
+  --font-size-lg: clamp(1.18rem, 1.12rem + 0.4vw, 1.32rem);       /* ~19px - 21px */
+  --font-size-xl: clamp(1.35rem, 1.25rem + 0.6vw, 1.55rem);       /* ~22px - 25px */
+  --font-size-2xl: clamp(1.6rem, 1.45rem + 0.8vw, 1.95rem);       /* ~26px - 31px */
+  --font-size-3xl: clamp(1.95rem, 1.7rem + 1.2vw, 2.5rem);        /* ~31px - 40px */
+  --font-size-4xl: clamp(2.35rem, 2.0rem + 1.8vw, 3.25rem);       /* ~38px - 52px */
+  --font-size-5xl: clamp(2.75rem, 2.2rem + 2.8vw, 4.25rem);       /* ~44px - 68px */
+
+  /* Specific Component Typography Tokens */
+  --font-size-h1: var(--font-size-5xl);
+  --font-size-h2: var(--font-size-4xl);
+  --font-size-h3: var(--font-size-3xl);
+  --font-size-h4: var(--font-size-2xl);
+  --font-size-body: var(--font-size-base);
+  --font-size-small: var(--font-size-sm);
+  --font-size-eyebrow: var(--font-size-xs);
+  --font-size-btn: var(--font-size-sm);
+  --font-size-nav: 0.90rem;
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -86,8 +107,16 @@
   --line-height-relaxed: 1.7;
 
   /* ==========================================================================
-     SPACING & LAYOUT TOKENS
+     CONTAINER & SPACING TOKENS
      ========================================================================== */
+  --container-max-width: 1360px;
+  --container-narrow-max-width: 860px;
+  --container-wide-max-width: 1440px;
+  --container-padding: clamp(14px, 3.5vw, 24px);
+
+  --header-height: 80px;
+  --header-height-mobile: 68px;
+
   --space-1: 0.25rem;   /* 4px */
   --space-2: 0.5rem;    /* 8px */
   --space-3: 0.75rem;   /* 12px */
@@ -101,11 +130,6 @@
   --space-20: 5rem;     /* 80px */
   --space-24: 6rem;     /* 96px */
 
-  --container-max-width: 1320px;
-  --container-padding: clamp(1rem, 3vw, 2rem);
-  --header-height: 80px;
-  --header-height-mobile: 68px;
-
   /* ==========================================================================
      SHAPE & SHADOW TOKENS
      ========================================================================== */
@@ -116,12 +140,13 @@
   --radius-xl: 26px;
   --radius-full: 9999px;
 
-  --shadow-xs: 0 1px 3px rgba(4, 31, 18, 0.04);
-  --shadow-sm: 0 2px 8px rgba(4, 31, 18, 0.06);
-  --shadow-md: 0 6px 18px rgba(4, 31, 18, 0.08);
-  --shadow-lg: 0 12px 32px rgba(4, 31, 18, 0.11);
-  --shadow-xl: 0 20px 48px rgba(4, 31, 18, 0.15);
-  --shadow-card-hover: 0 16px 36px rgba(13, 92, 58, 0.14);
+  --shadow-xs: 0 1px 3px rgba(7, 59, 36, 0.04);
+  --shadow-sm: 0 2px 8px rgba(7, 59, 36, 0.06);
+  --shadow-md: 0 6px 20px rgba(7, 59, 36, 0.08);
+  --shadow-lg: 0 12px 32px rgba(7, 59, 36, 0.11);
+  --shadow-xl: 0 20px 48px rgba(7, 59, 36, 0.14);
+  --shadow-card-hover: 0 14px 34px rgba(13, 92, 58, 0.14);
+  --shadow-mega-menu: 0 24px 60px rgba(7, 59, 36, 0.16);
 
   /* ==========================================================================
      Z-INDEX LAYERS
@@ -131,6 +156,7 @@
   --z-dropdown: 50;
   --z-sticky: 100;
   --z-fixed: 200;
+  --z-drawer-backdrop: 490;
   --z-drawer: 500;
   --z-modal: 1000;
   --z-toast: 2000;

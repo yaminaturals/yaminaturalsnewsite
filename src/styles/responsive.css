@@ -1,9 +1,17 @@
 /* ==========================================================================
-   RESPONSIVE DESIGN SYSTEM
-   Mobile-First Breakpoint Architecture: 360px, 375px, 430px, 768px, 1024px, 1280px, 1440px+
+   RESPONSIVE DESIGN & CONTAINER SYSTEM - YAMI NATURALS
+   Mobile-First Breakpoint Architecture: 360px, 375px, 390px, 430px, 768px, 1024px, 1280px, 1440px, 1920px
+   Container: Max 1360px desktop, comfortable margins, fluid 14px-20px mobile padding
+   Strictly zero horizontal overflow.
    ========================================================================== */
 
-/* Containers */
+/* Prevent horizontal scroll overflow globally */
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Global Responsive Containers */
 .container {
   width: 100%;
   max-width: var(--container-max-width);
@@ -11,24 +19,27 @@
   margin-right: auto;
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
+  box-sizing: border-box;
 }
 
 .container-narrow {
   width: 100%;
-  max-width: 860px;
+  max-width: var(--container-narrow-max-width);
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
+  box-sizing: border-box;
 }
 
 .container-wide {
   width: 100%;
-  max-width: 1440px;
+  max-width: var(--container-wide-max-width);
   margin-left: auto;
   margin-right: auto;
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
+  box-sizing: border-box;
 }
 
 /* Sections */
@@ -36,16 +47,24 @@
   padding-top: clamp(2.5rem, 5vw, 5.5rem);
   padding-bottom: clamp(2.5rem, 5vw, 5.5rem);
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .section-sm {
   padding-top: clamp(1.5rem, 3vw, 3rem);
   padding-bottom: clamp(1.5rem, 3vw, 3rem);
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .section-lg {
   padding-top: clamp(3.5rem, 7vw, 7rem);
   padding-bottom: clamp(3.5rem, 7vw, 7rem);
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Touch Target Minimum (44x44px for accessibility) */
@@ -83,6 +102,7 @@
 .grid {
   display: grid;
   gap: var(--space-6);
+  width: 100%;
 }
 
 .grid-cols-1 { grid-template-columns: 1fr; }

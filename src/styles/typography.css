@@ -1,16 +1,16 @@
 /* ==========================================================================
-   TYPOGRAPHY SYSTEM
-   Google Fonts: Playfair Display (Botanical Heading) & Plus Jakarta Sans (Modern Body)
+   TYPOGRAPHY SYSTEM - YAMI NATURALS
+   Editorial Botanical Serifs: Playfair Display
+   Modern Precise Sans-Serif UI/Body: Plus Jakarta Sans
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* Base Headings */
+/* Base Headings - Playfair Display Editorial */
 h1, .h1 {
   font-family: var(--font-heading);
-  font-size: var(--font-size-5xl);
+  font-size: var(--font-size-h1);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
-  color: var(--color-primary-950);
+  color: var(--color-deep-green);
   letter-spacing: -0.02em;
   margin-bottom: var(--space-4);
   text-wrap: balance;
@@ -18,10 +18,10 @@ h1, .h1 {
 
 h2, .h2 {
   font-family: var(--font-heading);
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
-  color: var(--color-primary-950);
+  color: var(--color-deep-green);
   letter-spacing: -0.015em;
   margin-bottom: var(--space-3);
   text-wrap: balance;
@@ -29,20 +29,20 @@ h2, .h2 {
 
 h3, .h3 {
   font-family: var(--font-heading);
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-snug);
-  color: var(--color-primary-900);
+  color: var(--color-charcoal);
   letter-spacing: -0.01em;
   margin-bottom: var(--space-3);
 }
 
 h4, .h4 {
   font-family: var(--font-heading);
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-h4);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-snug);
-  color: var(--color-primary-900);
+  color: var(--color-charcoal);
   margin-bottom: var(--space-2);
 }
 
@@ -51,7 +51,7 @@ h5, .h5 {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-snug);
-  color: var(--color-text-main);
+  color: var(--color-charcoal);
   margin-bottom: var(--space-2);
 }
 
@@ -60,14 +60,14 @@ h6, .h6 {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-normal);
-  color: var(--color-text-main);
+  color: var(--color-charcoal);
   margin-bottom: var(--space-1);
 }
 
 /* Paragraphs & Text Content */
 p, .text-body {
   font-family: var(--font-body);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-body);
   color: var(--color-text-body);
   line-height: var(--line-height-relaxed);
   margin-bottom: var(--space-4);
@@ -80,22 +80,51 @@ p, .text-body {
   font-weight: var(--font-weight-regular);
 }
 
+.text-small {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
 /* Category Eyebrow / Overline */
-.eyebrow {
+.eyebrow, .eyebrow-text {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-family: var(--font-body);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-eyebrow);
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--color-primary-600);
+  color: var(--color-primary-green);
   margin-bottom: var(--space-2);
 }
 
 .eyebrow-accent {
-  color: var(--color-accent-600);
+  color: var(--color-amber-accent);
+}
+
+/* Button Typography */
+.btn-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-btn);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.01em;
+}
+
+/* Navigation Typography */
+.nav-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-nav);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+}
+
+/* Accessible Focus Styling */
+:focus-visible {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
 }
 
 /* Text Size Utilities */
@@ -118,11 +147,12 @@ p, .text-body {
 
 /* Color Utilities */
 .text-main { color: var(--color-text-main); }
+.text-body { color: var(--color-text-body); }
 .text-muted { color: var(--color-text-muted); }
 .text-subtle { color: var(--color-text-subtle); }
-.text-primary { color: var(--color-primary-600); }
-.text-primary-dark { color: var(--color-primary-900); }
-.text-accent { color: var(--color-accent-600); }
+.text-primary { color: var(--color-primary-green); }
+.text-deep { color: var(--color-deep-green); }
+.text-accent { color: var(--color-amber-accent); }
 .text-inverse { color: var(--color-text-inverse); }
 .text-inverse-muted { color: var(--color-text-inverse-muted); }
 

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   ANIMATION & INTERACTION SYSTEM
-   GPU-Accelerated, Mobile-Adaptive & Accessibility Compliant
+   ANIMATION & MOTION SYSTEM - YAMI NATURALS
+   GPU-Accelerated, Subtle Editorial Timing, Strictly Accessible
    ========================================================================== */
 
 /* Keyframe Animations */
@@ -16,7 +16,7 @@
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translate3d(0, 24px, 0);
+    transform: translate3d(0, 18px, 0);
   }
   to {
     opacity: 1;
@@ -27,7 +27,7 @@
 @keyframes fadeDown {
   from {
     opacity: 0;
-    transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -14px, 0);
   }
   to {
     opacity: 1;
@@ -38,11 +38,22 @@
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale3d(0.95, 0.95, 1);
+    transform: scale3d(0.96, 0.96, 1);
   }
   to {
     opacity: 1;
     transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -51,16 +62,7 @@
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
   50% {
-    transform: translate3d(0, -8px, 0) rotate(1.5deg);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
+    transform: translate3d(0, -6px, 0) rotate(1deg);
   }
 }
 
@@ -73,65 +75,121 @@
   }
 }
 
-/* Reusable Animation Classes */
+/* ==========================================================================
+   REUSABLE MOTION CLASSES & UTILITIES
+   ========================================================================== */
+.fade-in,
 .animate-fade-in {
   animation: fadeIn var(--duration-base) var(--ease-standard) forwards;
 }
 
+.fade-up,
 .animate-fade-up {
   animation: fadeUp var(--duration-slow) var(--ease-spring) forwards;
 }
 
+.scale-in,
 .animate-scale-in {
   animation: scaleIn var(--duration-base) var(--ease-spring) forwards;
 }
 
+.slide-in,
+.animate-slide-in {
+  animation: slideInRight var(--duration-base) var(--ease-spring) forwards;
+}
+
+.subtle-float,
 .animate-float {
-  animation: floatBotanical 6s ease-in-out infinite;
+  animation: floatBotanical 7s ease-in-out infinite;
 }
 
 .animate-spin {
-  animation: spin 1s linear infinite;
+  animation: spin 0.9s linear infinite;
 }
 
 /* Stagger Helpers */
-.delay-1 { animation-delay: 80ms; }
-.delay-2 { animation-delay: 160ms; }
-.delay-3 { animation-delay: 240ms; }
-.delay-4 { animation-delay: 320ms; }
+.delay-1 { animation-delay: 60ms; }
+.delay-2 { animation-delay: 120ms; }
+.delay-3 { animation-delay: 180ms; }
+.delay-4 { animation-delay: 240ms; }
+.delay-5 { animation-delay: 300ms; }
 
-/* Micro-Interactions: Tap feedback on mobile */
+/* Scroll-Reveal Base Classes (used with IntersectionObserver) */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity var(--duration-slow) var(--ease-smooth),
+              transform var(--duration-slow) var(--ease-spring);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Micro-Interactions: Mobile Tap Feedback */
 .tap-effect {
   transition: transform var(--duration-fast) var(--ease-standard), opacity var(--duration-fast) ease;
 }
 
 .tap-effect:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
-/* Hover transitions (applied only on hover-capable devices) */
+/* Hover Lift & Transitions (Fine pointer / hover only) */
 @media (hover: hover) and (pointer: fine) {
   .hover-lift {
     transition: transform var(--duration-base) var(--ease-spring), box-shadow var(--duration-base) ease;
   }
   .hover-lift:hover {
-    transform: translate3d(0, -4px, 0);
+    transform: translate3d(0, -3px, 0);
     box-shadow: var(--shadow-card-hover);
   }
 
-  .hover-glow {
-    transition: border-color var(--duration-fast) ease, box-shadow var(--duration-base) ease;
+  .hover-lift-subtle {
+    transition: transform var(--duration-fast) var(--ease-smooth);
   }
-  .hover-glow:hover {
-    border-color: var(--color-primary-400);
-    box-shadow: 0 0 0 3px rgba(13, 92, 58, 0.12);
+  .hover-lift-subtle:hover {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* ==========================================================================
+   PARALLAX FOUNDATION
+   Native scroll-driven animation when supported; graceful degradation
+   ========================================================================== */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  will-change: transform;
+  pointer-events: none;
+}
+
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  .parallax-layer-scroll {
+    animation: parallaxTranslate linear both;
+    animation-timeline: view();
+    animation-range: entry 10% exit 90%;
   }
 
-  .hover-scale-img img {
-    transition: transform var(--duration-slow) var(--ease-spring);
+  @keyframes parallaxTranslate {
+    from {
+      transform: translate3d(0, var(--parallax-offset, 25px), 0);
+    }
+    to {
+      transform: translate3d(0, calc(var(--parallax-offset, 25px) * -1), 0);
+    }
   }
-  .hover-scale-img:hover img {
-    transform: scale(1.04);
+}
+
+/* Mobile Parallax Intensity Reduction */
+@media (max-width: 767px) {
+  .parallax-layer {
+    --parallax-offset: 10px !important;
   }
 }
 
@@ -149,10 +207,21 @@
   }
 
   .animate-float,
+  .subtle-float,
   .animate-fade-up,
   .animate-fade-in,
+  .fade-up,
+  .fade-in,
+  .scale-in,
+  .slide-in,
+  .reveal-on-scroll,
   .hover-lift:hover,
-  .tap-effect:active {
+  .hover-lift-subtle:hover,
+  .tap-effect:active,
+  .parallax-layer,
+  .parallax-layer-scroll {
     transform: none !important;
+    animation: none !important;
+    opacity: 1 !important;
   }
 }

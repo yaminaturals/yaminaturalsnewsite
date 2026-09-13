@@ -14,6 +14,8 @@
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
 }
 
 main {
@@ -42,7 +44,7 @@ main {
 /* Text Selection */
 ::selection {
   background-color: var(--color-primary-100);
-  color: var(--color-primary-950);
+  color: var(--color-deep-green);
 }
 
 /* Botanical Subtle Pattern / Background Accents */
@@ -51,7 +53,7 @@ main {
 }
 
 .bg-dark-forest {
-  background-color: var(--color-bg-dark);
+  background-color: var(--color-deep-green);
   color: var(--color-text-inverse);
 }
 
@@ -65,14 +67,14 @@ main {
 
 /* Frosted Glass Effect */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.90);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--color-border-subtle);
 }
 
 .glass-dark {
-  background: rgba(7, 38, 24, 0.88);
+  background: rgba(7, 59, 36, 0.90);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--color-border-inverse);
