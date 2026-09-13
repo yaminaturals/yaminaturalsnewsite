@@ -8,6 +8,7 @@ import { WhyYamiSection } from '../../components/sections/WhyYamiSection';
 import { SolutionsSection } from '../../components/sections/SolutionsSection';
 import { HowItWorksSection } from '../../components/sections/HowItWorksSection';
 import { SpecificationDocumentationSection } from '../../components/sections/SpecificationDocumentationSection';
+import { TrustExperienceSection } from '../../components/sections/TrustExperienceSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -39,6 +40,9 @@ export const HomePage: React.FC = () => {
 
       {/* 9. SPECIFICATION & DOCUMENTATION (Step 5I: Requirement Details & Context) */}
       <SpecificationDocumentationSection />
+
+      {/* 10. TRUST & EXPERIENCE (Step 5J: Requirement-First Trust Principles) */}
+      <TrustExperienceSection />
     </div>
   );
 };

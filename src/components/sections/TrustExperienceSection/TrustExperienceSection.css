@@ -1,0 +1,378 @@
+/* ==========================================================================
+   TrustExperienceSection.css
+   Step 5J: Trust & Experience Section
+   ========================================================================== */
+
+.trust-exp-section {
+  position: relative;
+  background-color: #F3F8F5;
+  padding: clamp(var(--space-16, 4rem), 8vw, var(--space-24, 6.5rem)) 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(13, 92, 58, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   Background Decorative Botanical & Technical Process Parallax Layer
+   -------------------------------------------------------------------------- */
+.trust-exp-bg-decoration {
+  position: absolute;
+  top: 5%;
+  left: -8%;
+  width: 520px;
+  height: 520px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  .trust-exp-bg-decoration {
+    opacity: 0.4;
+    width: 340px;
+    height: 340px;
+    left: -15%;
+  }
+}
+
+.trust-exp-watermark-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Section Header (Centered Editorial Composition)
+   -------------------------------------------------------------------------- */
+.trust-exp-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto clamp(var(--space-10, 2.5rem), 5vw, var(--space-14, 3.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trust-exp-eyebrow-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+  padding: 0.35rem 0.95rem;
+  background-color: rgba(13, 92, 58, 0.08);
+  border: 1px solid rgba(13, 92, 58, 0.16);
+  border-radius: var(--radius-full, 9999px);
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.trust-exp-eyebrow-icon {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.trust-exp-eyebrow-text {
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary-green, #0D5C3A);
+}
+
+.trust-exp-title {
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.125rem, 3.8vw, 3rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--color-primary-dark, #073B24);
+  margin: 0 0 var(--space-4, 1rem);
+  letter-spacing: -0.015em;
+}
+
+.trust-exp-title-emphasis {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-primary-green, #0D5C3A);
+}
+
+.trust-exp-supporting-text {
+  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+  line-height: 1.68;
+  color: #384A41;
+  margin: 0;
+  max-width: 660px;
+}
+
+/* --------------------------------------------------------------------------
+   Four Trust Principles Grid (2x2 on Desktop/Tablet, 1-col on Mobile)
+   -------------------------------------------------------------------------- */
+.trust-principles-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5, 1.25rem);
+  margin-bottom: clamp(var(--space-10, 2.5rem), 5vw, var(--space-14, 3.5rem));
+}
+
+@media (min-width: 640px) {
+  .trust-principles-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6, 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .trust-principles-grid {
+    gap: var(--space-6, 1.5rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Individual Trust Principle Card
+   -------------------------------------------------------------------------- */
+.trust-principle-card {
+  position: relative;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(13, 92, 58, 0.12);
+  border-radius: var(--radius-lg, 0.75rem);
+  padding: clamp(var(--space-6, 1.5rem), 2.8vw, var(--space-8, 2rem));
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 3px 12px rgba(7, 59, 36, 0.03);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+/* Subtle Watermark Number */
+.trust-principle-watermark {
+  position: absolute;
+  top: -10px;
+  right: var(--space-4, 1rem);
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(3.5rem, 5vw, 4.5rem);
+  font-weight: 800;
+  color: var(--color-primary-green, #0D5C3A);
+  opacity: 0.05;
+  line-height: 1;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Card Header */
+.trust-principle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4, 1rem);
+  position: relative;
+  z-index: 1;
+}
+
+.trust-principle-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md, 0.5rem);
+  background-color: rgba(13, 92, 58, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-green, #0D5C3A);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.trust-icon-svg {
+  width: 22px;
+  height: 22px;
+}
+
+.trust-principle-pill {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5A6D63;
+  padding: 0.25rem 0.55rem;
+  background-color: rgba(13, 92, 58, 0.05);
+  border-radius: var(--radius-sm, 0.25rem);
+}
+
+/* Card Content */
+.trust-principle-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.trust-principle-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark, #073B24);
+  margin: 0 0 var(--space-2, 0.5rem);
+  line-height: 1.35;
+}
+
+.trust-principle-desc {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #3D5046;
+  margin: 0;
+  flex: 1;
+}
+
+/* Subtle Bottom Line Accent */
+.trust-principle-accent-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+/* Desktop Hover Interactions */
+@media (hover: hover) and (pointer: fine) {
+  .trust-principle-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(7, 59, 36, 0.07);
+    border-color: rgba(13, 92, 58, 0.25);
+  }
+
+  .trust-principle-card:hover .trust-principle-watermark {
+    transform: translateY(-3px);
+    opacity: 0.09;
+  }
+
+  .trust-principle-card:hover .trust-principle-badge {
+    transform: scale(1.08);
+    background-color: rgba(13, 92, 58, 0.12);
+  }
+
+  .trust-principle-card:hover .trust-principle-accent-line {
+    background-color: var(--color-primary-green, #0D5C3A);
+  }
+}
+
+/* Touch Active Feedback */
+.trust-principle-card:active {
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Prominent Central Trust Statement & Direct Action Box
+   -------------------------------------------------------------------------- */
+.trust-exp-statement-box {
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.trust-statement-inner {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(13, 92, 58, 0.16);
+  border-top: 3px solid var(--color-primary-green, #0D5C3A);
+  border-radius: var(--radius-xl, 1rem);
+  padding: clamp(var(--space-6, 1.5rem), 4vw, var(--space-10, 2.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(7, 59, 36, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-statement-decoration {
+  width: 44px;
+  height: 44px;
+  color: var(--color-primary-green, #0D5C3A);
+  opacity: 0.7;
+  margin-bottom: var(--space-4, 1rem);
+}
+
+.trust-statement-leaf-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.trust-statement-content {
+  max-width: 720px;
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+.trust-statement-quote {
+  font-family: var(--font-heading, 'Playfair Display', Georgia, serif);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-primary-dark, #073B24);
+  margin: 0 0 var(--space-3, 0.75rem);
+}
+
+.trust-statement-supporting {
+  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  line-height: 1.6;
+  color: #4A5D53;
+  margin: 0;
+}
+
+/* Action Buttons */
+.trust-statement-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+  width: 100%;
+  max-width: 440px;
+  align-items: stretch;
+}
+
+@media (min-width: 640px) {
+  .trust-statement-actions {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    max-width: none;
+    gap: var(--space-4, 1rem);
+  }
+}
+
+.trust-cta-primary,
+.trust-cta-secondary {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.trust-cta-arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: 0.35rem;
+  transition: transform 0.2s ease;
+}
+
+.trust-cta-primary:hover .trust-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .trust-principle-card,
+  .trust-principle-badge,
+  .trust-principle-watermark,
+  .trust-cta-arrow {
+    transition: none !important;
+    transform: none !important;
+  }
+}
