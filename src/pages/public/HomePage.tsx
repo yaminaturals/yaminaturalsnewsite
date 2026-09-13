@@ -5,7 +5,7 @@ import { Card } from '../../components/ui/Card/Card';
 import { Badge } from '../../components/ui/Badge/Badge';
 import { categoryService } from '../../services/CategoryService';
 import { ProductCategory } from '../../types';
-import { siteConfig } from '../../config/siteConfig';
+import { HeroSection } from '../../components/sections/HeroSection/HeroSection';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -21,41 +21,8 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="home-page animate-fade-in">
-      {/* 1. HERO SECTION */}
-      <section className="hero-section">
-        <Container size="default">
-          <div className="hero-content text-center">
-            <div className="hero-eyebrow">
-              <Badge variant="accent" icon="🌿">
-                Botanical & Natural Procurement
-              </Badge>
-            </div>
-            <h1 className="hero-title">
-              Precision Sourcing for Pure Botanicals, Extracts & Natural Ingredients
-            </h1>
-            <p className="hero-subtitle text-lead">
-              Yami Naturals is a specialized procurement and product-support platform connecting verified herbal sources with B2B formulators and B2C clients worldwide.
-            </p>
-
-            {/* Core Conversion CTAs */}
-            <div className="hero-actions">
-              <Button to="/submit-requirement" variant="primary" size="lg">
-                {siteConfig.primaryCTAs.submitRequirement}
-              </Button>
-              <Button to="/products" variant="secondary" size="lg">
-                {siteConfig.primaryCTAs.exploreProducts}
-              </Button>
-              <Button to="/contact" variant="outline" size="lg">
-                {siteConfig.primaryCTAs.talkToUs}
-              </Button>
-            </div>
-
-            <div className="hero-disclaimer-note">
-              * Dedicated requirement submission and direct procurement — no consumer cart or online checkout.
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* 1. HERO SECTION (Step 5A: Dedicated Editorial Procurement Hero) */}
+      <HeroSection />
 
       {/* 2. TRUST & CAPABILITY HIGHLIGHTS */}
       <section className="section-sm bg-warm-subtle">

@@ -1,38 +1,4 @@
-.hero-section {
-  padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(2.5rem, 5vw, 4.5rem);
-  background: radial-gradient(circle at 50% 15%, rgba(215, 240, 226, 0.5) 0%, rgba(250, 248, 245, 0.8) 70%);
-  position: relative;
-}
-
-.hero-title {
-  max-width: 960px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: var(--space-5);
-}
-
-.hero-subtitle {
-  max-width: 740px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: var(--space-8);
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-6);
-}
-
-.hero-disclaimer-note {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-  max-width: 500px;
-  margin: 0 auto;
-}
+/* HomePage Specific Section Overrides (Hero is encapsulated in HeroSection.css) */
 
 .trust-card-inner {
   display: flex;
