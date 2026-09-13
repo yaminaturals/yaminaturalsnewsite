@@ -8,7 +8,6 @@ import { WhyYamiSection } from '../../components/sections/WhyYamiSection';
 import { SolutionsSection } from '../../components/sections/SolutionsSection';
 import { HowItWorksSection } from '../../components/sections/HowItWorksSection';
 import { SpecificationDocumentationSection } from '../../components/sections/SpecificationDocumentationSection';
-import { TrustExperienceSection } from '../../components/sections/TrustExperienceSection';
 import { FAQSection } from '../../components/sections/FAQSection';
 import { FinalCTASection } from '../../components/sections/FinalCTASection';
 import './HomePage.css';
@@ -43,13 +42,10 @@ export const HomePage: React.FC = () => {
       {/* 9. SPECIFICATION & DOCUMENTATION (Step 5I: Requirement Details & Context) */}
       <SpecificationDocumentationSection />
 
-      {/* 10. TRUST & EXPERIENCE (Step 5J: Requirement-First Trust Principles) */}
-      <TrustExperienceSection />
-
-      {/* 11. FAQ SECTION (Step 5K: Common Questions & Sourcing Guidance) */}
+      {/* 10. FAQ SECTION (Step 5K: Common Questions & Sourcing Guidance) */}
       <FAQSection />
 
-      {/* 12. FINAL CONVERSION CTA (Step 5L: Tell Us What You Need) */}
+      {/* 11. FINAL CONVERSION CTA (Step 5L: Tell Us What You Need) */}
       <FinalCTASection />
     </div>
   );
