@@ -87,80 +87,65 @@ export const ProductCategoriesSection: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div
-            className={`categories-grid ${
-              categories.length <= 3 ? 'categories-grid-compact' : 'categories-grid-asymmetric'
-            }`}
-          >
-            {categories.map((category, index) => {
-              const isLargeFeatured = index === 0 && categories.length >= 4;
-
-              return (
-                <Link
-                  key={category.id}
-                  to={`/products?category=${category.slug}`}
-                  className={`category-card animate-fade-up delay-${Math.min(index + 1, 6)} ${
-                    isLargeFeatured ? 'category-card-large' : ''
-                  }`}
-                  aria-label={`Explore ${category.name} category`}
-                >
-                  <div className="category-image-wrapper">
-                    {category.imageUrl ? (
-                      <img
-                        src={category.imageUrl}
-                        alt={`${category.name} - natural botanical sourcing materials`}
-                        className="category-image"
-                        loading="lazy"
-                        decoding="async"
-                        width="600"
-                        height="400"
-                        onError={(e) => {
-                          // Fallback to botanical pattern if image fails to load
-                          e.currentTarget.style.display = 'none';
-                          const parent = e.currentTarget.parentElement;
-                          if (parent) {
-                            parent.classList.add('category-image-fallback');
-                          }
-                        }}
-                      />
-                    ) : (
-                      <div className="category-image-placeholder" aria-hidden="true">
-                        <span className="placeholder-icon">🌿</span>
-                      </div>
-                    )}
-                    <div className="category-image-overlay" aria-hidden="true" />
-                  </div>
-
-                  <div className="category-card-content">
-                    {isLargeFeatured && (
-                      <span className="featured-category-pill" aria-hidden="true">
-                        Featured Sourcing Group
-                      </span>
-                    )}
-                    <h3 className="category-card-name">{category.name}</h3>
-                    <p className="category-card-description">{category.shortDescription}</p>
-
-                    <div className="category-card-action" aria-hidden="true">
-                      <span className="action-text">Explore Category</span>
-                      <svg
-                        className="action-arrow"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
+          <div className="categories-grid">
+            {categories.map((category, index) => (
+              <Link
+                key={category.id}
+                to={`/products?category=${category.slug}`}
+                className={`category-card animate-fade-up delay-${Math.min(index + 1, 6)}`}
+                aria-label={`Explore ${category.name} category`}
+              >
+                <div className="category-image-wrapper">
+                  {category.imageUrl ? (
+                    <img
+                      src={category.imageUrl}
+                      alt={`${category.name} - natural botanical sourcing materials`}
+                      className="category-image"
+                      loading="lazy"
+                      decoding="async"
+                      width="600"
+                      height="400"
+                      onError={(e) => {
+                        // Fallback to botanical pattern if image fails to load
+                        e.currentTarget.style.display = 'none';
+                        const parent = e.currentTarget.parentElement;
+                        if (parent) {
+                          parent.classList.add('category-image-fallback');
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="category-image-placeholder" aria-hidden="true">
+                      <span className="placeholder-icon">🌿</span>
                     </div>
+                  )}
+                  <div className="category-image-overlay" aria-hidden="true" />
+                </div>
+
+                <div className="category-card-content">
+                  <h3 className="category-card-name">{category.name}</h3>
+                  <p className="category-card-description">{category.shortDescription}</p>
+
+                  <div className="category-card-action" aria-hidden="true">
+                    <span className="action-text">Explore Category</span>
+                    <svg
+                      className="action-arrow"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
                   </div>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         )}
 

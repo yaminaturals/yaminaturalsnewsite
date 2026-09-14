@@ -242,56 +242,12 @@
 }
 
 /* ==========================================================================
-   DESKTOP ASYMMETRIC GRID (>= 1024px / 1280px / 1440px)
+   SYMMETRICAL 3x2 GRID (3 BOXES UP, 3 BOXES DOWN)
    ========================================================================== */
-.categories-grid-compact {
+.categories-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: clamp(1.25rem, 2vw, 1.85rem);
-}
-
-@media (min-width: 1024px) {
-  .categories-grid-asymmetric {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1.35rem, 2vw, 1.85rem);
-  }
-
-  /* Large Featured Card (Heroic 2x2 asymmetric block) */
-  .categories-grid-asymmetric .category-card-large {
-    grid-column: span 2;
-    grid-row: span 2;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    align-items: stretch;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-image-wrapper {
-    height: 100%;
-    min-height: 380px;
-    aspect-ratio: auto;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-card-content {
-    padding: clamp(1.75rem, 2.5vw, 2.5rem);
-    justify-content: center;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-card-name {
-    font-size: clamp(1.45rem, 1.30rem + 0.5vw, 1.75rem);
-    margin-bottom: var(--space-3);
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-card-description {
-    font-size: 0.98rem;
-    line-height: 1.6;
-    margin-bottom: var(--space-4);
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-card-action {
-    margin-top: auto;
-    padding-top: var(--space-4);
-  }
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.35rem, 2vw, 1.85rem);
 }
 
 /* ==========================================================================
@@ -356,26 +312,9 @@
    TABLET BREAKPOINTS (768px to 1023px)
    ========================================================================== */
 @media (max-width: 1023px) and (min-width: 768px) {
-  .categories-grid-asymmetric {
-    display: grid;
+  .categories-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.35rem;
-  }
-
-  .categories-grid-asymmetric .category-card-large {
-    grid-column: span 2;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-image-wrapper {
-    height: 100%;
-    min-height: 280px;
-    aspect-ratio: auto;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-card-content {
-    padding: 1.5rem;
   }
 }
 
@@ -397,27 +336,9 @@
     line-height: 1.2;
   }
 
-  .categories-grid-asymmetric,
-  .categories-grid-compact {
-    display: grid;
+  .categories-grid {
     grid-template-columns: 1fr;
     gap: 1.15rem;
-  }
-
-  .categories-grid-asymmetric .category-card-large {
-    grid-column: auto;
-    grid-row: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-image-wrapper {
-    aspect-ratio: 16 / 10;
-    min-height: auto;
-  }
-
-  .categories-grid-asymmetric .category-card-large .category-card-content {
-    padding: 1.2rem;
   }
 
   .category-image-wrapper {
