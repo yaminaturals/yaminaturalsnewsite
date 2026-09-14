@@ -64,7 +64,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       const params = new URLSearchParams(location.search);
-      if (location.pathname.startsWith('/products') || params.get('testDrawer') === 'true') {
+      if (location.pathname.startsWith('/products') || params.get('testProducts') === 'true') {
         setIsProductsExpanded(true);
       }
       const testSearch = params.get('testMobileSearch');
@@ -336,16 +336,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
             <span className="mobile-nav-arrow" aria-hidden="true">→</span>
           </NavLink>
 
-          <NavLink
-            to="/about"
-            className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
-            onClick={onClose}
-          >
-            <span>About</span>
-            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
-          </NavLink>
-
-          {/* Accessible Products Accordion Item */}
+          {/* Accessible Products / Brochure Accordion Item */}
           <div className="mobile-accordion-group">
             <button
               type="button"
@@ -356,7 +347,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
               aria-expanded={isProductsExpanded}
               aria-controls="mobile-products-accordion"
             >
-              <span className="mobile-accordion-title">Products</span>
+              <span className="mobile-accordion-title">Products / Brochure</span>
               <span className="mobile-accordion-indicator" aria-hidden="true">
                 {isProductsExpanded ? '−' : '+'}
               </span>
@@ -379,6 +370,15 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
                   <span className="mobile-sublink-arrow">→</span>
                 </Link>
 
+                <Link
+                  to="/submit-requirement"
+                  className="mobile-sublink"
+                  onClick={onClose}
+                >
+                  <span>📄 Request Product Brochure (PDF)</span>
+                  <span className="mobile-sublink-arrow">→</span>
+                </Link>
+
                 {categories.map((cat) => (
                   <Link
                     key={cat.id}
@@ -395,47 +395,29 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
           </div>
 
           <NavLink
-            to="/services"
+            to="/partnership"
             className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
             onClick={onClose}
           >
-            <span>Services</span>
+            <span>Partnership</span>
             <span className="mobile-nav-arrow" aria-hidden="true">→</span>
           </NavLink>
 
           <NavLink
-            to="/b2b-solutions"
+            to="/why-yami-naturals"
             className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
             onClick={onClose}
           >
-            <span>B2B Solutions</span>
+            <span>Why Yami Naturals</span>
             <span className="mobile-nav-arrow" aria-hidden="true">→</span>
           </NavLink>
 
           <NavLink
-            to="/b2c-solutions"
+            to="/about"
             className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
             onClick={onClose}
           >
-            <span>B2C Solutions</span>
-            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
-          </NavLink>
-
-          <NavLink
-            to="/how-it-works"
-            className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
-            onClick={onClose}
-          >
-            <span>How It Works</span>
-            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
-          </NavLink>
-
-          <NavLink
-            to="/faq"
-            className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
-            onClick={onClose}
-          >
-            <span>FAQ</span>
+            <span>About</span>
             <span className="mobile-nav-arrow" aria-hidden="true">→</span>
           </NavLink>
 
@@ -466,16 +448,6 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
               }
             >
               Submit Your Requirement
-            </Button>
-
-            <Button
-              to="/products"
-              variant="secondary"
-              fullWidth
-              size="md"
-              onClick={onClose}
-            >
-              Explore Products
             </Button>
           </div>
 

@@ -15,6 +15,8 @@ import { HowItWorksPage } from '../pages/public/HowItWorksPage';
 import { SubmitRequirementPage } from '../pages/public/SubmitRequirementPage';
 import { FaqPage } from '../pages/public/FaqPage';
 import { ContactPage } from '../pages/public/ContactPage';
+import { PartnershipPage } from '../pages/public/PartnershipPage';
+import { WhyYamiNaturalsPage } from '../pages/public/WhyYamiNaturalsPage';
 import { PrivacyPolicyPage } from '../pages/public/PrivacyPolicyPage';
 import { TermsConditionsPage } from '../pages/public/TermsConditionsPage';
 import { NotFoundPage } from '../pages/public/NotFoundPage';
@@ -41,6 +43,8 @@ export const App: React.FC = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
+          <Route path="/partnership" element={<PartnershipPage />} />
+          <Route path="/why-yami-naturals" element={<WhyYamiNaturalsPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/b2b-solutions" element={<B2BSolutionsPage />} />
           <Route path="/b2c-solutions" element={<B2CSolutionsPage />} />

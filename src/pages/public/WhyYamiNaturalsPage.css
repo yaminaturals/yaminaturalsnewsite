@@ -1,0 +1,162 @@
+/* ==========================================================================
+   WHY YAMI NATURALS PAGE STYLES - YAMI NATURALS
+   ========================================================================== */
+
+.why-yami-page {
+  background-color: #fbfaf7;
+  color: var(--color-charcoal);
+  padding-bottom: var(--space-16);
+}
+
+.why-hero-section {
+  background: linear-gradient(135deg, rgba(7, 59, 36, 0.05) 0%, rgba(13, 92, 58, 0.09) 100%), #ffffff;
+  padding: 3.5rem 0 3rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.why-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.why-breadcrumbs a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.why-breadcrumbs a:hover {
+  color: var(--color-primary-green);
+}
+
+.why-breadcrumbs span[aria-current="page"] {
+  color: var(--color-primary-green);
+  font-weight: 600;
+}
+
+.why-badge-wrap {
+  margin-bottom: 1rem;
+}
+
+.why-hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-deep-green);
+  margin-bottom: 1.25rem;
+  max-width: 850px;
+}
+
+.why-hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--color-text-body);
+  max-width: 780px;
+  margin-bottom: 2rem;
+}
+
+.why-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Standards Section */
+.standards-section {
+  padding: 4.5rem 0 3.5rem;
+}
+
+.standards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.standard-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  background: #ffffff;
+  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
+}
+
+.standard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(7, 59, 36, 0.08);
+}
+
+.standard-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.85rem;
+}
+
+.standard-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-deep-green);
+  margin-bottom: 0.5rem;
+}
+
+.standard-card p {
+  font-size: 0.92rem;
+  color: var(--color-text-body);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Bottom CTA */
+.why-cta-section {
+  padding: 2rem 0 3rem;
+}
+
+.why-cta-banner {
+  background: linear-gradient(135deg, var(--color-deep-green) 0%, #0d5c3a 100%);
+  color: #ffffff;
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  box-shadow: 0 16px 40px rgba(7, 59, 36, 0.16);
+}
+
+@media (max-width: 800px) {
+  .why-cta-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 2.25rem 1.5rem;
+  }
+}
+
+.why-cta-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a3e635;
+  margin-bottom: 0.5rem;
+}
+
+.why-cta-banner h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.why-cta-banner p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.55;
+  margin: 0;
+}

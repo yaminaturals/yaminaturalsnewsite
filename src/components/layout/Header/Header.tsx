@@ -431,14 +431,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                 HOME
               </NavLink>
 
-              <NavLink
-                to="/about"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                ABOUT
-              </NavLink>
-
-              {/* Products Item with Dropdown / Mega-Menu */}
+              {/* Products / Brochure Item with Dropdown / Mega-Menu */}
               <div
                 className={`nav-dropdown-wrapper ${isProductsOpen ? 'is-open' : ''}`}
                 ref={dropdownRef}
@@ -455,7 +448,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                   aria-controls="products-mega-menu"
                   onClick={() => setIsProductsOpen(!isProductsOpen)}
                 >
-                  <span>PRODUCTS</span>
+                  <span>PRODUCTS / BROCHURE</span>
                   <svg
                     className={`nav-dropdown-chevron ${isProductsOpen ? 'rotate' : ''}`}
                     width="14"
@@ -482,8 +475,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                   <div className="mega-menu-inner">
                     <div className="mega-menu-header">
                       <div>
-                        <span className="eyebrow">Natural Catalog</span>
-                        <p className="mega-menu-title">Botanical & Herbal Categories</p>
+                        <span className="eyebrow">Natural Catalog &amp; Specification Dossiers</span>
+                        <p className="mega-menu-title">Botanical &amp; Herbal Categories</p>
                         <p className="mega-menu-subtitle">
                           Botanical whole powders, herbal extracts, natural oils, cosmetic clays, and dietary ingredients.
                         </p>
@@ -519,14 +512,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
 
                     <div className="mega-menu-footer">
                       <span className="mega-menu-footer-hint">
-                        💡 Looking for a custom mesh size, marker specification, or private formulation?
+                        📄 Need our full commercial catalog &amp; technical specification dossier?
                       </span>
                       <Link
                         to="/submit-requirement"
                         className="mega-menu-footer-cta"
                         onClick={() => setIsProductsOpen(false)}
                       >
-                        Submit Custom Specification →
+                        Request Complete Product Brochure →
                       </Link>
                     </div>
                   </div>
@@ -534,31 +527,24 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
               </div>
 
               <NavLink
-                to="/services"
+                to="/partnership"
                 className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
               >
-                SERVICES
+                PARTNERSHIP
               </NavLink>
 
               <NavLink
-                to="/b2b-solutions"
+                to="/why-yami-naturals"
                 className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
               >
-                B2B
+                WHY YAMI NATURALS
               </NavLink>
 
               <NavLink
-                to="/b2c-solutions"
+                to="/about"
                 className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
               >
-                B2C
-              </NavLink>
-
-              <NavLink
-                to="/how-it-works"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                HOW IT WORKS
+                ABOUT
               </NavLink>
 
               <NavLink
@@ -571,15 +557,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
 
             {/* RIGHT: Action CTAs & Mobile Trigger */}
             <div className="header-actions">
-              <Button
-                to="/products"
-                variant="secondary"
-                size="sm"
-                className="header-cta-secondary hide-tablet"
-              >
-                Explore Products
-              </Button>
-
               <Button
                 to="/submit-requirement"
                 variant="primary"

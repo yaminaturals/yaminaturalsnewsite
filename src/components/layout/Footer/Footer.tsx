@@ -36,10 +36,10 @@ export const Footer: React.FC = () => {
             <p className="footer-col-title">Quick Links</p>
             <ul className="footer-links-list">
               <li><Link to="/" className="footer-link">Home</Link></li>
+              <li><Link to="/products" className="footer-link">Products / Brochure</Link></li>
+              <li><Link to="/partnership" className="footer-link">Partnership</Link></li>
+              <li><Link to="/why-yami-naturals" className="footer-link">Why Yami Naturals</Link></li>
               <li><Link to="/about" className="footer-link">About</Link></li>
-              <li><Link to="/products" className="footer-link">Products</Link></li>
-              <li><Link to="/services" className="footer-link">Services</Link></li>
-              <li><Link to="/how-it-works" className="footer-link">How It Works</Link></li>
               <li><Link to="/contact" className="footer-link">Contact</Link></li>
             </ul>
           </div>
