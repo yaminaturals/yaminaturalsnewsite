@@ -116,6 +116,11 @@
 
   --header-height: 84px;
   --header-height-mobile: 72px;
+  --header-top-bar-height: 34px;
+  --header-offset-desktop: 118px;
+  --header-offset-tablet: 106px;
+  --header-offset-mobile: 72px;
+  --header-total-offset: var(--header-offset-desktop);
 
   --space-1: 0.25rem;   /* 4px */
   --space-2: 0.5rem;    /* 8px */
@@ -154,12 +159,12 @@
   --z-base: 1;
   --z-elevated: 10;
   --z-dropdown: 50;
-  --z-sticky: 100;
-  --z-fixed: 200;
-  --z-drawer-backdrop: 490;
-  --z-drawer: 500;
-  --z-modal: 1000;
-  --z-toast: 2000;
+  --z-sticky: 1000;
+  --z-fixed: 1100;
+  --z-drawer-backdrop: 1400;
+  --z-drawer: 1500;
+  --z-modal: 2000;
+  --z-toast: 3000;
 
   /* ==========================================================================
      ANIMATION & TIMING TOKENS
