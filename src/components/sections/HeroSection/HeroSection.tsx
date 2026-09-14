@@ -52,6 +52,26 @@ export const HeroSection: React.FC = () => {
       </div>
 
       <Container size="default" className="hero-container">
+        {/* Subtle Botanical Transition Divider from Section 1 */}
+        <div className="hero-transition-divider" aria-hidden="true">
+          <span className="hero-divider-line" />
+          <svg
+            className="hero-divider-leaf"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12A10 10 0 0 1 12 2z" />
+            <path d="M12 6v12" />
+          </svg>
+          <span className="hero-divider-line" />
+        </div>
+
         <div className="hero-grid">
           {/* LEFT COLUMN: Editorial Copy & Conversion CTAs */}
           <div className="hero-text-content">
@@ -78,11 +98,11 @@ export const HeroSection: React.FC = () => {
               </span>
             </div>
 
-            {/* Main H1 Heading */}
-            <h1 className="hero-heading animate-fade-up delay-1">
+            {/* Section 2 H2 Heading (H1 is in Section 1) */}
+            <h2 className="hero-heading animate-fade-up delay-1">
               Natural Ingredients.
               <span className="hero-heading-break"> Real Possibilities.</span>
-            </h1>
+            </h2>
 
             {/* Supporting Paragraph */}
             <p className="hero-description text-lead animate-fade-up delay-2">

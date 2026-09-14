@@ -1,0 +1,547 @@
+/* ==========================================================================
+   SECTION 1 — EDITORIAL HERO (YAMI NATURALS)
+   Premium Botanical Editorial Composition
+   ========================================================================== */
+
+.editorial-hero-section {
+  position: relative;
+  background-color: #FAF8F5;
+  color: #073B24;
+  overflow: hidden;
+  padding: clamp(3.25rem, 6vh, 5.25rem) 0;
+  border-bottom: 1px solid rgba(13, 92, 58, 0.08);
+}
+
+/* Background Atmospheric Elements */
+.editorial-hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.editorial-bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 90% 18%,
+    rgba(232, 245, 238, 0.75) 0%,
+    rgba(250, 248, 245, 0.96) 50%,
+    #FAF8F5 100%
+  );
+}
+
+.editorial-bg-leaf-pattern {
+  position: absolute;
+  top: -60px;
+  right: -50px;
+  width: clamp(320px, 36vw, 540px);
+  height: clamp(320px, 36vw, 540px);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* Container & Layout Grid */
+.editorial-hero-container {
+  position: relative;
+  z-index: 1;
+}
+
+.editorial-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+/* ==========================================================================
+   LEFT COLUMN: Editorial Typography & CTAs
+   ========================================================================== */
+
+.editorial-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Refined Eyebrow with Amber Accent — Not a pill */
+.editorial-eyebrow-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.editorial-eyebrow-bar {
+  display: inline-block;
+  width: 28px;
+  height: 2.5px;
+  background-color: #C98A1E;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.editorial-eyebrow {
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #073B24;
+}
+
+/* Headline: Playfair Display, large, elegant, high contrast */
+.editorial-hero-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.35rem, 1.95rem + 2.5vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #073B24;
+  margin: 0 0 1.35rem 0;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.editorial-heading-line {
+  display: block;
+}
+
+.editorial-heading-line-split {
+  color: #0D5C3A;
+}
+
+.editorial-heading-highlight {
+  font-style: italic;
+  font-weight: 600;
+  color: #073B24;
+}
+
+/* Supporting Description */
+.editorial-hero-description {
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+  font-size: clamp(1.02rem, 0.96rem + 0.25vw, 1.18rem);
+  line-height: 1.68;
+  color: #34483E;
+  margin: 0 0 1.85rem 0;
+  max-width: 580px;
+}
+
+/* CTA Group */
+.editorial-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+/* Primary Button: Solid dark-green */
+.editorial-primary-btn {
+  background-color: #073B24 !important;
+  color: #FAF8F5 !important;
+  border: 1px solid #073B24 !important;
+  box-shadow: 0 8px 24px rgba(7, 59, 36, 0.22);
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.22s ease,
+              box-shadow 0.22s ease !important;
+}
+
+.editorial-primary-btn:hover {
+  background-color: #0D5C3A !important;
+  border-color: #0D5C3A !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(7, 59, 36, 0.28);
+}
+
+/* Secondary CTA: Editorial text-link with subtle underline */
+.editorial-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #073B24;
+  text-decoration: none;
+  padding: 0.5rem 0.2rem;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.editorial-secondary-link::after {
+  content: '';
+  position: absolute;
+  left: 0.2rem;
+  bottom: 0.25rem;
+  width: calc(100% - 0.4rem);
+  height: 1.5px;
+  background-color: #073B24;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  transform-origin: left;
+}
+
+.editorial-secondary-link:hover {
+  color: #0D5C3A;
+}
+
+.editorial-secondary-link:hover::after {
+  background-color: #C98A1E;
+  transform: scaleX(1.06);
+}
+
+.editorial-link-arrow {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #C98A1E;
+}
+
+.editorial-secondary-link:hover .editorial-link-arrow {
+  transform: translateX(4px);
+}
+
+/* Microcopy */
+.editorial-microcopy {
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: #6C7A72;
+  margin: 0;
+  max-width: 520px;
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: Asymmetric Botanical Visual Composition
+   ========================================================================== */
+
+.editorial-hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.editorial-visual-stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+}
+
+/* Decorative Backdrop Aura & Amber Ring */
+.editorial-backdrop-aura {
+  position: absolute;
+  top: -12%;
+  right: -8%;
+  width: clamp(280px, 32vw, 420px);
+  height: clamp(280px, 32vw, 420px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(232, 245, 238, 0.8) 0%,
+    rgba(232, 245, 238, 0) 70%
+  );
+  z-index: 0;
+}
+
+.editorial-gold-ring {
+  position: absolute;
+  top: 10%;
+  left: -8%;
+  width: clamp(140px, 18vw, 220px);
+  height: clamp(140px, 18vw, 220px);
+  border-radius: 50%;
+  border: 1px dashed rgba(201, 138, 30, 0.35);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Primary Architectural Arch Frame */
+.editorial-arch-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 4.6;
+  border-radius: 240px 240px 32px 32px;
+  overflow: hidden;
+  background-color: #E8F5EE;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 28px 64px rgba(7, 59, 36, 0.12),
+              0 6px 16px rgba(0, 0, 0, 0.04);
+  z-index: 1;
+}
+
+.editorial-arch-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-arch-frame:hover .editorial-arch-image {
+  transform: scale(1.03);
+}
+
+.editorial-arch-glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(250, 248, 245, 0.04) 0%,
+    rgba(7, 59, 36, 0.25) 100%
+  );
+  pointer-events: none;
+}
+
+/* Secondary Circular Frame (Offset Layer) */
+.editorial-circle-frame {
+  position: absolute;
+  bottom: -24px;
+  left: -20px;
+  width: clamp(130px, 18vw, 190px);
+  height: clamp(130px, 18vw, 190px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #FAF8F5;
+  box-shadow: 0 16px 36px rgba(7, 59, 36, 0.14);
+  z-index: 2;
+  background-color: #E8F5EE;
+}
+
+.editorial-circle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.editorial-circle-frame:hover .editorial-circle-image {
+  transform: scale(1.05);
+}
+
+/* Floating Verification Tag */
+.editorial-floating-tag {
+  position: absolute;
+  bottom: 24px;
+  right: -16px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.7rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(13, 92, 58, 0.14);
+  box-shadow: 0 12px 30px rgba(7, 59, 36, 0.10);
+  z-index: 3;
+}
+
+.editorial-tag-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #E8F5EE;
+  color: #0D5C3A;
+  flex-shrink: 0;
+}
+
+.editorial-tag-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.editorial-tag-title {
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #073B24;
+  line-height: 1.2;
+}
+
+.editorial-tag-desc {
+  font-size: 0.7rem;
+  color: #6C7A72;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (360px to 1920px)
+   ========================================================================== */
+
+/* Large Desktop (>= 1280px) */
+@media (min-width: 1280px) {
+  .editorial-hero-grid {
+    grid-template-columns: 1.12fr 0.88fr;
+    min-height: clamp(520px, 72vh, 680px);
+  }
+}
+
+/* Desktop (1024px - 1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .editorial-hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3rem;
+  }
+  .editorial-arch-frame {
+    border-radius: 180px 180px 28px 28px;
+  }
+}
+
+/* Tablet screens (768px to 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .editorial-hero-section {
+    padding: 3.5rem 0 4rem;
+  }
+
+  .editorial-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .editorial-hero-content {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+  }
+
+  .editorial-hero-description {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .editorial-hero-actions {
+    justify-content: center;
+  }
+
+  .editorial-visual-stage {
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .editorial-circle-frame {
+    left: -10px;
+    bottom: -15px;
+  }
+
+  .editorial-floating-tag {
+    right: 0;
+    bottom: 15px;
+  }
+}
+
+/* Mobile Screens (< 768px: 360px, 375px, 390px, 430px) */
+@media (max-width: 767px) {
+  .editorial-hero-section {
+    padding: 1.75rem 0 2.25rem;
+  }
+
+  .editorial-hero-grid {
+    gap: 1.85rem;
+  }
+
+  .editorial-eyebrow-container {
+    margin-bottom: 0.85rem;
+    gap: 0.65rem;
+  }
+
+  .editorial-eyebrow-bar {
+    width: 20px;
+    height: 2px;
+  }
+
+  .editorial-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+  }
+
+  .editorial-hero-heading {
+    font-size: clamp(1.95rem, 1.7rem + 2.5vw, 2.55rem);
+    line-height: 1.15;
+    margin-bottom: 0.85rem;
+  }
+
+  .editorial-hero-description {
+    font-size: 0.98rem;
+    line-height: 1.58;
+    margin-bottom: 1.35rem;
+  }
+
+  .editorial-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .editorial-primary-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  .editorial-secondary-link {
+    justify-content: center;
+    padding: 0.65rem;
+  }
+
+  .editorial-visual-stage {
+    max-width: 320px;
+    margin: 0.5rem auto 0;
+  }
+
+  .editorial-arch-frame {
+    border-radius: 140px 140px 24px 24px;
+    aspect-ratio: 4 / 4.4;
+  }
+
+  .editorial-circle-frame {
+    width: 100px;
+    height: 100px;
+    left: -10px;
+    bottom: -12px;
+    border-width: 3px;
+  }
+
+  .editorial-floating-tag {
+    right: -8px;
+    bottom: 10px;
+    padding: 0.55rem 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .editorial-tag-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .editorial-tag-title {
+    font-size: 0.75rem;
+  }
+
+  .editorial-tag-desc {
+    font-size: 0.65rem;
+  }
+}
+
+/* Reduced Motion Compliance */
+@media (prefers-reduced-motion: reduce) {
+  .editorial-arch-image,
+  .editorial-circle-image,
+  .editorial-primary-btn,
+  .editorial-link-arrow,
+  .editorial-secondary-link::after {
+    transition: none !important;
+    transform: none !important;
+  }
+}

@@ -59,6 +59,27 @@
   z-index: 1;
 }
 
+/* Subtle botanical transition divider from Section 1 */
+.hero-transition-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: var(--space-6);
+  opacity: 0.75;
+}
+
+.hero-divider-line {
+  height: 1px;
+  width: clamp(60px, 14vw, 120px);
+  background: linear-gradient(90deg, transparent, rgba(13, 92, 58, 0.28), transparent);
+}
+
+.hero-divider-leaf {
+  color: var(--color-primary-green);
+  opacity: 0.7;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
