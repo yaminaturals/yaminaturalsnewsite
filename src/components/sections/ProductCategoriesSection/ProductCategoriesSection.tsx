@@ -157,6 +157,36 @@ export const ProductCategoriesSection: React.FC = () => {
             ))}
           </div>
         )}
+
+        {/* Section Bottom CTA ("View All Products") */}
+        {!loading && categories.length > 0 && (
+          <div className="categories-bottom-cta animate-fade-up delay-4">
+            <Button
+              to="/products"
+              variant="outline"
+              size="lg"
+              className="categories-all-btn"
+              iconRight={
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              }
+            >
+              View All Products
+            </Button>
+          </div>
+        )}
       </Container>
 
       {/* Full-Width Continuous Editorial Marquee Strip */}
@@ -209,38 +239,6 @@ export const ProductCategoriesSection: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Section Bottom CTA ("View All Products") */}
-      <Container size="default" className="categories-container">
-        {!loading && categories.length > 0 && (
-          <div className="categories-bottom-cta animate-fade-up delay-4">
-            <Button
-              to="/products"
-              variant="outline"
-              size="lg"
-              className="categories-all-btn"
-              iconRight={
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              }
-            >
-              View All Products
-            </Button>
-          </div>
-        )}
-      </Container>
     </section>
   );
 };

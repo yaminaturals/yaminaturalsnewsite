@@ -12,8 +12,8 @@
     rgba(232, 245, 238, 0.4) 0%,
     var(--color-bg-surface) 50%
   );
-  padding: clamp(3.5rem, 6.5vw, 5.5rem) 0;
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding: clamp(3.5rem, 6.5vw, 5.5rem) 0 0 0;
+  border-bottom: none;
 }
 
 /* Background Parallax Subtle Botanical Motif */
@@ -300,7 +300,7 @@
   display: flex;
   align-items: center;
   margin-top: clamp(2.5rem, 4.5vw, 3.5rem);
-  margin-bottom: clamp(2rem, 3.5vw, 2.75rem);
+  margin-bottom: 0;
   user-select: none;
   z-index: 2;
 }
@@ -395,7 +395,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0;
+  margin-top: clamp(2.5rem, 4.5vw, 3.75rem);
 }
 
 .categories-all-btn {
@@ -426,7 +426,7 @@
    ========================================================================== */
 @media (max-width: 767px) {
   .product-categories-section {
-    padding: 2.75rem 0 3.25rem;
+    padding: 2.75rem 0 0 0;
   }
 
   .categories-header {
@@ -479,7 +479,7 @@
   .categories-marquee-strip {
     height: clamp(58px, 12vw, 66px);
     margin-top: 2rem;
-    margin-bottom: 1.75rem;
+    margin-bottom: 0;
   }
 
   .marquee-item-text {
