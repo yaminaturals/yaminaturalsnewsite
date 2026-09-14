@@ -6,12 +6,8 @@
 .product-categories-section {
   position: relative;
   overflow: hidden;
-  background-color: var(--color-bg-surface);
-  background: radial-gradient(
-    circle at 10% 20%,
-    rgba(232, 245, 238, 0.4) 0%,
-    var(--color-bg-surface) 50%
-  );
+  background-color: #FAF8F5;
+  background: #FAF8F5;
   padding: clamp(3.5rem, 6.5vw, 5.5rem) 0 0 0;
   border-bottom: none;
 }

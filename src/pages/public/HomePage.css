@@ -1,4 +1,9 @@
-/* HomePage Specific Section Overrides (Hero is encapsulated in HeroSection.css) */
+/* HomePage Specific Section Overrides */
+
+.home-page {
+  background-color: #FAF8F5;
+  min-height: 100vh;
+}
 
 .trust-card-inner {
   display: flex;
