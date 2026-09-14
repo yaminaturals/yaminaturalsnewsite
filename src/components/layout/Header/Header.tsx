@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Container } from '../../ui/Container/Container';
 import { Button } from '../../ui/Button/Button';
 import { siteConfig } from '../../../config/siteConfig';
 import { categoryService } from '../../../services/CategoryService';
-import { ProductCategory } from '../../../types';
+import { productService } from '../../../services/ProductService';
+import { ProductCategory, Product } from '../../../types';
 import './Header.css';
 
 export interface HeaderProps {
@@ -18,6 +19,64 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // Cross-category live product search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Load all products for instant client-side search across all categories
+  useEffect(() => {
+    productService.getProducts().then((prods) => {
+      setAllProducts(prods);
+    });
+  }, []);
+
+  // Filter products when search query changes
+  useEffect(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) {
+      setSearchResults([]);
+      return;
+    }
+    const filtered = allProducts.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.botanicalName.toLowerCase().includes(q) ||
+      p.shortDescription.toLowerCase().includes(q) ||
+      (p.categoryName && p.categoryName.toLowerCase().includes(q)) ||
+      p.applications.some(app => app.toLowerCase().includes(q))
+    );
+    setSearchResults(filtered);
+  }, [searchQuery, allProducts]);
+
+  // Handle outside clicks to close search dropdown
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
+  // Handle search submission to product catalogue
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!searchQuery.trim()) return;
+    setIsSearchOpen(false);
+    navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+  };
+
+  const handleSelectProduct = (slug: string) => {
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    navigate(`/products/${slug}`);
+  };
 
   // Subscribe to dynamic categories from CategoryService
   useEffect(() => {
@@ -36,6 +95,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
       setIsProductsOpen(true);
     } else {
       setIsProductsOpen(false);
+    }
+
+    const testSearchParam = params.get('testSearch');
+    if (testSearchParam !== null) {
+      setIsSearchOpen(true);
+      if (testSearchParam !== 'true' && testSearchParam !== '') {
+        setSearchQuery(testSearchParam);
+      }
     }
   }, [location.pathname, location.search]);
 
@@ -164,18 +231,170 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
             <div className="header-top-left">
               <span className="header-top-tag">
                 <span className="header-top-leaf">🌿</span>
-                <span>Botanical & Natural Procurement Support</span>
+                <span>Certified and Natural Ingredients Manufacturer and Supplier</span>
               </span>
               <span className="header-top-divider">•</span>
               <span className="header-top-tag">
-                <span>Direct B2B & B2C Sourcing Desk</span>
+                <span>Direct B2B & B2C Supplier</span>
               </span>
             </div>
             <div className="header-top-right">
-              <Link to="/faq" className="header-top-link">
-                Procurement FAQ
-              </Link>
+              {/* Product Search across all categories */}
+              <div className="header-top-search-wrap" ref={searchContainerRef}>
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className={`header-top-search-form ${isSearchOpen ? 'active' : ''}`}
+                  role="search"
+                  aria-label="Search all products"
+                >
+                  <svg
+                    className="header-top-search-icon"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                  <input
+                    ref={searchInputRef}
+                    type="search"
+                    className="header-top-search-input"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setIsSearchOpen(true);
+                    }}
+                    onFocus={() => setIsSearchOpen(true)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') {
+                        setIsSearchOpen(false);
+                        searchInputRef.current?.blur();
+                      }
+                    }}
+                    aria-label="Search product list across all categories"
+                    aria-expanded={isSearchOpen}
+                    aria-controls="header-search-results"
+                    autoComplete="off"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      className="header-top-search-clear"
+                      onClick={() => {
+                        setSearchQuery('');
+                        searchInputRef.current?.focus();
+                      }}
+                      aria-label="Clear search input"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </form>
+
+                {/* Instant Search Results Dropdown */}
+                {isSearchOpen && (
+                  <div
+                    id="header-search-results"
+                    className="header-search-dropdown"
+                    role="region"
+                    aria-label="Product Search Results"
+                  >
+                    {searchQuery.trim() === '' ? (
+                      <div className="search-dropdown-suggest">
+                        <div className="search-suggest-header">
+                          <span className="search-suggest-title">Popular Botanical Searches</span>
+                          <span className="search-suggest-badge">All Categories</span>
+                        </div>
+                        <div className="search-suggest-chips">
+                          {['Ashwagandha', 'Curcumin 95%', 'Moringa Powder', 'Spirulina', 'Herbal Extracts', 'Natural Oils', 'Cosmetic Clays'].map(
+                            (term) => (
+                              <button
+                                key={term}
+                                type="button"
+                                className="search-suggest-chip"
+                                onClick={() => {
+                                  setSearchQuery(term);
+                                  setIsSearchOpen(true);
+                                }}
+                              >
+                                {term}
+                              </button>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    ) : searchResults.length > 0 ? (
+                      <div className="search-results-list">
+                        <div className="search-results-header">
+                          <span>
+                            Found <strong>{searchResults.length}</strong> product{searchResults.length > 1 ? 's' : ''} across all categories
+                          </span>
+                        </div>
+                        <div className="search-results-items">
+                          {searchResults.slice(0, 6).map((item) => (
+                            <button
+                              key={item.id}
+                              type="button"
+                              className="search-result-item"
+                              onClick={() => handleSelectProduct(item.slug)}
+                            >
+                              <div className="search-item-leaf-icon">🌿</div>
+                              <div className="search-item-info">
+                                <div className="search-item-row">
+                                  <span className="search-item-name">{item.name}</span>
+                                  {item.categoryName && (
+                                    <span className="search-item-cat">{item.categoryName}</span>
+                                  )}
+                                </div>
+                                <span className="search-item-botanical">{item.botanicalName}</span>
+                                <span className="search-item-desc">{item.shortDescription}</span>
+                              </div>
+                              <span className="search-item-arrow" aria-hidden="true">→</span>
+                            </button>
+                          ))}
+                        </div>
+                        <div className="search-results-footer">
+                          <button
+                            type="button"
+                            className="search-view-all-btn"
+                            onClick={() => handleSearchSubmit()}
+                          >
+                            <span>Explore all {searchResults.length} matching products in catalogue</span>
+                            <span aria-hidden="true">→</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="search-empty-state">
+                        <p className="search-empty-text">
+                          No products found matching &ldquo;<strong>{searchQuery}</strong>&rdquo;.
+                        </p>
+                        <p className="search-empty-sub">
+                          Looking for a specialized extraction ratio, custom mesh size, or rare botanical?
+                        </p>
+                        <Link
+                          to="/submit-requirement"
+                          className="search-empty-link"
+                          onClick={() => setIsSearchOpen(false)}
+                        >
+                          Submit Custom Procurement Requirement →
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
               <span className="header-top-bullet">•</span>
+
               <Link to="/contact" className="header-top-link">
                 Contact Desk
               </Link>
@@ -195,8 +414,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                   src={siteConfig.brand.logoPath}
                   alt="Yami Naturals"
                   className="brand-logo-img"
-                  width="180"
-                  height="48"
+                  width="210"
+                  height="58"
                   loading="eager"
                 />
               </Link>

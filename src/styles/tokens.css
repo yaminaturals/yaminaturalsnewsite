@@ -114,8 +114,8 @@
   --container-wide-max-width: 1440px;
   --container-padding: clamp(14px, 3.5vw, 24px);
 
-  --header-height: 80px;
-  --header-height-mobile: 68px;
+  --header-height: 84px;
+  --header-height-mobile: 72px;
 
   --space-1: 0.25rem;   /* 4px */
   --space-2: 0.5rem;    /* 8px */

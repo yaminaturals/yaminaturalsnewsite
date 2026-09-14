@@ -11,11 +11,17 @@ import { Product, ProductCategory } from '../../types';
 export const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategorySlug = searchParams.get('category') || '';
+  const urlSearch = searchParams.get('search') || searchParams.get('q') || '';
 
   const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(urlSearch);
   const [loading, setLoading] = useState(true);
+
+  // Sync state if URL search query changes
+  useEffect(() => {
+    setSearchQuery(urlSearch);
+  }, [urlSearch]);
 
   useEffect(() => {
     categoryService.getCategories().then(setCategories);
@@ -39,12 +45,26 @@ export const ProductsPage: React.FC = () => {
   }, [activeCategorySlug, searchQuery, categories]);
 
   const handleCategorySelect = (slug: string) => {
+    const nextParams = new URLSearchParams(searchParams);
     if (slug === activeCategorySlug) {
-      searchParams.delete('category');
-      setSearchParams(searchParams);
+      nextParams.delete('category');
     } else {
-      setSearchParams({ category: slug });
+      nextParams.set('category', slug);
     }
+    setSearchParams(nextParams);
+  };
+
+  const handleSearchChange = (val: string) => {
+    setSearchQuery(val);
+    const nextParams = new URLSearchParams(searchParams);
+    if (val.trim()) {
+      nextParams.set('search', val);
+      nextParams.delete('q');
+    } else {
+      nextParams.delete('search');
+      nextParams.delete('q');
+    }
+    setSearchParams(nextParams, { replace: true });
   };
 
   return (
@@ -66,7 +86,7 @@ export const ProductsPage: React.FC = () => {
               type="text"
               placeholder="Search by ingredient name, botanical name, or use..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               style={{
                 width: '100%',
                 padding: '0.75rem 1.25rem',

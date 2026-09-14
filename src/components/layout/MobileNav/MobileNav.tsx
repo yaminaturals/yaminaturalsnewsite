@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../ui/Button/Button';
 import { siteConfig } from '../../../config/siteConfig';
 import { categoryService } from '../../../services/CategoryService';
@@ -14,8 +14,10 @@ export interface MobileNavProps {
 export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   const [isProductsExpanded, setIsProductsExpanded] = useState(false);
   const [categories, setCategories] = useState<ProductCategory[]>([]);
+  const [mobileSearchQuery, setMobileSearchQuery] = useState('');
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Subscribe to dynamic categories from CategoryService
   useEffect(() => {
@@ -89,8 +91,8 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
               src={siteConfig.brand.logoPath}
               alt="Yami Naturals"
               className="mobile-nav-logo"
-              width="150"
-              height="38"
+              width="170"
+              height="44"
             />
           </Link>
           <button
@@ -105,6 +107,55 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
+        </div>
+
+        {/* Mobile Search Bar across all categories */}
+        <div className="mobile-nav-search-section">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (mobileSearchQuery.trim()) {
+                onClose();
+                navigate(`/products?search=${encodeURIComponent(mobileSearchQuery.trim())}`);
+              }
+            }}
+            className="mobile-nav-search-form"
+            role="search"
+          >
+            <svg
+              className="mobile-nav-search-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="search"
+              className="mobile-nav-search-input"
+              placeholder="Search all botanical products..."
+              value={mobileSearchQuery}
+              onChange={(e) => setMobileSearchQuery(e.target.value)}
+              aria-label="Search all products across categories"
+            />
+            {mobileSearchQuery && (
+              <button
+                type="button"
+                className="mobile-nav-search-clear"
+                onClick={() => setMobileSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </form>
         </div>
 
         {/* Navigation Links with Products Accordion */}

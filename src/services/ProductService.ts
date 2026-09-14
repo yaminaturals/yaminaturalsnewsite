@@ -53,6 +53,7 @@ class ProductService implements IProductService {
           p.name.toLowerCase().includes(q) ||
           p.botanicalName.toLowerCase().includes(q) ||
           p.shortDescription.toLowerCase().includes(q) ||
+          (p.categoryName && p.categoryName.toLowerCase().includes(q)) ||
           p.applications.some(app => app.toLowerCase().includes(q))
         );
       }
