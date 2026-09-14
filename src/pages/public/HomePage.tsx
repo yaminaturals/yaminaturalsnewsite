@@ -1,7 +1,5 @@
 import React from 'react';
 import { EditorialHeroSection } from '../../components/sections/EditorialHeroSection/EditorialHeroSection';
-import { HeroSection } from '../../components/sections/HeroSection/HeroSection';
-import { CapabilityStrip } from '../../components/sections/CapabilityStrip/CapabilityStrip';
 import { ProductCategoriesSection } from '../../components/sections/ProductCategoriesSection/ProductCategoriesSection';
 import { ProcurementSection } from '../../components/sections/ProcurementSection';
 import { RequirementCtaSection } from '../../components/sections/RequirementCtaSection';
@@ -16,16 +14,10 @@ import './HomePage.css';
 export const HomePage: React.FC = () => {
   return (
     <div className="home-page animate-fade-in">
-      {/* 1. SECTION 1 — NEW EDITORIAL HERO (Brand Introduction & Sourcing Vision) */}
+      {/* 1. HERO SECTION (Brand Introduction & Sourcing Vision) */}
       <EditorialHeroSection />
 
-      {/* 2. SECTION 2 — EXISTING CURRENT HERO (Natural Ingredient & Product Visual) */}
-      <HeroSection />
-
-      {/* 3. CAPABILITY / OFFERING STRIP (Step 5B: Breadth of Natural Offerings) */}
-      <CapabilityStrip />
-
-      {/* 3. PRODUCT CATEGORIES (Step 5C: Editorial Natural Catalogue) */}
+      {/* 2. PRODUCT CATEGORIES (Editorial Natural Catalogue) */}
       <ProductCategoriesSection />
 
       {/* 4. PROCUREMENT / SOURCING SECTION (Step 5D: Tell Us What You Need) */}
