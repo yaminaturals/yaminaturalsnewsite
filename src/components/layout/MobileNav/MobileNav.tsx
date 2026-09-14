@@ -3,7 +3,8 @@ import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../ui/Button/Button';
 import { siteConfig } from '../../../config/siteConfig';
 import { categoryService } from '../../../services/CategoryService';
-import { ProductCategory } from '../../../types';
+import { productService } from '../../../services/ProductService';
+import { ProductCategory, Product } from '../../../types';
 import './MobileNav.css';
 
 export interface MobileNavProps {
@@ -15,9 +16,37 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   const [isProductsExpanded, setIsProductsExpanded] = useState(false);
   const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [mobileSearchQuery, setMobileSearchQuery] = useState('');
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchSectionRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Load all products for live cross-category search
+  useEffect(() => {
+    productService.getProducts().then((prods) => {
+      setAllProducts(prods);
+    });
+  }, []);
+
+  // Filter products across all categories when query changes
+  useEffect(() => {
+    const q = mobileSearchQuery.trim().toLowerCase();
+    if (!q) {
+      setSearchResults([]);
+      return;
+    }
+    const filtered = allProducts.filter((p) =>
+      p.name.toLowerCase().includes(q) ||
+      p.botanicalName.toLowerCase().includes(q) ||
+      p.shortDescription.toLowerCase().includes(q) ||
+      (p.categoryName && p.categoryName.toLowerCase().includes(q)) ||
+      p.applications.some((app) => app.toLowerCase().includes(q))
+    );
+    setSearchResults(filtered);
+  }, [mobileSearchQuery, allProducts]);
 
   // Subscribe to dynamic categories from CategoryService
   useEffect(() => {
@@ -29,13 +58,22 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
     };
   }, []);
 
-  // Open accordion if current route is within products or testDrawer is active
+  const prevIsOpen = useRef(isOpen);
+
+  // Open accordion or populate search if URL parameters are set
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    if (location.pathname.startsWith('/products') || params.get('testDrawer') === 'true') {
-      setIsProductsExpanded(true);
+    if (isOpen) {
+      const params = new URLSearchParams(location.search);
+      if (location.pathname.startsWith('/products') || params.get('testDrawer') === 'true') {
+        setIsProductsExpanded(true);
+      }
+      const testSearch = params.get('testMobileSearch');
+      if (testSearch) {
+        setMobileSearchQuery(testSearch);
+        setIsSearchFocused(true);
+      }
     }
-  }, [location.pathname, location.search]);
+  }, [isOpen, location.pathname, location.search]);
 
   // Lock background scroll when drawer is active
   useEffect(() => {
@@ -66,6 +104,43 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
+
+  // Close search suggestions when clicking outside search section
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (searchSectionRef.current && !searchSectionRef.current.contains(e.target as Node)) {
+        if (!mobileSearchQuery.trim()) {
+          setIsSearchFocused(false);
+        }
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [mobileSearchQuery]);
+
+  // Reset search state when drawer closes
+  useEffect(() => {
+    if (prevIsOpen.current && !isOpen) {
+      setMobileSearchQuery('');
+      setSearchResults([]);
+      setIsSearchFocused(false);
+    }
+    prevIsOpen.current = isOpen;
+  }, [isOpen]);
+
+  const handleSelectProduct = (slug: string) => {
+    onClose();
+    setMobileSearchQuery('');
+    navigate(`/products/${slug}`);
+  };
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (mobileSearchQuery.trim()) {
+      onClose();
+      navigate(`/products?search=${encodeURIComponent(mobileSearchQuery.trim())}`);
+    }
+  };
 
   return (
     <>
@@ -110,17 +185,12 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Mobile Search Bar across all categories */}
-        <div className="mobile-nav-search-section">
+        <div className="mobile-nav-search-section" ref={searchSectionRef}>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (mobileSearchQuery.trim()) {
-                onClose();
-                navigate(`/products?search=${encodeURIComponent(mobileSearchQuery.trim())}`);
-              }
-            }}
-            className="mobile-nav-search-form"
+            onSubmit={handleSearchSubmit}
+            className={`mobile-nav-search-form ${mobileSearchQuery ? 'has-query' : ''}`}
             role="search"
+            aria-label="Search all products"
           >
             <svg
               className="mobile-nav-search-icon"
@@ -142,20 +212,116 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
               className="mobile-nav-search-input"
               placeholder="Search all botanical products..."
               value={mobileSearchQuery}
-              onChange={(e) => setMobileSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setMobileSearchQuery(e.target.value);
+                setIsSearchFocused(true);
+              }}
+              onFocus={() => setIsSearchFocused(true)}
               aria-label="Search all products across categories"
+              autoComplete="off"
             />
             {mobileSearchQuery && (
               <button
                 type="button"
                 className="mobile-nav-search-clear"
-                onClick={() => setMobileSearchQuery('')}
+                onClick={() => {
+                  setMobileSearchQuery('');
+                  setSearchResults([]);
+                }}
                 aria-label="Clear search"
               >
                 ✕
               </button>
             )}
           </form>
+
+          {/* Live Mobile Search Results List (Below Input while typing or focused) */}
+          {(mobileSearchQuery.trim() !== '' || isSearchFocused) && (
+            <div className="mobile-search-results-panel" role="region" aria-label="Search Results">
+              {mobileSearchQuery.trim() === '' ? (
+                <div className="mobile-search-suggest">
+                  <div className="mobile-search-suggest-header">
+                    <span>Popular Botanical Searches</span>
+                    <span className="mobile-search-badge">Quick Tap</span>
+                  </div>
+                  <div className="mobile-search-chips">
+                    {['Ashwagandha', 'Curcumin 95%', 'Moringa Powder', 'Spirulina', 'Natural Oils', 'Extracts'].map((term) => (
+                      <button
+                        key={term}
+                        type="button"
+                        className="mobile-search-chip"
+                        onClick={() => {
+                          setMobileSearchQuery(term);
+                        }}
+                      >
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : searchResults.length > 0 ? (
+                <>
+                  <div className="mobile-search-header">
+                    <span>
+                      Found <strong>{searchResults.length}</strong> product{searchResults.length > 1 ? 's' : ''}
+                    </span>
+                    <span className="mobile-search-badge">All Categories</span>
+                  </div>
+
+                  <div className="mobile-search-list">
+                    {searchResults.slice(0, 8).map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        className="mobile-search-item"
+                        onClick={() => handleSelectProduct(item.slug)}
+                      >
+                        <div className="mobile-search-item-leaf">🌿</div>
+                        <div className="mobile-search-item-details">
+                          <div className="mobile-search-item-top">
+                            <span className="mobile-search-item-name">{item.name}</span>
+                            {item.categoryName && (
+                              <span className="mobile-search-item-category">{item.categoryName}</span>
+                            )}
+                          </div>
+                          <span className="mobile-search-item-botanical">{item.botanicalName}</span>
+                          <span className="mobile-search-item-desc">{item.shortDescription}</span>
+                        </div>
+                        <span className="mobile-search-item-arrow" aria-hidden="true">→</span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="mobile-search-footer">
+                    <button
+                      type="button"
+                      className="mobile-search-all-btn"
+                      onClick={() => handleSearchSubmit()}
+                    >
+                      <span>Explore all {searchResults.length} matching products</span>
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="mobile-search-empty">
+                  <p className="mobile-search-empty-title">
+                    No products found for &ldquo;<strong>{mobileSearchQuery}</strong>&rdquo;
+                  </p>
+                  <p className="mobile-search-empty-text">
+                    Looking for a custom ratio, mesh size, or rare botanical?
+                  </p>
+                  <Link
+                    to="/submit-requirement"
+                    className="mobile-search-empty-link"
+                    onClick={onClose}
+                  >
+                    Submit Custom Requirement →
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Navigation Links with Products Accordion */}
