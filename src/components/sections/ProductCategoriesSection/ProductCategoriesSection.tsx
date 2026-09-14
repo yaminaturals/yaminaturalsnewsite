@@ -7,6 +7,15 @@ import { categoryService } from '../../../services/CategoryService';
 import { ProductCategory } from '../../../types';
 import './ProductCategoriesSection.css';
 
+const MARQUEE_PHRASES = [
+  'Ancient Wisdom',
+  'Modern Wellness',
+  'Bulk & Private Label',
+  'Rooted in Nature',
+  'Backed by Science',
+  'Made for You',
+];
+
 export const ProductCategoriesSection: React.FC = () => {
   const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -148,8 +157,61 @@ export const ProductCategoriesSection: React.FC = () => {
             ))}
           </div>
         )}
+      </Container>
 
-        {/* Section Bottom CTA */}
+      {/* Full-Width Continuous Editorial Marquee Strip */}
+      {!loading && categories.length > 0 && (
+        <div
+          className="categories-marquee-strip"
+          aria-hidden="true"
+          role="presentation"
+        >
+          <div className="categories-marquee-track">
+            {/* Sequence 1 */}
+            <div className="categories-marquee-sequence">
+              {MARQUEE_PHRASES.map((phrase, idx) => (
+                <React.Fragment key={`marquee-1-${idx}`}>
+                  <span className="marquee-item-text">{phrase}</span>
+                  <span className="marquee-bullet">•</span>
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Sequence 2 */}
+            <div className="categories-marquee-sequence">
+              {MARQUEE_PHRASES.map((phrase, idx) => (
+                <React.Fragment key={`marquee-2-${idx}`}>
+                  <span className="marquee-item-text">{phrase}</span>
+                  <span className="marquee-bullet">•</span>
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Sequence 3 */}
+            <div className="categories-marquee-sequence">
+              {MARQUEE_PHRASES.map((phrase, idx) => (
+                <React.Fragment key={`marquee-3-${idx}`}>
+                  <span className="marquee-item-text">{phrase}</span>
+                  <span className="marquee-bullet">•</span>
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Sequence 4 */}
+            <div className="categories-marquee-sequence">
+              {MARQUEE_PHRASES.map((phrase, idx) => (
+                <React.Fragment key={`marquee-4-${idx}`}>
+                  <span className="marquee-item-text">{phrase}</span>
+                  <span className="marquee-bullet">•</span>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Section Bottom CTA ("View All Products") */}
+      <Container size="default" className="categories-container">
         {!loading && categories.length > 0 && (
           <div className="categories-bottom-cta animate-fade-up delay-4">
             <Button
