@@ -1,0 +1,10 @@
+# Robots.txt for Yami Naturals (https://yaminaturals.com)
+User-agent: *
+Allow: /
+
+# Disallow admin and internal portal utilities
+Disallow: /admin/
+Disallow: /admin
+
+# Canonical XML Sitemap
+Sitemap: https://yaminaturals.com/sitemap.xml

@@ -1,10 +1,21 @@
 import React from 'react';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Card } from '../../components/ui/Card/Card';
 
 export const PrivacyPolicyPage: React.FC = () => {
   return (
     <div style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+      <SEO
+        title="Privacy Policy | Yami Naturals"
+        description="Privacy policy and data handling practices for Yami Naturals procurement inquiries and requirement registrations."
+        canonicalPath="/privacy-policy"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Privacy Policy', url: '/privacy-policy' },
+        ])}
+      />
       <Container size="narrow">
         <h1>Privacy Policy</h1>
         <p className="text-muted" style={{ marginBottom: 'var(--space-6)' }}>

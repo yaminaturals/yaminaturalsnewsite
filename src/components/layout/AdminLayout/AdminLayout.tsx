@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
+import { SEO } from '../../common/SEO';
 import { siteConfig } from '../../../config/siteConfig';
 import { authService } from '../../../services/AuthService';
 import './AdminLayout.css';
@@ -14,6 +15,10 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="admin-shell">
+      <SEO
+        title="Admin Management Portal"
+        noindex={true}
+      />
       {/* Sidebar */}
       <aside className="admin-sidebar" aria-label="Admin Navigation">
         <div className="admin-sidebar-brand">

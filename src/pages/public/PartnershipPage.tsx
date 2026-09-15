@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Button } from '../../components/ui/Button/Button';
 import { Badge } from '../../components/ui/Badge/Badge';
@@ -9,6 +11,15 @@ import './PartnershipPage.css';
 export const PartnershipPage: React.FC = () => {
   return (
     <div className="partnership-page animate-fade-in">
+      <SEO
+        title="Procurement & Supply Partnerships | B2B Botanical Alliances"
+        description="Strategic botanical procurement and supply alliances. Partner with Yami Naturals for verified herbal extracts, contract compounding, and global export support."
+        canonicalPath="/partnership"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Partnership', url: '/partnership' },
+        ])}
+      />
       {/* Hero Section */}
       <section className="partnership-hero">
         <Container size="default">

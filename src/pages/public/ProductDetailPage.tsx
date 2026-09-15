@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { SEO } from '../../components/common/SEO';
+import { generateProductSchema, generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Button } from '../../components/ui/Button/Button';
 import { Card } from '../../components/ui/Card/Card';
@@ -24,6 +26,10 @@ export const ProductDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div style={{ padding: 'var(--space-20) 0', textAlign: 'center' }}>
+        <SEO
+          title="Loading Product..."
+          noindex={true}
+        />
         <Container size="default">
           <p className="text-muted">Loading technical monograph...</p>
         </Container>
@@ -34,6 +40,11 @@ export const ProductDetailPage: React.FC = () => {
   if (!product) {
     return (
       <div style={{ padding: 'var(--space-20) 0', textAlign: 'center' }}>
+        <SEO
+          title="Product Not Found"
+          description="The requested botanical material or technical monograph could not be located."
+          noindex={true}
+        />
         <Container size="default">
           <h2>Product Not Found</h2>
           <p className="text-muted" style={{ marginBottom: 'var(--space-4)' }}>
@@ -47,8 +58,26 @@ export const ProductDetailPage: React.FC = () => {
     );
   }
 
+  const seoTitle = product.seo?.title || `${product.name} | Botanical Sourcing`;
+  const seoDesc = product.seo?.description || product.shortDescription || `${product.name} (${product.botanicalName}) technical specifications, Certificate of Analysis, and bulk procurement options.`;
+
   return (
     <div className="product-detail-page animate-fade-in" style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+      <SEO
+        title={seoTitle}
+        description={seoDesc}
+        canonicalPath={`/products/${product.slug}`}
+        ogType="product"
+        ogImage={product.primaryImage}
+        structuredData={[
+          generateProductSchema(product),
+          generateBreadcrumbSchema([
+            { name: 'Home', url: '/' },
+            { name: 'Products', url: '/products' },
+            { name: product.name, url: `/products/${product.slug}` },
+          ]),
+        ]}
+      />
       <Container size="default">
         {/* Breadcrumb Navigation */}
         <nav style={{ display: 'flex', gap: 'var(--space-2)', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-subtle)', marginBottom: 'var(--space-4)' }}>

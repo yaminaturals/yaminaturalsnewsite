@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Card } from '../../components/ui/Card/Card';
 import { Button } from '../../components/ui/Button/Button';
@@ -33,6 +35,15 @@ export const ContactPage: React.FC = () => {
 
   return (
     <div className="contact-page animate-fade-in" style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+      <SEO
+        title="Contact Yami Naturals | Botanical Procurement Desk"
+        description="Connect with the Yami Naturals procurement desk. Inquire about custom botanical extracts, volume availability, assay specifications, and partnership opportunities."
+        canonicalPath="/contact"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Contact', url: '/contact' },
+        ])}
+      />
       <Container size="default">
         <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto var(--space-10)' }}>
           <span className="eyebrow">Connect With Us</span>

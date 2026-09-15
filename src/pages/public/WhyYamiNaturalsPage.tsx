@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Button } from '../../components/ui/Button/Button';
 import { Badge } from '../../components/ui/Badge/Badge';
@@ -10,6 +12,15 @@ import './WhyYamiNaturalsPage.css';
 export const WhyYamiNaturalsPage: React.FC = () => {
   return (
     <div className="why-yami-page animate-fade-in">
+      <SEO
+        title="Why Yami Naturals | Quality Standards & Sourcing Integrity"
+        description="Discover why global brands choose Yami Naturals for botanical sourcing. Explore our quality pillars, assay verification, and requirement-first approach."
+        canonicalPath="/why-yami-naturals"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Why Yami Naturals', url: '/why-yami-naturals' },
+        ])}
+      />
       {/* Hero Section */}
       <section className="why-hero-section">
         <Container size="default">

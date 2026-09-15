@@ -1,4 +1,6 @@
 import React from 'react';
+import { SEO } from '../../components/common/SEO';
+import { generateOrganizationSchema, generateWebSiteSchema } from '../../utils/seoSchemas';
 import { EditorialHeroSection } from '../../components/sections/EditorialHeroSection/EditorialHeroSection';
 import { ProductCategoriesSection } from '../../components/sections/ProductCategoriesSection/ProductCategoriesSection';
 import { WhyYamiSection } from '../../components/sections/WhyYamiSection';
@@ -9,6 +11,12 @@ import './HomePage.css';
 export const HomePage: React.FC = () => {
   return (
     <div className="home-page animate-fade-in">
+      <SEO
+        title="Herbal & Natural Products Procurement"
+        description="Procurement and product-support platform for verified herbal powders, standardized extracts, natural carrier oils, cosmetic clays, and nutraceutical raw ingredients for B2B & B2C."
+        canonicalPath="/"
+        structuredData={[generateOrganizationSchema(), generateWebSiteSchema()]}
+      />
       {/* 1. HERO SECTION (Brand Introduction & Sourcing Vision) */}
       <EditorialHeroSection />
 

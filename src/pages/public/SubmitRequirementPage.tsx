@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Card } from '../../components/ui/Card/Card';
 import { Button } from '../../components/ui/Button/Button';
@@ -166,6 +168,15 @@ export const SubmitRequirementPage: React.FC = () => {
 
   return (
     <div className="wizard-page animate-fade-in" style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+      <SEO
+        title="Submit Sourcing Requirement | Custom Botanical Procurement"
+        description="Submit your herbal ingredient requirements, custom assay specifications, bulk volumes, or packaging preferences for direct sourcing support."
+        canonicalPath="/submit-requirement"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Submit Requirement', url: '/submit-requirement' },
+        ])}
+      />
       <Container size="default">
         <div className="wizard-container">
           {/* Header */}

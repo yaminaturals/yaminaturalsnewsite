@@ -1,10 +1,21 @@
 import React from 'react';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Card } from '../../components/ui/Card/Card';
 
 export const TermsConditionsPage: React.FC = () => {
   return (
     <div style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+      <SEO
+        title="Terms & Conditions | Yami Naturals"
+        description="Terms and conditions for utilizing the Yami Naturals botanical procurement portal and technical specification dossiers."
+        canonicalPath="/terms-conditions"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Terms & Conditions', url: '/terms-conditions' },
+        ])}
+      />
       <Container size="narrow">
         <h1>Terms & Conditions</h1>
         <p className="text-muted" style={{ marginBottom: 'var(--space-6)' }}>

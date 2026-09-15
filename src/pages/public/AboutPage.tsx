@@ -1,9 +1,21 @@
 import React from 'react';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { PagePlaceholder } from '../../components/common/PagePlaceholder/PagePlaceholder';
 
 export const AboutPage: React.FC = () => {
   return (
-    <PagePlaceholder
+    <>
+      <SEO
+        title="About Yami Naturals | Natural Product & Sourcing Support"
+        description="Learn about Yami Naturals, our heritage, botanical standards, ethical procurement, and direct partnerships with verified herbal growers."
+        canonicalPath="/about"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'About', url: '/about' },
+        ])}
+      />
+      <PagePlaceholder
       title="About Yami Naturals"
       subtitle="Dedicated to botanical integrity, ethical procurement, and bridging growers with global formulators."
       categoryTag="Our Heritage & Standards"
@@ -24,6 +36,7 @@ export const AboutPage: React.FC = () => {
           description: 'Serving diverse compounding needs across nutraceutical, cosmetic, personal care, and wellness sectors.'
         }
       ]}
-    />
+      />
+    </>
   );
 };

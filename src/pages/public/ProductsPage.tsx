@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { SEO } from '../../components/common/SEO';
+import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { Card } from '../../components/ui/Card/Card';
 import { Badge } from '../../components/ui/Badge/Badge';
@@ -67,8 +69,26 @@ export const ProductsPage: React.FC = () => {
     setSearchParams(nextParams, { replace: true });
   };
 
+  const currentCategory = categories.find(c => c.slug === activeCategorySlug);
+  const pageTitle = currentCategory 
+    ? `${currentCategory.name} - Botanical Materials` 
+    : 'Herbal & Natural Products Catalogue';
+  const pageDescription = currentCategory
+    ? `Explore our verified supply of ${currentCategory.name.toLowerCase()} for formulation, nutraceutical compounding, and bulk procurement.`
+    : 'Search our verified catalogue of herbal powders, standardized extracts, oils, clays, and formulation ingredients for B2B and B2C.';
+
   return (
     <div className="products-page animate-fade-in" style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+      <SEO
+        title={pageTitle}
+        description={pageDescription}
+        canonicalPath="/products"
+        structuredData={generateBreadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Products', url: '/products' },
+          ...(currentCategory ? [{ name: currentCategory.name, url: `/products?category=${currentCategory.slug}` }] : []),
+        ])}
+      />
       <Container size="wide">
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto var(--space-8)' }}>

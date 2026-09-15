@@ -1,4 +1,5 @@
 import React from 'react';
+import { SEO } from '../../components/common/SEO';
 import { Container } from '../../components/ui/Container/Container';
 import { Button } from '../../components/ui/Button/Button';
 import { Card } from '../../components/ui/Card/Card';
@@ -6,6 +7,11 @@ import { Card } from '../../components/ui/Card/Card';
 export const NotFoundPage: React.FC = () => {
   return (
     <div style={{ padding: 'clamp(4rem, 8vw, 8rem) 0', textAlign: 'center' }}>
+      <SEO
+        title="Page Not Found (404)"
+        description="The requested page could not be found."
+        noindex={true}
+      />
       <Container size="narrow">
         <Card variant="surface" padding="lg">
           <div style={{ fontSize: '3.5rem', marginBottom: 'var(--space-2)' }}>🍃</div>

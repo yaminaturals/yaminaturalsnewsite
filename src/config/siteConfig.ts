@@ -4,11 +4,20 @@
  * by the client are explicitly marked with placeholders rather than assumed.
  */
 export const siteConfig = {
+  siteUrl: import.meta.env.VITE_SITE_URL || 'https://yaminaturals.com',
   brand: {
     name: 'Yami Naturals',
-    tagline: 'Natural & Herbal Procurement Platform',
+    legalName: 'Yami Naturals Pvt. Ltd.',
+    tagline: 'Herbal & Natural Products Procurement Platform',
     mission: 'Bridging certified botanical sourcing and precision product support for B2B and B2C clients.',
     logoPath: '/logo.png',
+    defaultOgImage: '/images/hero-botanicals.jpg',
+  },
+  seo: {
+    titleTemplate: '%s | Yami Naturals',
+    defaultTitle: 'Yami Naturals | Herbal & Natural Products Procurement',
+    defaultDescription: 'Procurement and product-support platform for verified herbal powders, standardized extracts, natural carrier oils, cosmetic clays, and nutraceutical raw ingredients for B2B & B2C.',
+    twitterCard: 'summary_large_image',
   },
   contact: {
     // Official client details to be confirmed

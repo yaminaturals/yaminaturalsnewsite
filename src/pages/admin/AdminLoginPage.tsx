@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { SEO } from '../../components/common/SEO';
 import { Card } from '../../components/ui/Card/Card';
 import { Button } from '../../components/ui/Button/Button';
 import { authService } from '../../services/AuthService';
@@ -33,6 +34,10 @@ export const AdminLoginPage: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-bg-base)', padding: 'var(--space-6)' }}>
+      <SEO
+        title="Admin Portal Login"
+        noindex={true}
+      />
       <div style={{ width: '100%', maxWidth: '440px' }}>
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
           <Link to="/">
