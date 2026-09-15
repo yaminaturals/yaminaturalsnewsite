@@ -25,9 +25,9 @@ export const AdminLeads: React.FC = () => {
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--space-4)', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: 'var(--space-4)' }}>
         <div>
-          <h2 style={{ margin: 0, color: 'var(--color-primary-900)' }}>Contact Leads & Customer Inquiries</h2>
-          <p className="text-sm text-muted" style={{ margin: 'var(--space-1) 0 0' }}>
-            Inbound general contact messages and sourcing inquiries submitted through <code>/contact</code>.
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#111827', margin: 0 }}>Direct Leads</h1>
+          <p style={{ fontSize: '0.875rem', color: '#6B7280', margin: '0.25rem 0 0' }}>
+            Inbound customer inquiries submitted through the public website <code>/contact</code> form.
           </p>
         </div>
         <div style={{ display: 'flex', gap: 'var(--space-2)' }}>

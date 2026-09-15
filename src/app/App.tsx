@@ -86,8 +86,10 @@ export const App: React.FC = () => {
           <Route path="requirements" element={<AdminRequirements />} />
           <Route path="enquiries" element={<Navigate to="/admin/requirements" replace />} />
           <Route path="leads" element={<AdminLeads />} />
+          <Route path="direct-leads" element={<Navigate to="/admin/leads" replace />} />
           <Route path="users" element={<Navigate to="/admin/leads" replace />} />
           <Route path="content" element={<AdminContent />} />
+          <Route path="website-manager" element={<Navigate to="/admin/content" replace />} />
           <Route path="media" element={<AdminMedia />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="analytics" element={<AdminAnalytics />} />

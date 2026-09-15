@@ -16,9 +16,6 @@ import {
   IconEnquiries,
   IconUsers,
   IconContent,
-  IconMedia,
-  IconOrders,
-  IconAnalytics,
   IconSEO,
   IconSettings,
   IconSearch,
@@ -162,16 +159,6 @@ export const AdminLayout: React.FC = () => {
             <span>Dashboard</span>
           </NavLink>
 
-          <NavLink to="/admin/products" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
-            <span className="admin-nav-icon"><IconProducts size={18} /></span>
-            <span>Product Management</span>
-          </NavLink>
-
-          <NavLink to="/admin/categories" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
-            <span className="admin-nav-icon"><IconCategories size={18} /></span>
-            <span>Categories</span>
-          </NavLink>
-
           <NavLink to="/admin/requirements" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
             <span className="admin-nav-icon"><IconEnquiries size={18} /></span>
             <span>RFQ / Enquiries</span>
@@ -180,27 +167,22 @@ export const AdminLayout: React.FC = () => {
 
           <NavLink to="/admin/leads" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
             <span className="admin-nav-icon"><IconUsers size={18} /></span>
-            <span>Users & Leads</span>
+            <span>Direct Leads</span>
+          </NavLink>
+
+          <NavLink to="/admin/products" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+            <span className="admin-nav-icon"><IconProducts size={18} /></span>
+            <span>Products</span>
+          </NavLink>
+
+          <NavLink to="/admin/categories" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+            <span className="admin-nav-icon"><IconCategories size={18} /></span>
+            <span>Categories</span>
           </NavLink>
 
           <NavLink to="/admin/content" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
             <span className="admin-nav-icon"><IconContent size={18} /></span>
-            <span>Content Management</span>
-          </NavLink>
-
-          <NavLink to="/admin/media" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
-            <span className="admin-nav-icon"><IconMedia size={18} /></span>
-            <span>Media Library</span>
-          </NavLink>
-
-          <NavLink to="/admin/orders" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
-            <span className="admin-nav-icon"><IconOrders size={18} /></span>
-            <span>Orders & Sourcing</span>
-          </NavLink>
-
-          <NavLink to="/admin/analytics" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
-            <span className="admin-nav-icon"><IconAnalytics size={18} /></span>
-            <span>Analytics</span>
+            <span>Website Manager</span>
           </NavLink>
 
           <NavLink to="/admin/seo" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
