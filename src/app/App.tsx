@@ -19,6 +19,8 @@ import { PartnershipPage } from '../pages/public/PartnershipPage';
 import { WhyYamiNaturalsPage } from '../pages/public/WhyYamiNaturalsPage';
 import { PrivacyPolicyPage } from '../pages/public/PrivacyPolicyPage';
 import { TermsConditionsPage } from '../pages/public/TermsConditionsPage';
+import { CareerPage } from '../pages/public/CareerPage';
+import { PrivateLabellingPage } from '../pages/public/PrivateLabellingPage';
 import { NotFoundPage } from '../pages/public/NotFoundPage';
 
 // Admin Pages
@@ -46,8 +48,12 @@ export const App: React.FC = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:slug" element={<ProductDetailPage />} />
+          <Route path="/product-catalogue" element={<Navigate to="/products" replace />} />
           <Route path="/partnership" element={<PartnershipPage />} />
+          <Route path="/private-labelling" element={<PrivateLabellingPage />} />
           <Route path="/why-yami-naturals" element={<WhyYamiNaturalsPage />} />
+          <Route path="/career" element={<CareerPage />} />
+          <Route path="/careers" element={<Navigate to="/career" replace />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/b2b-solutions" element={<B2BSolutionsPage />} />
           <Route path="/b2c-solutions" element={<B2CSolutionsPage />} />

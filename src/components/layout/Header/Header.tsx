@@ -448,7 +448,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                   aria-controls="products-mega-menu"
                   onClick={() => setIsProductsOpen(!isProductsOpen)}
                 >
-                  <span>PRODUCTS / BROCHURE</span>
+                  <span>PRODUCT CATALOGUE</span>
                   <svg
                     className={`nav-dropdown-chevron ${isProductsOpen ? 'rotate' : ''}`}
                     width="14"
@@ -534,10 +534,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
               </NavLink>
 
               <NavLink
-                to="/why-yami-naturals"
+                to="/private-labelling"
                 className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
               >
-                WHY YAMI NATURALS
+                PRIVATE LABELLING
               </NavLink>
 
               <NavLink
@@ -545,6 +545,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                 className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
               >
                 ABOUT
+              </NavLink>
+
+              <NavLink
+                to="/career"
+                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+              >
+                CAREER
               </NavLink>
 
               <NavLink

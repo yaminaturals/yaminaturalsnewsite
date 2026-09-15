@@ -347,7 +347,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
               aria-expanded={isProductsExpanded}
               aria-controls="mobile-products-accordion"
             >
-              <span className="mobile-accordion-title">Products / Brochure</span>
+              <span className="mobile-accordion-title">Product Catalogue</span>
               <span className="mobile-accordion-indicator" aria-hidden="true">
                 {isProductsExpanded ? '−' : '+'}
               </span>
@@ -404,11 +404,11 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
           </NavLink>
 
           <NavLink
-            to="/why-yami-naturals"
+            to="/private-labelling"
             className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
             onClick={onClose}
           >
-            <span>Why Yami Naturals</span>
+            <span>Private Labelling</span>
             <span className="mobile-nav-arrow" aria-hidden="true">→</span>
           </NavLink>
 
@@ -418,6 +418,15 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
             onClick={onClose}
           >
             <span>About</span>
+            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+          </NavLink>
+
+          <NavLink
+            to="/career"
+            className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+            onClick={onClose}
+          >
+            <span>Career</span>
             <span className="mobile-nav-arrow" aria-hidden="true">→</span>
           </NavLink>
 
