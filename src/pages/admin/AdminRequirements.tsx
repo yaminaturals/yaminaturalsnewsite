@@ -160,7 +160,6 @@ export const AdminRequirements: React.FC = () => {
       'Reference No',
       'Submission Date',
       'Status',
-      'Customer Type',
       'Client Name',
       'Company Name',
       'Email ID',
@@ -205,7 +204,6 @@ export const AdminRequirements: React.FC = () => {
         escapeCsv(req.referenceNumber),
         escapeCsv(formattedDate),
         escapeCsv(req.status.toUpperCase()),
-        escapeCsv(req.customerType.toUpperCase()),
         escapeCsv(req.contact?.fullName || ''),
         escapeCsv(req.contact?.companyName || ''),
         escapeCsv(req.contact?.email || ''),
@@ -520,11 +518,6 @@ export const AdminRequirements: React.FC = () => {
                       <td>
                         <div className="rfq-cell-client">
                           <span className="rfq-client-name">{req.contact?.fullName || '—'}</span>
-                          {req.customerType && (
-                            <span className="rfq-cust-type-tag">
-                              {req.customerType}
-                            </span>
-                          )}
                         </div>
                       </td>
 
@@ -677,10 +670,7 @@ export const AdminRequirements: React.FC = () => {
                   <span style={{ color: '#6B7280' }}>Submitted on: </span>
                   <strong>{new Date(selectedReq.createdAt).toLocaleString()}</strong>
                 </div>
-                <div style={{ display: 'flex', gap: '0.4rem' }}>
-                  <span className="rfq-cust-type-tag" style={{ fontSize: '0.75rem', padding: '0.15rem 0.5rem' }}>
-                    Type: {selectedReq.customerType.toUpperCase()}
-                  </span>
+                <div>
                   <span className="rfq-ref-badge">
                     Category: {selectedReq.requirementType}
                   </span>
