@@ -93,9 +93,10 @@ class AuthService implements IAuthService {
         return { success: false, error: 'Sign-in cancelled. Please try again.' };
       }
       if (errorObj.code === 'auth/unauthorized-domain') {
+        const currentHostname = typeof window !== 'undefined' ? window.location.hostname : 'your-domain';
         return { 
           success: false, 
-          error: 'Current domain is not authorized in Firebase Console -> Authentication -> Settings -> Authorized domains. Please add this domain to the list.' 
+          error: `Domain "${currentHostname}" is not authorized. Go to Firebase Console -> Authentication -> Settings -> Authorized domains and add "${currentHostname}".` 
         };
       }
       if (
