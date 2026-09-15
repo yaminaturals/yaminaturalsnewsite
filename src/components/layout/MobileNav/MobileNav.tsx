@@ -413,6 +413,15 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
           </NavLink>
 
           <NavLink
+            to="/why-yami-naturals"
+            className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+            onClick={onClose}
+          >
+            <span>Why Yami Naturals</span>
+            <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+          </NavLink>
+
+          <NavLink
             to="/about"
             className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
             onClick={onClose}

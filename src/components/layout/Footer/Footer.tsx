@@ -39,6 +39,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/products" className="footer-link">Product Catalogue</Link></li>
               <li><Link to="/partnership" className="footer-link">Partnership</Link></li>
               <li><Link to="/private-labelling" className="footer-link">Private Labelling</Link></li>
+              <li><Link to="/why-yami-naturals" className="footer-link">Why Yami Naturals</Link></li>
               <li><Link to="/about" className="footer-link">About</Link></li>
               <li><Link to="/career" className="footer-link">Career</Link></li>
               <li><Link to="/contact" className="footer-link">Contact</Link></li>

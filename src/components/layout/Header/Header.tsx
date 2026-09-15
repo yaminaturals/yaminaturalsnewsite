@@ -541,6 +541,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
               </NavLink>
 
               <NavLink
+                to="/why-yami-naturals"
+                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+              >
+                WHY YAMI NATURALS
+              </NavLink>
+
+              <NavLink
                 to="/about"
                 className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
               >
