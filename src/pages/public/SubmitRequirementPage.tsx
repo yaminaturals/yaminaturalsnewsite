@@ -1,121 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { SEO } from '../../components/common/SEO';
 import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
-import { Card } from '../../components/ui/Card/Card';
-import { Button } from '../../components/ui/Button/Button';
 import { requirementService } from '../../services/RequirementService';
-import { fileStorageService } from '../../services/FileStorageService';
-import { CustomerType, RequirementCategoryType, UploadedDocumentMetadata } from '../../types';
 import './SubmitRequirementPage.css';
 
 export const SubmitRequirementPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const prefilledProduct = searchParams.get('product') || '';
 
-  // Step state: 1 to 5, or 'success'
-  const [step, setStep] = useState<number>(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionResult, setSubmissionResult] = useState<{ referenceNumber: string } | null>(null);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Form State
-  const [customerType, setCustomerType] = useState<CustomerType>('b2b');
-  const [requirementType, setRequirementType] = useState<RequirementCategoryType>('herbal-extract');
-  const [productName, setProductName] = useState(prefilledProduct);
-  const [botanicalOrInciName, setBotanicalOrInciName] = useState('');
-  const [requiredQuantity, setRequiredQuantity] = useState('');
-  const [quantityUnit, setQuantityUnit] = useState('kg');
-  const [applicationUse, setApplicationUse] = useState('');
-  const [specificationStandard, setSpecificationStandard] = useState('');
-  const [packagingPreference, setPackagingPreference] = useState('');
-  const [documents, setDocuments] = useState<UploadedDocumentMetadata[]>([]);
-  const [uploadError, setUploadError] = useState('');
-
-  // Contact Info
+  // Form Fields State matching Image 2
   const [fullName, setFullName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('');
-  const [cityOrPort, setCityOrPort] = useState('');
-  const [additionalNotes, setAdditionalNotes] = useState('');
+
+  const [ingredientName, setIngredientName] = useState(prefilledProduct);
+  const [targetQuantity, setTargetQuantity] = useState('25 kg (Standard MOQ)');
+  const [dosageForm, setDosageForm] = useState('Standardized Powder');
+  const [intendedApplication, setIntendedApplication] = useState('Dietary Supplements');
+  const [customRequirements, setCustomRequirements] = useState('');
+
+  // Submission State
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedResult, setSubmittedResult] = useState<{ referenceNumber: string } | null>(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (prefilledProduct) {
-      setProductName(prefilledProduct);
+      setIngredientName(prefilledProduct);
     }
   }, [prefilledProduct]);
 
-  // Validation before advancing
-  const handleNext = () => {
-    setErrorMessage('');
-
-    if (step === 2) {
-      if (!productName.trim()) {
-        setErrorMessage('Please provide the product or ingredient name.');
-        return;
-      }
-    }
-
-    if (step === 3) {
-      if (!requiredQuantity.trim()) {
-        setErrorMessage('Please specify the required quantity volume.');
-        return;
-      }
-      if (!applicationUse.trim()) {
-        setErrorMessage('Please indicate the target application or intended use.');
-        return;
-      }
-    }
-
-    if (step < 5) {
-      setStep(step + 1);
-      window.scrollTo({ top: 120, behavior: 'smooth' });
-    }
-  };
-
-  const handleBack = () => {
-    setErrorMessage('');
-    if (step > 1) {
-      setStep(step - 1);
-      window.scrollTo({ top: 120, behavior: 'smooth' });
-    }
-  };
-
-  // File Upload Handler
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUploadError('');
-    if (!e.target.files || e.target.files.length === 0) return;
-
-    const file = e.target.files[0];
-    const res = await fileStorageService.uploadDocument(file);
-    if (!res.success || !res.metadata) {
-      setUploadError(res.error || 'Failed to attach document.');
-      return;
-    }
-
-    setDocuments(prev => [...prev, res.metadata!]);
-    e.target.value = '';
-  };
-
-  const handleRemoveDoc = (docId: string) => {
-    setDocuments(prev => prev.filter(d => d.id !== docId));
-  };
-
-  // Final Form Submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
 
-    if (!fullName.trim() || !email.trim() || !phone.trim() || !country.trim()) {
-      setErrorMessage('Please complete all required contact fields (Name, Email, Phone, Country).');
-      return;
-    }
-
-    if (customerType === 'b2b' && !companyName.trim()) {
-      setErrorMessage('Please provide your Company / Enterprise name for B2B requests.');
+    if (!fullName.trim() || !companyName.trim() || !email.trim() || !phone.trim() || !country.trim() || !ingredientName.trim()) {
+      setErrorMessage('Please fill in all required fields marked with an asterisk (*).');
       return;
     }
 
@@ -123,512 +47,344 @@ export const SubmitRequirementPage: React.FC = () => {
 
     try {
       const result = await requirementService.submitRequirement({
-        customerType,
-        requirementType,
-        productName,
-        botanicalOrInciName,
-        requiredQuantity,
-        quantityUnit,
-        applicationUse,
-        specificationStandard,
-        packagingPreference,
-        documents,
+        customerType: 'b2b',
+        requirementType: 'herbal-extract',
+        productName: ingredientName,
+        requiredQuantity: targetQuantity,
+        quantityUnit: 'kg',
+        applicationUse: `${dosageForm} - ${intendedApplication}`,
+        specificationStandard: customRequirements,
+        documents: [],
         contact: {
           fullName,
-          companyName: customerType === 'b2b' ? companyName : undefined,
+          companyName,
           email,
           phone,
           country,
-          cityOrPort
         },
-        additionalNotes
+        additionalNotes: customRequirements,
       });
 
-      setSubmissionResult({ referenceNumber: result.referenceNumber });
-      setStep(6); // Success view
+      setSubmittedResult({ referenceNumber: result.referenceNumber });
       window.scrollTo({ top: 100, behavior: 'smooth' });
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : 'An error occurred during submission.');
+      setErrorMessage(err instanceof Error ? err.message : 'An error occurred while submitting your requirement. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const categoryOptions: { id: RequirementCategoryType; label: string; icon: string }[] = [
-    { id: 'herbal-extract', label: 'Herbal Extract (Standardized)', icon: '🧪' },
-    { id: 'herbal-powder', label: 'Herbal Powder (Whole Herb)', icon: '🌿' },
-    { id: 'oil', label: 'Essential or Carrier Oil', icon: '💧' },
-    { id: 'cosmetic-clay', label: 'Cosmetic Clay Powder', icon: '🏺' },
-    { id: 'nutraceutical-ingredient', label: 'Nutraceutical Ingredient', icon: '🧬' },
-    { id: 'capsule', label: 'Formula-Based Capsule', icon: '💊' },
-    { id: 'custom-formula', label: 'Custom Blend / Synergy', icon: '⚗️' },
-    { id: 'finished-product', label: 'Finished Packaged Product', icon: '📦' },
-    { id: 'other', label: 'Other Raw Botanical', icon: '🌾' },
-  ];
+  const handleReset = () => {
+    setSubmittedResult(null);
+    setFullName('');
+    setCompanyName('');
+    setEmail('');
+    setPhone('');
+    setCountry('');
+    setIngredientName('');
+    setTargetQuantity('25 kg (Standard MOQ)');
+    setDosageForm('Standardized Powder');
+    setIntendedApplication('Dietary Supplements');
+    setCustomRequirements('');
+  };
 
   return (
-    <div className="wizard-page animate-fade-in" style={{ padding: 'clamp(2.5rem, 5vw, 5rem) 0' }}>
+    <div className="rfq-page-wrapper animate-fade-in">
       <SEO
-        title="Submit Sourcing Requirement | Custom Botanical Procurement"
-        description="Submit your herbal ingredient requirements, custom assay specifications, bulk volumes, or packaging preferences for direct sourcing support."
+        title="Submit Your Requirement | Get a B2B Quote"
+        description="Submit commercial RFQ and custom ingredient specifications for botanical extracts, herbal powders, essential oils, and nutraceutical ingredients with Yami Naturals."
         canonicalPath="/submit-requirement"
         structuredData={generateBreadcrumbSchema([
           { name: 'Home', url: '/' },
           { name: 'Submit Requirement', url: '/submit-requirement' },
         ])}
       />
+
       <Container size="default">
-        <div className="wizard-container">
-          {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
-            <span className="eyebrow">Procurement Intake</span>
-            <h1>Submit Your Requirement</h1>
-            <p className="text-muted" style={{ maxWidth: '640px', margin: '0 auto' }}>
+        <div className="rfq-container">
+          {/* Header Section */}
+          <div className="rfq-header">
+            <span className="rfq-eyebrow">PROCUREMENT INTAKE</span>
+            <h1 className="rfq-title">Submit Your Requirement</h1>
+            <p className="rfq-subtitle">
               Connect with Yami Naturals for verified botanical sourcing, volume specifications, Certificates of Analysis, or customized compounding.
             </p>
           </div>
 
-          {/* Progress Indicator (Steps 1 to 5) */}
-          {step <= 5 && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-primary-700)' }}>
-                <span>STEP {step} OF 5</span>
-                <span>
-                  {step === 1 && 'Customer Classification'}
-                  {step === 2 && 'Material & Category'}
-                  {step === 3 && 'Specifications & Quantity'}
-                  {step === 4 && 'Supporting Documents'}
-                  {step === 5 && 'Contact & Fulfilment'}
-                </span>
+          {/* Success Card */}
+          {submittedResult ? (
+            <div className="rfq-card rq-success-card animate-scale-in">
+              <div className="rfq-success-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
               </div>
-              <div className="wizard-progress-bar-wrap" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={5}>
-                <div className="wizard-progress-bar" style={{ width: `${(step / 5) * 100}%` }} />
-              </div>
-            </div>
-          )}
-
-          {/* Error Banner */}
-          {errorMessage && (
-            <div style={{ backgroundColor: 'var(--color-error-bg)', color: 'var(--color-error)', padding: 'var(--space-4)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-6)', fontSize: 'var(--font-size-sm)' }}>
-              ⚠️ {errorMessage}
-            </div>
-          )}
-
-          {/* SUCCESS VIEW */}
-          {step === 6 && submissionResult && (
-            <Card variant="surface" padding="lg" style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: 'var(--space-4)' }}>✅</div>
-              <h2 style={{ color: 'var(--color-primary-700)' }}>Requirement Successfully Registered</h2>
-              <div style={{ margin: 'var(--space-4) 0', padding: 'var(--space-4)', backgroundColor: 'var(--color-primary-50)', borderRadius: 'var(--radius-md)' }}>
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>YOUR REFERENCE NUMBER:</div>
-                <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 700, color: 'var(--color-primary-800)', letterSpacing: '0.05em' }}>
-                  {submissionResult.referenceNumber}
-                </div>
-              </div>
-              <p className="text-body" style={{ maxWidth: '540px', margin: '0 auto var(--space-6)' }}>
-                Our sourcing and technical review desk has received your requirement. You will receive an initial technical feasibility evaluation and quotation at <strong>{email}</strong>.
+              <h2 className="rfq-success-title">Commercial RFQ Successfully Registered</h2>
+              <p className="rfq-success-text">
+                Our procurement & technical sourcing desk has received your ingredient requirement. A formal quotation, batch COA documentation, and delivery estimate will be sent to <strong>{email}</strong>.
               </p>
-              <div style={{ display: 'flex', gap: 'var(--space-4)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                <Button to="/products" variant="primary">
-                  Explore Additional Ingredients
-                </Button>
-                <Button to="/admin/requirements" variant="outline">
-                  View in Admin Portal (Prototype)
-                </Button>
-              </div>
-            </Card>
-          )}
 
-          {/* STEP 1: CUSTOMER TYPE */}
-          {step === 1 && (
-            <Card variant="surface" padding="lg">
-              <div className="wizard-step-header">
-                <h3>Select Customer Type</h3>
-                <p className="text-muted text-sm">
-                  Please identify whether this requirement is on behalf of a commercial business or an individual consumer.
-                </p>
+              <div className="rfq-reference-box">
+                <span className="rfq-ref-label">YOUR REFERENCE NUMBER</span>
+                <span className="rfq-ref-code">{submittedResult.referenceNumber}</span>
               </div>
 
-              <div className="wizard-choice-grid">
-                <div
-                  className={`wizard-choice-card ${customerType === 'b2b' ? 'selected' : ''}`}
-                  onClick={() => setCustomerType('b2b')}
-                >
-                  <div style={{ fontSize: '1.8rem', marginBottom: 'var(--space-2)' }}>🏢</div>
-                  <h4>B2B / Commercial Business</h4>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    For manufacturers, formulators, wholesalers, private brands, and bulk compounders.
-                  </p>
-                </div>
-
-                <div
-                  className={`wizard-choice-card ${customerType === 'b2c' ? 'selected' : ''}`}
-                  onClick={() => setCustomerType('b2c')}
-                >
-                  <div style={{ fontSize: '1.8rem', marginBottom: 'var(--space-2)' }}>👤</div>
-                  <h4>B2C / Consumer / Practitioner</h4>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    For direct retail packs, herbal clinics, single-batch wellness practitioners, and individuals.
-                  </p>
-                </div>
+              <div className="rfq-success-actions">
+                <Link to="/products" className="rfq-btn-primary">
+                  Explore Product Catalogue
+                </Link>
+                <button type="button" onClick={handleReset} className="rfq-btn-secondary">
+                  Submit Another Requirement
+                </button>
               </div>
-
-              <div className="wizard-actions">
-                <span />
-                <Button type="button" variant="primary" size="lg" onClick={handleNext}>
-                  Continue to Step 2 →
-                </Button>
-              </div>
-            </Card>
-          )}
-
-          {/* STEP 2: REQUIREMENT TYPE & MATERIAL NAME */}
-          {step === 2 && (
-            <Card variant="surface" padding="lg">
-              <div className="wizard-step-header">
-                <h3>Material & Category Selection</h3>
-                <p className="text-muted text-sm">
-                  Choose the classification and provide the specific ingredient name you are looking to source.
-                </p>
-              </div>
-
-              <div className="wizard-input-group">
-                <label className="wizard-label">Ingredient Classification *</label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
-                  {categoryOptions.map(cat => (
-                    <div
-                      key={cat.id}
-                      onClick={() => setRequirementType(cat.id)}
-                      style={{
-                        padding: '0.65rem 0.85rem',
-                        border: `1.5px solid ${requirementType === cat.id ? 'var(--color-primary-600)' : 'var(--color-border-subtle)'}`,
-                        backgroundColor: requirementType === cat.id ? 'var(--color-primary-50)' : '#ffffff',
-                        borderRadius: 'var(--radius-sm)',
-                        cursor: 'pointer',
-                        fontSize: 'var(--font-size-xs)',
-                        fontWeight: 600,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--space-2)'
-                      }}
-                    >
-                      <span>{cat.icon}</span>
-                      <span>{cat.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="wizard-input-group">
-                <label className="wizard-label" htmlFor="prodName">Product / Ingredient Name *</label>
-                <input
-                  id="prodName"
-                  type="text"
-                  className="wizard-input"
-                  placeholder="e.g. Ashwagandha Extract, Boswellia, French Green Clay..."
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="wizard-input-group">
-                <label className="wizard-label" htmlFor="botName">Botanical Name or INCI (If known)</label>
-                <input
-                  id="botName"
-                  type="text"
-                  className="wizard-input"
-                  placeholder="e.g. Withania somnifera, Curcuma longa..."
-                  value={botanicalOrInciName}
-                  onChange={(e) => setBotanicalOrInciName(e.target.value)}
-                />
-              </div>
-
-              <div className="wizard-actions">
-                <Button type="button" variant="outline" onClick={handleBack}>
-                  ← Back
-                </Button>
-                <Button type="button" variant="primary" size="lg" onClick={handleNext}>
-                  Continue to Step 3 →
-                </Button>
-              </div>
-            </Card>
-          )}
-
-          {/* STEP 3: SPECIFICATIONS & QUANTITY */}
-          {step === 3 && (
-            <Card variant="surface" padding="lg">
-              <div className="wizard-step-header">
-                <h3>Volume & Technical Specifications</h3>
-                <p className="text-muted text-sm">
-                  Specify the volume required and any target analytical markers or standards.
-                </p>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 'var(--space-4)' }}>
-                <div className="wizard-input-group">
-                  <label className="wizard-label" htmlFor="reqQty">Required Quantity *</label>
-                  <input
-                    id="reqQty"
-                    type="text"
-                    className="wizard-input"
-                    placeholder="e.g. 50, 500, 2000..."
-                    value={requiredQuantity}
-                    onChange={(e) => setRequiredQuantity(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="wizard-input-group">
-                  <label className="wizard-label" htmlFor="qtyUnit">Unit *</label>
-                  <select
-                    id="qtyUnit"
-                    className="wizard-select"
-                    value={quantityUnit}
-                    onChange={(e) => setQuantityUnit(e.target.value)}
-                  >
-                    <option value="kg">Kilograms (kg)</option>
-                    <option value="metric-ton">Metric Tonnes (MT)</option>
-                    <option value="grams">Grams (g)</option>
-                    <option value="units">Units / Bottles / Packs</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="wizard-input-group">
-                <label className="wizard-label" htmlFor="appUse">Intended Application / Formulation Use *</label>
-                <input
-                  id="appUse"
-                  type="text"
-                  className="wizard-input"
-                  placeholder="e.g. Dietary supplement capsule, cosmetic facial mask, herbal tea..."
-                  value={applicationUse}
-                  onChange={(e) => setApplicationUse(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="wizard-input-group">
-                <label className="wizard-label" htmlFor="specStd">Target Assay / Mesh / Standard</label>
-                <input
-                  id="specStd"
-                  type="text"
-                  className="wizard-input"
-                  placeholder="e.g. 5% Withanolides HPLC, 80 Mesh, USP Grade, Organic Certified..."
-                  value={specificationStandard}
-                  onChange={(e) => setSpecificationStandard(e.target.value)}
-                />
-              </div>
-
-              <div className="wizard-input-group">
-                <label className="wizard-label" htmlFor="pkgPref">Preferred Packaging</label>
-                <input
-                  id="pkgPref"
-                  type="text"
-                  className="wizard-input"
-                  placeholder="e.g. 25 kg fiber drums, 1 kg vacuum foil, bulk container..."
-                  value={packagingPreference}
-                  onChange={(e) => setPackagingPreference(e.target.value)}
-                />
-              </div>
-
-              <div className="wizard-actions">
-                <Button type="button" variant="outline" onClick={handleBack}>
-                  ← Back
-                </Button>
-                <Button type="button" variant="primary" size="lg" onClick={handleNext}>
-                  Continue to Step 4 →
-                </Button>
-              </div>
-            </Card>
-          )}
-
-          {/* STEP 4: SUPPORTING DOCUMENTS */}
-          {step === 4 && (
-            <Card variant="surface" padding="lg">
-              <div className="wizard-step-header">
-                <h3>Supporting Documents & Reference Sheets</h3>
-                <p className="text-muted text-sm">
-                  Attach your target specifications, reference Certificate of Analysis (CoA), or formulation requirements. (Optional)
-                </p>
-              </div>
-
-              <div className="file-dropzone">
-                <input
-                  type="file"
-                  id="docUpload"
-                  onChange={handleFileUpload}
-                  style={{ display: 'none' }}
-                  accept=".pdf,.doc,.docx,.jpg,.png"
-                />
-                <label htmlFor="docUpload" style={{ cursor: 'pointer', display: 'block' }}>
-                  <div style={{ fontSize: '2.5rem', marginBottom: 'var(--space-2)' }}>📎</div>
-                  <h5>Click to attach file or drag & drop</h5>
-                  <p className="text-xs text-muted" style={{ margin: 0 }}>
-                    Supported formats: PDF, Word (DOC/DOCX), JPG, PNG (Max 10MB)
-                  </p>
-                </label>
-              </div>
-
-              {uploadError && (
-                <div style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-xs)', marginTop: 'var(--space-2)' }}>
-                  ⚠️ {uploadError}
+            </div>
+          ) : (
+            /* Direct Form Card */
+            <div className="rfq-card">
+              {errorMessage && (
+                <div className="rfq-error-banner" role="alert">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  <span>{errorMessage}</span>
                 </div>
               )}
 
-              {/* Uploaded Documents List */}
-              {documents.length > 0 && (
-                <div style={{ marginTop: 'var(--space-6)' }}>
-                  <h6>Attached Documents ({documents.length})</h6>
-                  {documents.map((doc) => (
-                    <div key={doc.id} className="file-meta-item">
-                      <div>
-                        <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)' }}>{doc.name}</div>
-                        <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                          {(doc.sizeBytes / 1024).toFixed(1)} KB
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveDoc(doc.id)}
-                        style={{ color: 'var(--color-error)', fontSize: 'var(--font-size-xs)', cursor: 'pointer', border: 'none', background: 'none' }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <form onSubmit={handleSubmit} className="rfq-form">
+                {/* 1. Corporate & Contact Information */}
+                <div className="rfq-section">
+                  <h2 className="rfq-section-title">1. Corporate & Contact Information</h2>
 
-              <div className="wizard-actions">
-                <Button type="button" variant="outline" onClick={handleBack}>
-                  ← Back
-                </Button>
-                <Button type="button" variant="primary" size="lg" onClick={handleNext}>
-                  Continue to Final Step →
-                </Button>
-              </div>
-            </Card>
-          )}
-
-          {/* STEP 5: CONTACT & FULFILMENT */}
-          {step === 5 && (
-            <Card variant="surface" padding="lg">
-              <form onSubmit={handleSubmit}>
-                <div className="wizard-step-header">
-                  <h3>Contact & Fulfilment Details</h3>
-                  <p className="text-muted text-sm">
-                    Where should our technical sourcing team direct the specification proposal and quotation?
-                  </p>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: customerType === 'b2b' ? '1fr 1fr' : '1fr', gap: 'var(--space-4)' }}>
-                  <div className="wizard-input-group">
-                    <label className="wizard-label" htmlFor="fullName">Your Full Name *</label>
-                    <input
-                      id="fullName"
-                      type="text"
-                      className="wizard-input"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      required
-                    />
-                  </div>
-
-                  {customerType === 'b2b' && (
-                    <div className="wizard-input-group">
-                      <label className="wizard-label" htmlFor="compName">Company / Enterprise Name *</label>
+                  {/* Row 1: Full Name & Company Name */}
+                  <div className="rfq-grid rfq-grid-2">
+                    <div className="rfq-field">
+                      <label htmlFor="fullName" className="rfq-label">
+                        FULL NAME <span className="rfq-required">*</span>
+                      </label>
                       <input
-                        id="compName"
+                        id="fullName"
                         type="text"
-                        className="wizard-input"
+                        className="rfq-input"
+                        placeholder="e.g. Dr. Michael Vance"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="rfq-field">
+                      <label htmlFor="companyName" className="rfq-label">
+                        COMPANY / ENTITY NAME <span className="rfq-required">*</span>
+                      </label>
+                      <input
+                        id="companyName"
+                        type="text"
+                        className="rfq-input"
+                        placeholder="e.g. NutraGlobal Pharmaceuticals Ltd"
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
                         required
                       />
                     </div>
-                  )}
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
-                  <div className="wizard-input-group">
-                    <label className="wizard-label" htmlFor="contactEmail">Business Email *</label>
-                    <input
-                      id="contactEmail"
-                      type="email"
-                      className="wizard-input"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
                   </div>
 
-                  <div className="wizard-input-group">
-                    <label className="wizard-label" htmlFor="contactPhone">Phone / WhatsApp Number *</label>
-                    <input
-                      id="contactPhone"
-                      type="tel"
-                      className="wizard-input"
-                      placeholder="+Country Code and Number"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
+                  {/* Row 2: Business Email, Phone, Country */}
+                  <div className="rfq-grid rfq-grid-3">
+                    <div className="rfq-field">
+                      <label htmlFor="email" className="rfq-label">
+                        BUSINESS EMAIL <span className="rfq-required">*</span>
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        className="rfq-input"
+                        placeholder="e.g. m.vance@nutraglobal.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
-                  <div className="wizard-input-group">
-                    <label className="wizard-label" htmlFor="country">Country *</label>
-                    <input
-                      id="country"
-                      type="text"
-                      className="wizard-input"
-                      placeholder="e.g. United States, Germany, India..."
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      required
-                    />
-                  </div>
+                    <div className="rfq-field">
+                      <label htmlFor="phone" className="rfq-label">
+                        PHONE <span className="rfq-required">*</span>
+                      </label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        className="rfq-input"
+                        placeholder="e.g. +1(555) 234-5678"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
+                      />
+                    </div>
 
-                  <div className="wizard-input-group">
-                    <label className="wizard-label" htmlFor="cityPort">Destination City or Port</label>
-                    <input
-                      id="cityPort"
-                      type="text"
-                      className="wizard-input"
-                      placeholder="e.g. Hamburg, Long Beach, Mumbai..."
-                      value={cityOrPort}
-                      onChange={(e) => setCityOrPort(e.target.value)}
-                    />
+                    <div className="rfq-field">
+                      <label htmlFor="country" className="rfq-label">
+                        COUNTRY <span className="rfq-required">*</span>
+                      </label>
+                      <input
+                        id="country"
+                        type="text"
+                        className="rfq-input"
+                        placeholder="e.g. United States"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="wizard-input-group">
-                  <label className="wizard-label" htmlFor="notes">Additional Instructions or Testing Requirements</label>
-                  <textarea
-                    id="notes"
-                    className="wizard-textarea"
-                    rows={3}
-                    placeholder="Any specific microbial limits, heavy metal limits, or delivery schedule notes..."
-                    value={additionalNotes}
-                    onChange={(e) => setAdditionalNotes(e.target.value)}
-                  />
+                {/* 2. Ingredient Specifications */}
+                <div className="rfq-section">
+                  <h2 className="rfq-section-title">2. Ingredient Specifications</h2>
+
+                  {/* Row 3: Ingredient Name & Target Quantity */}
+                  <div className="rfq-grid rfq-grid-2">
+                    <div className="rfq-field">
+                      <label htmlFor="ingredientName" className="rfq-label">
+                        INGREDIENT / EXTRACT NAME <span className="rfq-required">*</span>
+                      </label>
+                      <input
+                        id="ingredientName"
+                        type="text"
+                        className="rfq-input"
+                        placeholder="e.g. Ashwagandha Extract 5% Withanolides"
+                        value={ingredientName}
+                        onChange={(e) => setIngredientName(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="rfq-field">
+                      <label htmlFor="targetQuantity" className="rfq-label">
+                        TARGET QUANTITY (STANDARD MOQS APPLY)
+                      </label>
+                      <div className="rfq-select-wrapper">
+                        <select
+                          id="targetQuantity"
+                          className="rfq-select"
+                          value={targetQuantity}
+                          onChange={(e) => setTargetQuantity(e.target.value)}
+                        >
+                          <option value="25 kg (Standard MOQ)">25 kg (Standard MOQ)</option>
+                          <option value="50 kg">50 kg</option>
+                          <option value="100 kg">100 kg</option>
+                          <option value="250 kg">250 kg</option>
+                          <option value="500 kg">500 kg</option>
+                          <option value="1,000 kg (1 Metric Ton)">1,000 kg (1 Metric Ton)</option>
+                          <option value="5,000+ kg (Commercial Volume)">5,000+ kg (Commercial Volume)</option>
+                          <option value="Custom / Pilot Batch (<25 kg)">Custom / Pilot Batch (&lt;25 kg)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Row 4: Required Dosage Form & Intended Application */}
+                  <div className="rfq-grid rfq-grid-2">
+                    <div className="rfq-field">
+                      <label htmlFor="dosageForm" className="rfq-label">
+                        REQUIRED DOSAGE FORM
+                      </label>
+                      <div className="rfq-select-wrapper">
+                        <select
+                          id="dosageForm"
+                          className="rfq-select"
+                          value={dosageForm}
+                          onChange={(e) => setDosageForm(e.target.value)}
+                        >
+                          <option value="Standardized Powder">Standardized Powder</option>
+                          <option value="Liquid Botanical Extract">Liquid Botanical Extract</option>
+                          <option value="Raw Whole / Crushed Botanical">Raw Whole / Crushed Botanical</option>
+                          <option value="Cold-Pressed / Essential Oil">Cold-Pressed / Essential Oil</option>
+                          <option value="Encapsulated / Finished Dosage">Encapsulated / Finished Dosage</option>
+                          <option value="Cosmetic Clay Powder">Cosmetic Clay Powder</option>
+                          <option value="Custom Compounding / Blend">Custom Compounding / Blend</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="rfq-field">
+                      <label htmlFor="intendedApplication" className="rfq-label">
+                        INTENDED APPLICATION
+                      </label>
+                      <div className="rfq-select-wrapper">
+                        <select
+                          id="intendedApplication"
+                          className="rfq-select"
+                          value={intendedApplication}
+                          onChange={(e) => setIntendedApplication(e.target.value)}
+                        >
+                          <option value="Dietary Supplements">Dietary Supplements</option>
+                          <option value="Functional Foods & Beverages">Functional Foods & Beverages</option>
+                          <option value="Cosmetics & Personal Care">Cosmetics & Personal Care</option>
+                          <option value="Ayurvedic & Herbal Formulations">Ayurvedic & Herbal Formulations</option>
+                          <option value="Pharmaceutical & API Intermediates">Pharmaceutical & API Intermediates</option>
+                          <option value="Animal Nutrition & Pet Care">Animal Nutrition & Pet Care</option>
+                          <option value="Other Commercial Formulation">Other Commercial Formulation</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Row 5: Target Assay & Custom Requirements (Optional) */}
+                  <div className="rfq-field">
+                    <label htmlFor="customRequirements" className="rfq-label">
+                      TARGET ASSAY & CUSTOM REQUIREMENTS (OPTIONAL)
+                    </label>
+                    <textarea
+                      id="customRequirements"
+                      className="rfq-textarea"
+                      rows={4}
+                      placeholder="Include any specific requirements for assay method (HPLC/UV), heavy metal limits (USP <2232>), or desired mesh size..."
+                      value={customRequirements}
+                      onChange={(e) => setCustomRequirements(e.target.value)}
+                    />
+                  </div>
                 </div>
 
-                <div className="wizard-actions">
-                  <Button type="button" variant="outline" onClick={handleBack} disabled={isSubmitting}>
-                    ← Back
-                  </Button>
-                  <Button type="submit" variant="primary" size="lg" isLoading={isSubmitting}>
-                    Submit Requirement
-                  </Button>
+                {/* Footer Bar: NDA note + Submit Button */}
+                <div className="rfq-footer">
+                  <div className="rfq-nda-badge">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rfq-shield-icon">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <polyline points="9 12 11 14 15 10" />
+                    </svg>
+                    <span>All information is protected under our B2B NDA.</span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="rfq-submit-btn"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="rfq-spinner" />
+                        <span>PROCESSING...</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="22" y1="2" x2="11" y2="13" />
+                          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                        <span>SUBMIT COMMERCIAL RFQ</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </form>
-            </Card>
+            </div>
           )}
         </div>
       </Container>
     </div>
   );
 };
+
