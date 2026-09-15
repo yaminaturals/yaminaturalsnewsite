@@ -11,7 +11,7 @@ export interface FAQSectionContent {
   headingEmphasis?: string;
   supportingText: string;
   items: FAQItemData[];
-  callout: {
+  callout?: {
     title: string;
     text: string;
     primaryCta: {
@@ -89,16 +89,4 @@ export const faqSectionContent: FAQSectionContent = {
         'Your submitted requirement provides the starting point for discussing the product, application, specifications and other details relevant to the sourcing enquiry.',
     },
   ],
-  callout: {
-    title: 'Still have a specific requirement?',
-    text: 'Tell us about the botanical ingredient or formulation you need, and we can discuss the appropriate sourcing path.',
-    primaryCta: {
-      text: 'Discuss Your Requirement',
-      link: '/submit-requirement',
-    },
-    secondaryCta: {
-      text: 'Explore Products',
-      link: '/products',
-    },
-  },
 };

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Container } from '../../ui/Container/Container';
-import { Button } from '../../ui/Button/Button';
 import { ParallaxLayer } from '../../ui/ParallaxLayer/ParallaxLayer';
 import { faqSectionContent } from '../../../data/faq.data';
 import { FAQItem } from './FAQItem';
 import './FAQSection.css';
 
 export const FAQSection: React.FC = () => {
-  const { eyebrow, heading, headingEmphasis, supportingText, items, callout } =
+  const { eyebrow, heading, headingEmphasis, supportingText, items } =
     faqSectionContent;
 
   // Initial state: only first item open initially
@@ -74,7 +73,7 @@ export const FAQSection: React.FC = () => {
 
       <Container size="default">
         <div className="faq-layout">
-          {/* LEFT: Editorial Heading, Supporting Text & Direct Sourcing CTA */}
+          {/* LEFT: Editorial Heading, Supporting Text */}
           <div className="faq-left animate-fade-up">
             <div className="faq-eyebrow-wrapper">
               <span className="faq-eyebrow-icon" aria-hidden="true">💬</span>
@@ -102,52 +101,6 @@ export const FAQSection: React.FC = () => {
                 />
                 <circle cx="90" cy="20" r="3" fill="var(--color-amber-accent)" opacity="0.7" />
               </svg>
-            </div>
-
-            {/* Direct Sourcing Assistance Callout Box */}
-            <div className="faq-cta-card">
-              <div className="faq-cta-card-inner">
-                <span className="faq-cta-badge" aria-hidden="true">📋 SOURCING DESK</span>
-                <h3 className="faq-cta-title">{callout.title}</h3>
-                <p className="faq-cta-text">{callout.text}</p>
-                <div className="faq-cta-actions">
-                  <Button
-                    to={callout.primaryCta.link}
-                    variant="secondary"
-                    size="md"
-                    className="faq-primary-btn"
-                    iconRight={
-                      <svg
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        className="faq-cta-arrow"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M3 8h10M9 4l4 4-4 4"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    }
-                  >
-                    {callout.primaryCta.text}
-                  </Button>
-
-                  {callout.secondaryCta && (
-                    <Button
-                      to={callout.secondaryCta.link}
-                      variant="outline"
-                      size="md"
-                      className="faq-secondary-btn"
-                    >
-                      {callout.secondaryCta.text}
-                    </Button>
-                  )}
-                </div>
-              </div>
             </div>
           </div>
 
