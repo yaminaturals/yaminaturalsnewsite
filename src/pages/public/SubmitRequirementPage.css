@@ -113,6 +113,12 @@
   font-weight: 800;
 }
 
+.rfq-field-hint {
+  font-size: 0.76rem;
+  color: #6b7280;
+  margin-top: 0.35rem;
+}
+
 .rfq-input,
 .rfq-textarea,
 .rfq-select {
@@ -164,6 +170,214 @@
   resize: vertical;
   min-height: 100px;
   line-height: 1.5;
+}
+
+/* Multi-Select Combobox */
+.rfq-combobox-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.rfq-combobox-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.35rem 0.5rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  cursor: text;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.rfq-combobox-box.focused,
+.rfq-combobox-box:focus-within {
+  border-color: #0b3b29;
+  box-shadow: 0 0 0 3px rgba(11, 59, 41, 0.12);
+}
+
+.rfq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: #e8f5ee;
+  border: 1px solid #a3d9be;
+  color: #0b3b29;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  max-width: 100%;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.rfq-chip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rfq-chip-remove {
+  background: none;
+  border: none;
+  color: #0b3b29;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.rfq-chip-remove:hover {
+  opacity: 1;
+  color: #991b1b;
+}
+
+.rfq-combobox-input {
+  flex: 1 1 140px;
+  min-width: 120px;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.92rem;
+  color: #111827;
+  font-family: inherit;
+}
+
+.rfq-combobox-input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 0.88rem;
+}
+
+.rfq-combobox-toggle {
+  background: none;
+  border: none;
+  color: #4b5563;
+  cursor: pointer;
+  padding: 0.35rem 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  margin-left: auto;
+}
+
+.rfq-combobox-toggle.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.rfq-combobox-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 280px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+}
+
+.rfq-combobox-header-hint {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.rfq-combobox-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.85rem;
+  background-color: #f0fdf4;
+  border-bottom: 1px solid #dcfce7;
+  color: #15803d;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.rfq-combobox-custom:hover {
+  background-color: #dcfce7;
+}
+
+.rfq-custom-icon {
+  font-size: 0.95rem;
+}
+
+.rfq-combobox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.88rem;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f9fafb;
+}
+
+.rfq-combobox-item:last-child {
+  border-bottom: none;
+}
+
+.rfq-combobox-item:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.rfq-combobox-item.selected {
+  background-color: #f0fdf4;
+  color: #0b3b29;
+  font-weight: 600;
+}
+
+.rfq-checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #ffffff;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.rfq-checkbox.checked {
+  background-color: #0b3b29;
+  border-color: #0b3b29;
+}
+
+.rfq-item-name {
+  flex: 1;
+}
+
+.rfq-combobox-empty {
+  padding: 1.25rem 1rem;
+  font-size: 0.85rem;
+  color: #6b7280;
+  text-align: center;
 }
 
 /* Footer / Actions */
@@ -385,4 +599,5 @@
     width: 100%;
   }
 }
+
 

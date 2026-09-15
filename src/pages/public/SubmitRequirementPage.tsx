@@ -1,26 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { SEO } from '../../components/common/SEO';
 import { generateBreadcrumbSchema } from '../../utils/seoSchemas';
 import { Container } from '../../components/ui/Container/Container';
 import { requirementService } from '../../services/RequirementService';
+import { productService } from '../../services/ProductService';
 import './SubmitRequirementPage.css';
+
+const DEFAULT_PRODUCTS = [
+  'Ashwagandha Root Extract (Withania somnifera)',
+  'Curcumin Extract 95% (Curcuma longa)',
+  'Boswellia Serrata Extract (Boswellic Acids)',
+  'Moringa Leaf Powder (Moringa oleifera)',
+  'Spirulina Powder (Arthrospira platensis)',
+  'French Green Clay Powder (Montmorillonite)',
+  'Rosemary Essential Oil (Rosmarinus officinalis)',
+  'Bacopa Monnieri / Brahmi Extract',
+  'Shatavari Root Extract (Asparagus racemosus)',
+  'Neem Leaf Extract & Powder (Azadirachta indica)',
+  'Triphala Extract / Powder',
+  'Tulsi / Holy Basil Extract (Ocimum sanctum)',
+  'Licorice Root / Mulethi Extract (Glycyrrhiza glabra)',
+  'Green Tea Extract (EGCG 50%)',
+  'Kaolin Clay Ultra-Pure',
+  'Bentonite Clay Cosmetic Grade',
+  'Tea Tree Essential Oil',
+  'Lavender Essential Oil',
+  'Eucalyptus Essential Oil',
+  'Black Seed / Nigella Sativa Oil',
+  'Shilajit Purified Resin & Powder',
+  'Ginger Root Extract (Gingerols)',
+  'Fenugreek Extract (Trigonella foenum-graecum)',
+  'Amla / Indian Gooseberry Extract',
+  'Garcinia Cambogia Extract (HCA 60%)',
+  'Safed Musli Extract',
+  'Guduchi / Giloy Extract',
+  'Tribulus Terrestris Extract',
+  'Senna Leaf Extract',
+  'Hibiscus Flower Powder & Extract'
+];
 
 export const SubmitRequirementPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const prefilledProduct = searchParams.get('product') || '';
 
-  // Form Fields State matching Image 2
+  // Form Fields State
   const [fullName, setFullName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('');
 
-  const [ingredientName, setIngredientName] = useState(prefilledProduct);
+  // Ingredients State (Multi-select + Custom typing)
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [ingredientInput, setIngredientInput] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [availableProducts, setAvailableProducts] = useState<string[]>(DEFAULT_PRODUCTS);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [targetQuantity, setTargetQuantity] = useState('25 kg (Standard MOQ)');
-  const [dosageForm, setDosageForm] = useState('Standardized Powder');
-  const [intendedApplication, setIntendedApplication] = useState('Dietary Supplements');
   const [customRequirements, setCustomRequirements] = useState('');
 
   // Submission State
@@ -28,17 +67,108 @@ export const SubmitRequirementPage: React.FC = () => {
   const [submittedResult, setSubmittedResult] = useState<{ referenceNumber: string } | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Fetch products from ProductService on mount
   useEffect(() => {
-    if (prefilledProduct) {
-      setIngredientName(prefilledProduct);
+    const fetchCatalog = async () => {
+      try {
+        const prods = await productService.getProducts();
+        if (prods && prods.length > 0) {
+          const names = prods.map(p => p.name).filter(Boolean);
+          const combined = Array.from(new Set([...names, ...DEFAULT_PRODUCTS]));
+          setAvailableProducts(combined);
+        }
+      } catch {
+        setAvailableProducts(DEFAULT_PRODUCTS);
+      }
+    };
+    fetchCatalog();
+  }, []);
+
+  // Prepopulate if query param exists
+  useEffect(() => {
+    if (prefilledProduct && !selectedIngredients.includes(prefilledProduct)) {
+      setSelectedIngredients([prefilledProduct]);
     }
   }, [prefilledProduct]);
+
+  // Click outside listener for dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Add an ingredient
+  const handleAddIngredient = (name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    if (!selectedIngredients.includes(trimmed)) {
+      setSelectedIngredients(prev => [...prev, trimmed]);
+    }
+    setIngredientInput('');
+    setIsDropdownOpen(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  // Remove an ingredient
+  const handleRemoveIngredient = (nameToRemove: string) => {
+    setSelectedIngredients(prev => prev.filter(name => name !== nameToRemove));
+  };
+
+  // Toggle selection
+  const handleToggleIngredient = (name: string) => {
+    if (selectedIngredients.includes(name)) {
+      handleRemoveIngredient(name);
+    } else {
+      setSelectedIngredients(prev => [...prev, name]);
+    }
+    setIngredientInput('');
+  };
+
+  // Handle keydown in input
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (ingredientInput.trim()) {
+        handleAddIngredient(ingredientInput);
+      }
+    } else if (e.key === 'Backspace' && !ingredientInput && selectedIngredients.length > 0) {
+      // Remove last tag when backspace is pressed on empty input
+      handleRemoveIngredient(selectedIngredients[selectedIngredients.length - 1]);
+    }
+  };
+
+  // Filter products based on search input
+  const filteredProducts = availableProducts.filter(p =>
+    p.toLowerCase().includes(ingredientInput.toLowerCase().trim())
+  );
+
+  const showCustomOption = ingredientInput.trim().length > 0 && 
+    !availableProducts.some(p => p.toLowerCase() === ingredientInput.trim().toLowerCase()) &&
+    !selectedIngredients.includes(ingredientInput.trim());
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
 
-    if (!fullName.trim() || !companyName.trim() || !email.trim() || !phone.trim() || !country.trim() || !ingredientName.trim()) {
+    if (selectedIngredients.length === 0 && !ingredientInput.trim()) {
+      setErrorMessage('Please select or enter at least one ingredient name.');
+      return;
+    }
+
+    // Auto-add any typed text if not added yet
+    const finalIngredients = [...selectedIngredients];
+    if (ingredientInput.trim() && !finalIngredients.includes(ingredientInput.trim())) {
+      finalIngredients.push(ingredientInput.trim());
+    }
+
+    if (!fullName.trim() || !companyName.trim() || !email.trim() || !phone.trim() || !country.trim() || finalIngredients.length === 0) {
       setErrorMessage('Please fill in all required fields marked with an asterisk (*).');
       return;
     }
@@ -46,13 +176,15 @@ export const SubmitRequirementPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
+      const combinedIngredientNames = finalIngredients.join(', ');
+
       const result = await requirementService.submitRequirement({
         customerType: 'b2b',
         requirementType: 'herbal-extract',
-        productName: ingredientName,
+        productName: combinedIngredientNames,
         requiredQuantity: targetQuantity,
         quantityUnit: 'kg',
-        applicationUse: `${dosageForm} - ${intendedApplication}`,
+        applicationUse: 'Commercial Bulk Procurement',
         specificationStandard: customRequirements,
         documents: [],
         contact: {
@@ -81,10 +213,9 @@ export const SubmitRequirementPage: React.FC = () => {
     setEmail('');
     setPhone('');
     setCountry('');
-    setIngredientName('');
+    setSelectedIngredients([]);
+    setIngredientInput('');
     setTargetQuantity('25 kg (Standard MOQ)');
-    setDosageForm('Standardized Powder');
-    setIntendedApplication('Dietary Supplements');
     setCustomRequirements('');
   };
 
@@ -244,21 +375,127 @@ export const SubmitRequirementPage: React.FC = () => {
                 <div className="rfq-section">
                   <h2 className="rfq-section-title">2. Ingredient Specifications</h2>
 
-                  {/* Row 3: Ingredient Name & Target Quantity */}
+                  {/* Row: Ingredient Name (Multi-select / Custom) & Target Quantity */}
                   <div className="rfq-grid rfq-grid-2">
                     <div className="rfq-field">
-                      <label htmlFor="ingredientName" className="rfq-label">
-                        INGREDIENT / EXTRACT NAME <span className="rfq-required">*</span>
+                      <label className="rfq-label">
+                        INGREDIENT NAME <span className="rfq-required">*</span>
                       </label>
-                      <input
-                        id="ingredientName"
-                        type="text"
-                        className="rfq-input"
-                        placeholder="e.g. Ashwagandha Extract 5% Withanolides"
-                        value={ingredientName}
-                        onChange={(e) => setIngredientName(e.target.value)}
-                        required
-                      />
+
+                      {/* Multi-Select Combobox Container */}
+                      <div className="rfq-combobox-wrapper" ref={dropdownRef}>
+                        <div 
+                          className={`rfq-combobox-box ${isDropdownOpen ? 'focused' : ''}`}
+                          onClick={() => {
+                            setIsDropdownOpen(true);
+                            inputRef.current?.focus();
+                          }}
+                        >
+                          {/* Selected Ingredient Chips */}
+                          {selectedIngredients.map((item) => (
+                            <span key={item} className="rfq-chip">
+                              <span className="rfq-chip-text">{item}</span>
+                              <button
+                                type="button"
+                                className="rfq-chip-remove"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveIngredient(item);
+                                }}
+                                title="Remove ingredient"
+                                aria-label={`Remove ${item}`}
+                              >
+                                &times;
+                              </button>
+                            </span>
+                          ))}
+
+                          {/* Search / Custom Type Input */}
+                          <input
+                            ref={inputRef}
+                            type="text"
+                            className="rfq-combobox-input"
+                            placeholder={selectedIngredients.length === 0 ? "Select from list or type custom ingredient..." : "Add another..."}
+                            value={ingredientInput}
+                            onChange={(e) => {
+                              setIngredientInput(e.target.value);
+                              setIsDropdownOpen(true);
+                            }}
+                            onFocus={() => setIsDropdownOpen(true)}
+                            onKeyDown={handleKeyDown}
+                          />
+
+                          {/* Toggle Dropdown Arrow */}
+                          <button
+                            type="button"
+                            className={`rfq-combobox-toggle ${isDropdownOpen ? 'open' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsDropdownOpen(!isDropdownOpen);
+                            }}
+                            aria-label="Toggle product list"
+                          >
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                          </button>
+                        </div>
+
+                        {/* Dropdown Menu */}
+                        {isDropdownOpen && (
+                          <div className="rfq-combobox-dropdown animate-scale-in">
+                            {/* Custom Add Option if user typed something not in list */}
+                            {showCustomOption && (
+                              <div
+                                className="rfq-combobox-item rfq-combobox-custom"
+                                onClick={() => handleAddIngredient(ingredientInput)}
+                              >
+                                <span className="rfq-custom-icon">➕</span>
+                                <span className="rfq-custom-text">
+                                  Add custom: <strong>&ldquo;{ingredientInput.trim()}&rdquo;</strong>
+                                </span>
+                              </div>
+                            )}
+
+                            {/* Filtered Product Options from Catalogue */}
+                            {filteredProducts.length > 0 ? (
+                              <div className="rfq-combobox-list">
+                                <div className="rfq-combobox-header-hint">
+                                  Catalogue Products (Click to select multiple)
+                                </div>
+                                {filteredProducts.map((productName) => {
+                                  const isSelected = selectedIngredients.includes(productName);
+                                  return (
+                                    <div
+                                      key={productName}
+                                      className={`rfq-combobox-item ${isSelected ? 'selected' : ''}`}
+                                      onClick={() => handleToggleIngredient(productName)}
+                                    >
+                                      <div className={`rfq-checkbox ${isSelected ? 'checked' : ''}`}>
+                                        {isSelected && (
+                                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="3">
+                                            <polyline points="20 6 9 17 4 12" />
+                                          </svg>
+                                        )}
+                                      </div>
+                                      <span className="rfq-item-name">{productName}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              !showCustomOption && (
+                                <div className="rfq-combobox-empty">
+                                  No matching ingredients found. Type a custom name and press Enter to add.
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      <span className="rfq-field-hint">
+                        💡 Select multiple products from our catalogue or type your custom botanical/compound.
+                      </span>
                     </div>
 
                     <div className="rfq-field">
@@ -285,55 +522,8 @@ export const SubmitRequirementPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Row 4: Required Dosage Form & Intended Application */}
-                  <div className="rfq-grid rfq-grid-2">
-                    <div className="rfq-field">
-                      <label htmlFor="dosageForm" className="rfq-label">
-                        REQUIRED DOSAGE FORM
-                      </label>
-                      <div className="rfq-select-wrapper">
-                        <select
-                          id="dosageForm"
-                          className="rfq-select"
-                          value={dosageForm}
-                          onChange={(e) => setDosageForm(e.target.value)}
-                        >
-                          <option value="Standardized Powder">Standardized Powder</option>
-                          <option value="Liquid Botanical Extract">Liquid Botanical Extract</option>
-                          <option value="Raw Whole / Crushed Botanical">Raw Whole / Crushed Botanical</option>
-                          <option value="Cold-Pressed / Essential Oil">Cold-Pressed / Essential Oil</option>
-                          <option value="Encapsulated / Finished Dosage">Encapsulated / Finished Dosage</option>
-                          <option value="Cosmetic Clay Powder">Cosmetic Clay Powder</option>
-                          <option value="Custom Compounding / Blend">Custom Compounding / Blend</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="rfq-field">
-                      <label htmlFor="intendedApplication" className="rfq-label">
-                        INTENDED APPLICATION
-                      </label>
-                      <div className="rfq-select-wrapper">
-                        <select
-                          id="intendedApplication"
-                          className="rfq-select"
-                          value={intendedApplication}
-                          onChange={(e) => setIntendedApplication(e.target.value)}
-                        >
-                          <option value="Dietary Supplements">Dietary Supplements</option>
-                          <option value="Functional Foods & Beverages">Functional Foods & Beverages</option>
-                          <option value="Cosmetics & Personal Care">Cosmetics & Personal Care</option>
-                          <option value="Ayurvedic & Herbal Formulations">Ayurvedic & Herbal Formulations</option>
-                          <option value="Pharmaceutical & API Intermediates">Pharmaceutical & API Intermediates</option>
-                          <option value="Animal Nutrition & Pet Care">Animal Nutrition & Pet Care</option>
-                          <option value="Other Commercial Formulation">Other Commercial Formulation</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Row 5: Target Assay & Custom Requirements (Optional) */}
-                  <div className="rfq-field">
+                  {/* Target Assay & Custom Requirements (Optional) */}
+                  <div className="rfq-field" style={{ marginTop: '0.5rem' }}>
                     <label htmlFor="customRequirements" className="rfq-label">
                       TARGET ASSAY & CUSTOM REQUIREMENTS (OPTIONAL)
                     </label>
@@ -387,4 +577,5 @@ export const SubmitRequirementPage: React.FC = () => {
     </div>
   );
 };
+
 
