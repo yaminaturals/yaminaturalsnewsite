@@ -11,25 +11,47 @@ import './Footer.css';
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const [categories, setCategories] = useState<ProductCategory[]>(initialCategories);
-  const [visitorCount, setVisitorCount] = useState<number>(1);
+  const [visitorCount, setVisitorCount] = useState<number>(() => visitorCounterService.getCachedCount());
 
   useEffect(() => {
-    // Record real visit on mount
-    const count = visitorCounterService.recordVisit();
-    setVisitorCount(count);
+    // Record real new visitor in database
+    let isMounted = true;
+
+    const initVisitorCount = async () => {
+      const initialCount = await visitorCounterService.recordNewVisitor();
+      if (isMounted) {
+        setVisitorCount(initialCount);
+      }
+    };
+    initVisitorCount();
+
+    // Auto-refresh counter from database every 5 seconds
+    const intervalId = setInterval(async () => {
+      const latestCount = await visitorCounterService.fetchLatestCount();
+      if (isMounted && latestCount) {
+        setVisitorCount(latestCount);
+      }
+    }, 5000);
 
     // Load dynamic categories
     const loadCategories = async () => {
       try {
         const fetched = await categoryService.getCategories();
-        if (fetched && fetched.length > 0) {
+        if (fetched && fetched.length > 0 && isMounted) {
           setCategories(fetched);
         }
       } catch {
-        setCategories(initialCategories);
+        if (isMounted) {
+          setCategories(initialCategories);
+        }
       }
     };
     loadCategories();
+
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (

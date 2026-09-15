@@ -1,34 +1,71 @@
 import { storageService } from './StorageService';
 
 class VisitorCounterService {
-  private storageKey = 'yn_actual_visitor_count';
+  private localKey = 'yn_global_visitor_count';
+  private sessionTrackKey = 'yn_session_visitor_registered';
+  private namespace = 'yaminaturals_official_prod';
+  private key = 'visits';
 
   /**
-   * Records a visit whenever the website is opened.
-   * Increments the actual count for every visit / session.
+   * Registers a new visitor session globally in the database.
+   * Only increments on a new visitor session (no false count on page refresh).
    */
-  recordVisit(): number {
-    try {
-      const currentCount = storageService.getItem<number>(this.storageKey, 0);
-      const newCount = currentCount + 1;
-      storageService.setItem(this.storageKey, newCount);
-      return newCount;
-    } catch {
-      return 1;
+  async recordNewVisitor(): Promise<number> {
+    const isSessionCounted = typeof window !== 'undefined' && sessionStorage.getItem(this.sessionTrackKey);
+
+    if (!isSessionCounted) {
+      try {
+        const res = await fetch(`https://abacus.jasoncameron.dev/hit/${this.namespace}/${this.key}`, {
+          signal: AbortSignal.timeout(4000)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.value === 'number') {
+            if (typeof window !== 'undefined') {
+              sessionStorage.setItem(this.sessionTrackKey, 'true');
+            }
+            storageService.setItem(this.localKey, data.value);
+            return data.value;
+          }
+        }
+      } catch (err) {
+        console.warn('Live counter hit error, using cached count:', err);
+      }
     }
+
+    // If already counted in this session or fallback, get current count
+    return this.fetchLatestCount();
   }
 
   /**
-   * Retrieves the current actual visitor count.
+   * Fetches the latest actual visitor count from the global database without incrementing.
    */
-  getVisitorCount(): number {
+  async fetchLatestCount(): Promise<number> {
     try {
-      const count = storageService.getItem<number>(this.storageKey, 0);
-      return count > 0 ? count : 1;
+      const res = await fetch(`https://abacus.jasoncameron.dev/get/${this.namespace}/${this.key}`, {
+        signal: AbortSignal.timeout(3500)
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (typeof data.value === 'number') {
+          storageService.setItem(this.localKey, data.value);
+          return data.value;
+        }
+      }
     } catch {
-      return 1;
+      // Fallback to local cache if network/offline
     }
+
+    return storageService.getItem<number>(this.localKey, 1);
+  }
+
+  /**
+   * Returns locally cached count synchronously
+   */
+  getCachedCount(): number {
+    return storageService.getItem<number>(this.localKey, 1);
   }
 }
 
 export const visitorCounterService = new VisitorCounterService();
+
