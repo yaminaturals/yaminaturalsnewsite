@@ -114,12 +114,12 @@
   --container-wide-max-width: 1440px;
   --container-padding: clamp(14px, 3.5vw, 24px);
 
-  --header-height: 84px;
-  --header-height-mobile: 72px;
+  --header-height: 90px;
+  --header-height-mobile: 74px;
   --header-top-bar-height: 34px;
-  --header-offset-desktop: 118px;
-  --header-offset-tablet: 106px;
-  --header-offset-mobile: 72px;
+  --header-offset-desktop: 124px;
+  --header-offset-tablet: 108px;
+  --header-offset-mobile: 74px;
   --header-total-offset: var(--header-offset-desktop);
 
   --space-1: 0.25rem;   /* 4px */
