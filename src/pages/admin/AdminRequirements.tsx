@@ -637,75 +637,61 @@ export const AdminRequirements: React.FC = () => {
         <div className="rfq-modal-overlay" onClick={() => setSelectedReq(null)}>
           <div className="rfq-modal-dialog" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
+            {/* Modal Header with Ref No, Close Button & Pinned Workflow Actions */}
             <div className="rfq-modal-header">
-              <div className="rfq-modal-header-info">
-                <span className="rfq-ref-badge" style={{ fontSize: '0.9rem' }}>
-                  {selectedReq.referenceNumber}
-                </span>
-                <h3 className="rfq-modal-title">RFQ Details</h3>
-                <span className={`rfq-status-select ${
-                  selectedReq.status === 'new' ? 'rfq-status-new' :
-                  selectedReq.status === 'in-review' ? 'rfq-status-in-review' :
-                  selectedReq.status === 'quoted' ? 'rfq-status-quoted' :
-                  selectedReq.status === 'fulfilled' ? 'rfq-status-fulfilled' : 'rfq-status-archived'
-                }`}>
-                  {selectedReq.status.toUpperCase()}
-                </span>
-              </div>
-              <button
-                type="button"
-                className="rfq-modal-close"
-                onClick={() => setSelectedReq(null)}
-                title="Close"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="rfq-modal-body">
-              {/* Submission Meta */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#F9FAFB', padding: '0.65rem 1rem', borderRadius: '6px', fontSize: '0.8125rem' }}>
-                <div>
-                  <span style={{ color: '#6B7280' }}>Submitted on: </span>
-                  <strong>{new Date(selectedReq.createdAt).toLocaleString()}</strong>
-                </div>
-                <div>
-                  <span className="rfq-ref-badge">
-                    Category: {selectedReq.requirementType}
+              <div className="rfq-modal-header-top">
+                <div className="rfq-modal-header-info">
+                  <span className="rfq-ref-badge" style={{ fontSize: '0.85rem' }}>
+                    {selectedReq.referenceNumber}
+                  </span>
+                  <h3 className="rfq-modal-title">RFQ Details</h3>
+                  <span className={`rfq-status-select ${
+                    selectedReq.status === 'new' ? 'rfq-status-new' :
+                    selectedReq.status === 'in-review' ? 'rfq-status-in-review' :
+                    selectedReq.status === 'quoted' ? 'rfq-status-quoted' :
+                    selectedReq.status === 'fulfilled' ? 'rfq-status-fulfilled' : 'rfq-status-archived'
+                  }`}>
+                    {selectedReq.status.toUpperCase()}
                   </span>
                 </div>
+                <button
+                  type="button"
+                  className="rfq-modal-close"
+                  onClick={() => setSelectedReq(null)}
+                  title="Close"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
               </div>
 
-              {/* Status Updater Box */}
-              <div style={{ backgroundColor: '#ECFDF5', border: '1px solid #A7F3D0', padding: '0.75rem 1rem', borderRadius: '6px' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#065F46', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
-                  Workflow Status Action:
-                </div>
-                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+              {/* Integrated Workflow & Meta Toolbar */}
+              <div className="rfq-modal-workflow-bar">
+                <div className="rfq-workflow-actions">
+                  <span className="rfq-workflow-label">Workflow:</span>
                   {(['new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map((st) => (
                     <button
                       key={st}
                       type="button"
+                      className={`rfq-workflow-btn ${selectedReq.status === st ? 'active' : ''}`}
                       onClick={() => handleStatusChange(selectedReq.id, st)}
-                      style={{
-                        padding: '0.3rem 0.7rem',
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        borderRadius: '4px',
-                        border: '1px solid #D1D5DB',
-                        cursor: 'pointer',
-                        backgroundColor: selectedReq.status === st ? '#0F5338' : '#ffffff',
-                        color: selectedReq.status === st ? '#ffffff' : '#374151',
-                        transition: 'all 0.15s ease'
-                      }}
+                      title={`Change status to ${st}`}
                     >
-                      {st.toUpperCase()}
+                      {st === 'in-review' ? 'In-Review' : st.toUpperCase()}
                     </button>
                   ))}
                 </div>
+                <div className="rfq-workflow-meta">
+                  <span>📅 {new Date(selectedReq.createdAt).toLocaleDateString()}</span>
+                  <span className="rfq-ref-badge" style={{ fontSize: '0.72rem' }}>
+                    {selectedReq.requirementType}
+                  </span>
+                </div>
               </div>
+            </div>
 
+            {/* Modal Body */}
+            <div className="rfq-modal-body">
               {/* Section 1: Material & Specs */}
               <div className="rfq-modal-section">
                 <h4 className="rfq-section-title">🌿 Material & Quantity Specifications</h4>
