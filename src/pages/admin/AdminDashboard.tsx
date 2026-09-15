@@ -6,6 +6,7 @@ import { requirementService } from '../../services/RequirementService';
 import { leadService } from '../../services/LeadService';
 import { visitorCounterService } from '../../services/VisitorCounterService';
 import { CustomerRequirement, CustomerLead, Product, ProductCategory } from '../../types';
+import { EnquiriesChart } from '../../components/admin/EnquiriesChart';
 import {
   IconMail,
   IconProducts,
@@ -22,7 +23,6 @@ export const AdminDashboard: React.FC = () => {
   const [leads, setLeads] = useState<CustomerLead[]>([]);
   const [visitorCount, setVisitorCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
-  const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
 
   useEffect(() => {
     Promise.all([
@@ -88,7 +88,7 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  // Compute Real Category Distribution from Actual Products & Requirements
+  // Compute Real Category Distribution from Actual Products
   const categoryPalette = ['#073B24', '#0D5C3A', '#4ADE80', '#A7F3D0', '#E9D5C3', '#CBD5E1', '#F59E0B'];
   const categoryStats = categories.map((cat, idx) => {
     const matchingProducts = products.filter(
@@ -354,121 +354,9 @@ export const AdminDashboard: React.FC = () => {
 
       {/* 3. Middle Charts Section */}
       <div className="grid grid-cols-1 desktop-grid-cols-3 gap-6">
-        {/* Left 2 Columns: Enquiries Overview Spline Chart */}
-        <div
-          style={{
-            gridColumn: 'span 2',
-            backgroundColor: '#FFFFFF',
-            border: '1px solid #E5E7EB',
-            borderRadius: '12px',
-            padding: '1.5rem',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)'
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#111827', margin: 0 }}>
-              Enquiries Overview
-            </h3>
-            <select
-              value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value as any)}
-              style={{
-                backgroundColor: '#F9FAFB',
-                border: '1px solid #E5E7EB',
-                borderRadius: '6px',
-                padding: '0.35rem 0.65rem',
-                fontSize: '0.8rem',
-                color: '#374151',
-                outline: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              <option value="7d">Last 7 Days</option>
-              <option value="30d">Last 30 Days</option>
-              <option value="90d">Last 90 Days</option>
-              <option value="1y">This Year</option>
-            </select>
-          </div>
-
-          {/* SVG Spline Chart or Empty State */}
-          {requirements.length === 0 ? (
-            <div style={{ width: '100%', height: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F9FAFB', borderRadius: '8px', border: '1px dashed #E5E7EB' }}>
-              <span style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>📋</span>
-              <strong style={{ fontSize: '0.9rem', color: '#374151' }}>No enquiry activity recorded yet.</strong>
-              <span style={{ fontSize: '0.78rem', color: '#9CA3AF', marginTop: '4px' }}>
-                Customer submissions received from the public RFQ form will plot here in real time.
-              </span>
-            </div>
-          ) : (
-            <div style={{ width: '100%', height: '260px', position: 'relative' }}>
-              <svg viewBox="0 0 650 240" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
-                <defs>
-                  <linearGradient id="splineGreenGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0D5C3A" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#0D5C3A" stopOpacity="0.0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Y-Axis Grid Lines & Labels */}
-                <g stroke="#F3F4F6" strokeWidth="1">
-                  <line x1="40" y1="20" x2="630" y2="20" />
-                  <line x1="40" y1="70" x2="630" y2="70" />
-                  <line x1="40" y1="120" x2="630" y2="120" />
-                  <line x1="40" y1="170" x2="630" y2="170" />
-                  <line x1="40" y1="210" x2="630" y2="210" stroke="#E5E7EB" />
-                </g>
-
-                <g fill="#9CA3AF" fontSize="11" textAnchor="end">
-                  <text x="32" y="24">40</text>
-                  <text x="32" y="74">30</text>
-                  <text x="32" y="124">20</text>
-                  <text x="32" y="174">10</text>
-                  <text x="32" y="214">0</text>
-                </g>
-
-                {/* Spline Area Fill */}
-                <path
-                  d="M 50 195 C 75 160, 95 140, 115 150 C 135 160, 150 200, 175 190 C 200 180, 220 110, 245 110 C 270 110, 285 160, 310 145 C 335 130, 350 170, 375 160 C 400 150, 415 85, 440 85 C 465 85, 480 100, 505 105 C 530 110, 545 150, 570 135 C 595 120, 605 95, 620 98 L 620 210 L 50 210 Z"
-                  fill="url(#splineGreenGradient)"
-                />
-
-                {/* Spline Smooth Stroke Line */}
-                <path
-                  d="M 50 195 C 75 160, 95 140, 115 150 C 135 160, 150 200, 175 190 C 200 180, 220 110, 245 110 C 270 110, 285 160, 310 145 C 335 130, 350 170, 375 160 C 400 150, 415 85, 440 85 C 465 85, 480 100, 505 105 C 530 110, 545 150, 570 135 C 595 120, 605 95, 620 98"
-                  fill="none"
-                  stroke="#0D5C3A"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-
-                {/* Data Points on Spline */}
-                <g fill="#0D5C3A" stroke="#FFFFFF" strokeWidth="2.5">
-                  <circle cx="50" cy="195" r="4.5" />
-                  <circle cx="115" cy="150" r="4.5" />
-                  <circle cx="175" cy="190" r="4.5" />
-                  <circle cx="245" cy="110" r="4.5" />
-                  <circle cx="310" cy="145" r="4.5" />
-                  <circle cx="375" cy="160" r="4.5" />
-                  <circle cx="440" cy="85" r="4.5" />
-                  <circle cx="505" cy="105" r="4.5" />
-                  <circle cx="570" cy="135" r="4.5" />
-                  <circle cx="620" cy="98" r="4.5" />
-                </g>
-
-                {/* X-Axis Date Labels */}
-                <g fill="#9CA3AF" fontSize="11" textAnchor="middle">
-                  <text x="50" y="232">15 Aug</text>
-                  <text x="145" y="232">20 Aug</text>
-                  <text x="245" y="232">25 Aug</text>
-                  <text x="345" y="232">30 Aug</text>
-                  <text x="440" y="232">4 Sep</text>
-                  <text x="535" y="232">9 Sep</text>
-                  <text x="620" y="232">14 Sep</text>
-                </g>
-              </svg>
-            </div>
-          )}
+        {/* Left 2 Columns: Full-Featured Enquiries Overview Spline Chart */}
+        <div style={{ gridColumn: 'span 2' }}>
+          <EnquiriesChart requirements={requirements} leads={leads} />
         </div>
 
         {/* Right 1 Column: Enquiries by Category Donut Chart */}
@@ -483,7 +371,15 @@ export const AdminDashboard: React.FC = () => {
             flexDirection: 'column'
           }}
         >
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#111827', margin: '0 0 1.25rem 0' }}>
+          <h3
+            style={{
+              fontFamily: 'var(--font-heading, Georgia, serif)',
+              fontSize: '1.15rem',
+              fontWeight: 700,
+              color: '#111827',
+              margin: '0 0 1.25rem 0'
+            }}
+          >
             Products by Category
           </h3>
 
@@ -556,7 +452,15 @@ export const AdminDashboard: React.FC = () => {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#111827', margin: 0 }}>
+            <h3
+              style={{
+                fontFamily: 'var(--font-heading, Georgia, serif)',
+                fontSize: '1.15rem',
+                fontWeight: 700,
+                color: '#111827',
+                margin: 0
+              }}
+            >
               Recent Enquiries ({requirements.length})
             </h3>
             <Link
@@ -653,7 +557,15 @@ export const AdminDashboard: React.FC = () => {
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#111827', margin: 0 }}>
+            <h3
+              style={{
+                fontFamily: 'var(--font-heading, Georgia, serif)',
+                fontSize: '1.15rem',
+                fontWeight: 700,
+                color: '#111827',
+                margin: 0
+              }}
+            >
               Recent Activity
             </h3>
             <Link
