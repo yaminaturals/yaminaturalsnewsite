@@ -1,5 +1,6 @@
-import { ProductCategory } from '../types';
+import { ProductCategory, Product } from '../types';
 import { initialCategories } from '../data/categories.data';
+import { initialProducts } from '../data/products.data';
 import { storageService } from './StorageService';
 
 export interface ICategoryService {
@@ -13,17 +14,21 @@ export interface ICategoryService {
 
 class CategoryService implements ICategoryService {
   private storageKey = 'categories_list';
+  private productsStorageKey = 'products_list';
   private listeners: Set<(categories: ProductCategory[]) => void> = new Set();
 
   constructor() {
     // Listen for storage events across tabs
     if (typeof window !== 'undefined') {
       window.addEventListener('storage', (e) => {
-        if (e.key === this.storageKey) {
+        if (e.key === this.storageKey || e.key === this.productsStorageKey) {
           this.notifyListeners();
         }
       });
       window.addEventListener('yami:categories-updated', () => {
+        this.notifyListeners();
+      });
+      window.addEventListener('yami:products-updated', () => {
         this.notifyListeners();
       });
     }
@@ -31,16 +36,22 @@ class CategoryService implements ICategoryService {
 
   private getStoredCategories(): ProductCategory[] {
     const stored = storageService.getItem<ProductCategory[]>(this.storageKey, initialCategories);
+    const products = storageService.getItem<Product[]>(this.productsStorageKey, initialProducts);
+
     return stored.map((cat) => {
       const initial = initialCategories.find((ic) => ic.id === cat.id);
-      if (initial) {
-        return {
-          ...cat,
-          imageUrl: cat.imageUrl || initial.imageUrl,
-          shortDescription: initial.shortDescription,
-        };
-      }
-      return cat;
+      
+      // Calculate actual count of products assigned to this category
+      const actualProductCount = products.filter(
+        (p) => p.categoryId === cat.id || (cat.slug && p.categoryId === `cat-${cat.slug}`)
+      ).length;
+
+      return {
+        ...cat,
+        productCount: actualProductCount,
+        imageUrl: cat.imageUrl || initial?.imageUrl,
+        shortDescription: initial?.shortDescription || cat.shortDescription,
+      };
     });
   }
 
@@ -90,7 +101,7 @@ class CategoryService implements ICategoryService {
 
   subscribe(listener: (categories: ProductCategory[]) => void): () => void {
     this.listeners.add(listener);
-    // Initial call
+    // Initial call with computed actual counts
     listener(this.getStoredCategories().sort((a, b) => a.displayOrder - b.displayOrder));
     return () => {
       this.listeners.delete(listener);

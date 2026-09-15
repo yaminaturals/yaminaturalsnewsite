@@ -29,6 +29,10 @@ class ProductService implements IProductService {
 
   private saveStoredProducts(products: Product[]): void {
     storageService.setItem(this.storageKey, products);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('yami:products-updated', { detail: products }));
+      window.dispatchEvent(new CustomEvent('yami:categories-updated'));
+    }
   }
 
   async getProducts(filters?: ProductFilterOptions): Promise<Product[]> {
