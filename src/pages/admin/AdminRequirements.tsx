@@ -259,13 +259,10 @@ export const AdminRequirements: React.FC = () => {
 
   return (
     <div className="rfq-admin-container animate-fade-in">
-      {/* 1. Header with RFQ Heading & Top Actions */}
+      {/* 1. Compact Header with RFQ Heading & Action Buttons Side-by-Side */}
       <div className="rfq-header">
-        <div className="rfq-header-title">
-          <h1>RFQ</h1>
-          <p>
-            Inbound custom material requests, buyer specifications, quotation workflows, and export logs.
-          </p>
+        <div className="rfq-header-left">
+          <h1 className="rfq-main-title">RFQ</h1>
         </div>
 
         <div className="rfq-header-actions">
@@ -324,60 +321,57 @@ export const AdminRequirements: React.FC = () => {
         </div>
       )}
 
-      {/* 2. Search & Filter Bar */}
+      {/* 2. Compact Search & Filter Toolbar */}
       <div className="rfq-filters-card">
-        {/* Search Row */}
-        <div className="rfq-search-row">
-          <div className="rfq-search-box">
-            <span className="rfq-search-icon">🔍</span>
-            <input
-              type="text"
-              className="rfq-search-input"
-              placeholder="Search by Ref No, Client, Email, Phone, Country, Company, Ingredient..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                className="rfq-search-clear"
-                onClick={() => setSearchQuery('')}
-                title="Clear search"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Status Pills */}
-          <div className="rfq-status-pills">
-            {(['all', 'new', 'in-review', 'quoted', 'archived'] as const).map((st) => (
-              <button
-                key={st}
-                type="button"
-                className={`rfq-status-pill ${statusFilter === st ? 'active' : ''}`}
-                onClick={() => setStatusFilter(st)}
-              >
-                <span>{st === 'all' ? 'ALL' : st === 'in-review' ? 'IN-REVIEW' : st.toUpperCase()}</span>
-                <span className="rfq-pill-count">{statusCounts[st] || 0}</span>
-              </button>
-            ))}
-          </div>
+        {/* Search Box */}
+        <div className="rfq-search-box">
+          <span className="rfq-search-icon">🔍</span>
+          <input
+            type="text"
+            className="rfq-search-input"
+            placeholder="Search Ref No, Client, Email, Country, Ingredient..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              className="rfq-search-clear"
+              onClick={() => setSearchQuery('')}
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
-        {/* Date / Month / Year Filters Row */}
-        <div className="rfq-date-filters">
-          <span className="rfq-filter-label">📅 Filter By:</span>
+        {/* Status Pills */}
+        <div className="rfq-status-pills">
+          {(['all', 'new', 'in-review', 'quoted', 'archived'] as const).map((st) => (
+            <button
+              key={st}
+              type="button"
+              className={`rfq-status-pill ${statusFilter === st ? 'active' : ''}`}
+              onClick={() => setStatusFilter(st)}
+            >
+              <span>{st === 'all' ? 'ALL' : st === 'in-review' ? 'IN-REVIEW' : st.toUpperCase()}</span>
+              <span className="rfq-pill-count">{statusCounts[st] || 0}</span>
+            </button>
+          ))}
+        </div>
 
+        {/* Date Filters Inline */}
+        <div className="rfq-date-filters">
           <select
             className="rfq-select"
             value={dateFilterType}
             onChange={(e) => setDateFilterType(e.target.value as any)}
+            title="Filter by Date"
           >
-            <option value="all">All Dates</option>
-            <option value="year">Year wise</option>
-            <option value="month">Month wise</option>
-            <option value="range">Date Range / Specific Date</option>
+            <option value="all">📅 All Dates</option>
+            <option value="year">📅 Year wise</option>
+            <option value="month">📅 Month wise</option>
+            <option value="range">📅 Date Range</option>
           </select>
 
           {dateFilterType === 'year' && (
@@ -402,7 +396,7 @@ export const AdminRequirements: React.FC = () => {
           )}
 
           {dateFilterType === 'range' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <div className="rfq-date-range-inputs">
               <input
                 type="date"
                 className="rfq-date-input"
@@ -410,7 +404,7 @@ export const AdminRequirements: React.FC = () => {
                 onChange={(e) => setStartDate(e.target.value)}
                 title="From Date"
               />
-              <span style={{ color: '#9CA3AF' }}>to</span>
+              <span className="rfq-date-separator">-</span>
               <input
                 type="date"
                 className="rfq-date-input"
@@ -426,8 +420,9 @@ export const AdminRequirements: React.FC = () => {
               type="button"
               className="rfq-btn-reset-filters"
               onClick={handleResetFilters}
+              title="Reset all filters"
             >
-              ✕ Reset All Filters
+              ✕ Reset
             </button>
           )}
         </div>

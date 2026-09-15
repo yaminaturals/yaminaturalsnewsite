@@ -28,6 +28,13 @@ export const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('yami_admin_sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState<number>(0);
 
@@ -98,24 +105,37 @@ export const AdminLayout: React.FC = () => {
       requirementService.getRequirements(),
       leadService.getLeads()
     ]).then(([prods, cats, reqs, leads]) => {
-      const matchedCats = cats.filter(c => c.name.toLowerCase().includes(query) || c.slug.toLowerCase().includes(query));
-      const matchedReqs = reqs.filter(r => 
-        r.referenceNumber.toLowerCase().includes(query) || 
+      const matchedProducts = prods.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        (p.botanicalName && p.botanicalName.toLowerCase().includes(query)) ||
+        (p.shortDescription && p.shortDescription.toLowerCase().includes(query))
+      ).slice(0, 5);
+
+      const matchedCats = cats.filter(c =>
+        c.name.toLowerCase().includes(query) ||
+        c.slug.toLowerCase().includes(query)
+      ).slice(0, 4);
+
+      const matchedReqs = reqs.filter(r =>
+        r.referenceNumber.toLowerCase().includes(query) ||
         r.productName.toLowerCase().includes(query) ||
-        r.contact.fullName.toLowerCase().includes(query) ||
-        (r.contact.companyName && r.contact.companyName.toLowerCase().includes(query))
-      );
-      const matchedLeads = leads.filter(l => 
+        (r.contact?.fullName && r.contact.fullName.toLowerCase().includes(query)) ||
+        (r.contact?.email && r.contact.email.toLowerCase().includes(query)) ||
+        (r.contact?.companyName && r.contact.companyName.toLowerCase().includes(query))
+      ).slice(0, 5);
+
+      const matchedLeads = leads.filter(l =>
         l.fullName.toLowerCase().includes(query) ||
         l.email.toLowerCase().includes(query) ||
-        l.subject.toLowerCase().includes(query)
-      );
+        (l.companyName && l.companyName.toLowerCase().includes(query)) ||
+        (l.message && l.message.toLowerCase().includes(query))
+      ).slice(0, 5);
 
       setSearchResults({
-        products: prods.slice(0, 4),
-        categories: matchedCats.slice(0, 3),
-        requirements: matchedReqs.slice(0, 4),
-        leads: matchedLeads.slice(0, 3)
+        products: matchedProducts,
+        categories: matchedCats,
+        requirements: matchedReqs,
+        leads: matchedLeads
       });
     });
   }, [searchQuery]);
@@ -123,6 +143,22 @@ export const AdminLayout: React.FC = () => {
   const handleLogout = async () => {
     await authService.logout();
     navigate('/admin/login', { replace: true });
+  };
+
+  const toggleSidebar = () => {
+    if (window.innerWidth <= 1024) {
+      setSidebarOpen(prev => !prev);
+    } else {
+      setSidebarCollapsed(prev => {
+        const next = !prev;
+        try {
+          localStorage.setItem('yami_admin_sidebar_collapsed', String(next));
+        } catch {
+          // ignore
+        }
+        return next;
+      });
+    }
   };
 
   const closeSidebarOnMobile = () => {
@@ -139,71 +175,140 @@ export const AdminLayout: React.FC = () => {
       {sidebarOpen && <div className="admin-sidebar-backdrop" onClick={closeSidebarOnMobile} />}
 
       {/* Left Fixed Sidebar */}
-      <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`} aria-label="Admin Navigation">
+      <aside
+        className={`admin-sidebar ${sidebarOpen ? 'open' : ''} ${sidebarCollapsed ? 'collapsed' : ''}`}
+        aria-label="Admin Navigation"
+      >
         {/* Brand Header */}
         <div className="admin-sidebar-brand">
-          <Link to="/admin/dashboard" className="admin-sidebar-logo-container" onClick={closeSidebarOnMobile}>
-            <img
-              src={siteConfig.brand.logoPath}
-              alt="Yami Naturals"
-              className="admin-sidebar-logo"
-            />
-          </Link>
-          <div className="admin-sidebar-brand-subtitle">Admin Panel</div>
+          <div className="admin-sidebar-brand-top">
+            <Link
+              to="/admin/dashboard"
+              className="admin-sidebar-logo-container"
+              onClick={closeSidebarOnMobile}
+              title="Yami Naturals Admin Panel"
+            >
+              <img
+                src={siteConfig.brand.logoPath}
+                alt="Yami Naturals"
+                className="admin-sidebar-logo"
+              />
+            </Link>
+            <button
+              type="button"
+              className="admin-sidebar-toggle-btn"
+              onClick={toggleSidebar}
+              aria-label="Minimize sidebar"
+              title={sidebarCollapsed ? "Expand sidebar" : "Minimize sidebar"}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          {!sidebarCollapsed && <div className="admin-sidebar-brand-subtitle">Admin Panel</div>}
         </div>
 
         {/* Navigation Menu */}
         <nav className="admin-sidebar-nav">
-          <NavLink to="/admin/dashboard" end className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/dashboard"
+            end
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="Dashboard"
+          >
             <span className="admin-nav-icon"><IconDashboard size={18} /></span>
-            <span>Dashboard</span>
+            <span className="admin-nav-label">Dashboard</span>
           </NavLink>
 
-          <NavLink to="/admin/requirements" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
-            <span className="admin-nav-icon"><IconEnquiries size={18} /></span>
-            <span>RFQ / Enquiries</span>
+          <NavLink
+            to="/admin/requirements"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="RFQ / Enquiries"
+          >
+            <span className="admin-nav-icon">
+              <IconEnquiries size={18} />
+              {notificationCount > 0 && <span className="admin-nav-badge-dot" />}
+            </span>
+            <span className="admin-nav-label">RFQ / Enquiries</span>
             {notificationCount > 0 && <span className="admin-nav-badge">{notificationCount}</span>}
           </NavLink>
 
-          <NavLink to="/admin/leads" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/leads"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="Direct Leads"
+          >
             <span className="admin-nav-icon"><IconUsers size={18} /></span>
-            <span>Direct Leads</span>
+            <span className="admin-nav-label">Direct Leads</span>
           </NavLink>
 
-          <NavLink to="/admin/products" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/products"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="Products"
+          >
             <span className="admin-nav-icon"><IconProducts size={18} /></span>
-            <span>Products</span>
+            <span className="admin-nav-label">Products</span>
           </NavLink>
 
-          <NavLink to="/admin/categories" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/categories"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="Categories"
+          >
             <span className="admin-nav-icon"><IconCategories size={18} /></span>
-            <span>Categories</span>
+            <span className="admin-nav-label">Categories</span>
           </NavLink>
 
-          <NavLink to="/admin/content" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/content"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="Website Manager"
+          >
             <span className="admin-nav-icon"><IconContent size={18} /></span>
-            <span>Website Manager</span>
+            <span className="admin-nav-label">Website Manager</span>
           </NavLink>
 
-          <NavLink to="/admin/seo" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/seo"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="SEO Tools"
+          >
             <span className="admin-nav-icon"><IconSEO size={18} /></span>
-            <span>SEO Tools</span>
+            <span className="admin-nav-label">SEO Tools</span>
           </NavLink>
 
-          <NavLink to="/admin/settings" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`} onClick={closeSidebarOnMobile}>
+          <NavLink
+            to="/admin/settings"
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+            onClick={closeSidebarOnMobile}
+            title="Settings"
+          >
             <span className="admin-nav-icon"><IconSettings size={18} /></span>
-            <span>Settings</span>
+            <span className="admin-nav-label">Settings</span>
           </NavLink>
         </nav>
 
-        {/* Botanical Quote Card at bottom of sidebar */}
-        <div className="admin-sidebar-quote-card">
-          <div className="admin-sidebar-quote-text">
-            “Natural Ingredients. Real Possibilities.”
+        {/* Botanical Quote Card at bottom of sidebar (visible when not collapsed) */}
+        {!sidebarCollapsed && (
+          <div className="admin-sidebar-quote-card">
+            <div className="admin-sidebar-quote-text">
+              “Natural Ingredients. Real Possibilities.”
+            </div>
+            <div className="admin-sidebar-quote-line" />
+            <div className="admin-sidebar-quote-bg-leaf">🌿</div>
           </div>
-          <div className="admin-sidebar-quote-line" />
-          <div className="admin-sidebar-quote-bg-leaf">🌿</div>
-        </div>
+        )}
       </aside>
 
       {/* Main Viewport Shell */}
@@ -211,14 +316,19 @@ export const AdminLayout: React.FC = () => {
         {/* Top Header Bar */}
         <header className="admin-top-bar">
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1 }}>
-            {/* Mobile Toggle */}
+            {/* 3 Horizontal Lines Toggle Button */}
             <button
               type="button"
-              className="admin-mobile-toggle"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="admin-menu-toggle"
+              onClick={toggleSidebar}
               aria-label="Toggle navigation menu"
+              title={sidebarCollapsed ? "Expand sidebar" : "Minimize sidebar"}
             >
-              ☰
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
             </button>
 
             {/* Functional Real-Time Global Search */}
