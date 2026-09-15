@@ -1,107 +1,100 @@
 export interface CertificationItem {
   id: string;
-  code: string;
   name: string;
-  authority: string;
-  tag: string;
-  badgeType: 'fssai' | 'gmp' | 'gst' | 'spiceboard' | 'apeda' | 'halal' | 'iso' | 'nongmo' | 'kosher' | 'msme' | 'iec' | 'organic';
+  subtext?: string;
+  badgeType:
+    | 'fssai'
+    | 'gst'
+    | 'gmp'
+    | 'halal'
+    | 'spiceboard'
+    | 'apeda'
+    | 'iso'
+    | 'nongmo'
+    | 'kosher'
+    | 'msme'
+    | 'iec'
+    | 'organic'
+    | 'usfda';
 }
 
 export const certificationsData: CertificationItem[] = [
   {
     id: 'fssai',
-    code: 'FSSAI',
-    name: 'Food Safety & Standards',
-    authority: 'Govt. of India',
-    tag: 'Lic. Compliant',
+    name: 'FSSAI',
+    subtext: 'Food Safety Authority',
     badgeType: 'fssai',
   },
   {
-    id: 'gmp',
-    code: 'GMP',
-    name: 'Good Manufacturing Practice',
-    authority: 'Quality Standard',
-    tag: 'Batch Verified',
-    badgeType: 'gmp',
-  },
-  {
     id: 'gst',
-    code: 'GST',
-    name: 'Goods & Services Tax',
-    authority: 'Ministry of Finance, India',
-    tag: 'Registered Entity',
+    name: 'GST Registered',
+    subtext: 'Govt. of India',
     badgeType: 'gst',
   },
   {
+    id: 'gmp',
+    name: 'GMP Certified',
+    subtext: 'Quality Standard',
+    badgeType: 'gmp',
+  },
+  {
+    id: 'halal',
+    name: 'HALAL Certified',
+    subtext: 'Global Standard',
+    badgeType: 'halal',
+  },
+  {
     id: 'spiceboard',
-    code: 'SPICES BOARD',
     name: 'Spices Board India',
-    authority: 'Ministry of Commerce & Industry',
-    tag: 'Export Certified',
+    subtext: 'Ministry of Commerce',
     badgeType: 'spiceboard',
   },
   {
     id: 'apeda',
-    code: 'APEDA',
-    name: 'Agri & Processed Food Authority',
-    authority: 'Ministry of Commerce, India',
-    tag: 'Export Registered',
+    name: 'APEDA',
+    subtext: 'Agri Export Authority',
     badgeType: 'apeda',
   },
   {
-    id: 'halal',
-    code: 'HALAL',
-    name: 'Halal Certified Processing',
-    authority: 'Global Standard',
-    tag: 'Compliant Facility',
-    badgeType: 'halal',
-  },
-  {
     id: 'iso',
-    code: 'ISO 22000',
-    name: 'Food Safety Management',
-    authority: 'International Standard',
-    tag: 'HACCP Aligned',
+    name: 'ISO 22000:2018',
+    subtext: 'Food Safety System',
     badgeType: 'iso',
   },
   {
     id: 'nongmo',
-    code: 'NON-GMO',
-    name: 'Non-GMO Origin Standard',
-    authority: 'Botanical Traceability',
-    tag: '100% Natural',
+    name: 'Non-GMO Verified',
+    subtext: 'Botanical Purity',
     badgeType: 'nongmo',
   },
   {
     id: 'kosher',
-    code: 'KOSHER',
-    name: 'Kosher Certified Standard',
-    authority: 'Dietary Compliance',
-    tag: 'Audit Verified',
+    name: 'Kosher Certified',
+    subtext: 'Dietary Compliance',
     badgeType: 'kosher',
   },
   {
     id: 'msme',
-    code: 'MSME UDYAM',
-    name: 'Enterprise Registration',
-    authority: 'Ministry of MSME, India',
-    tag: 'Govt. Recognized',
+    name: 'MSME Udyam',
+    subtext: 'Ministry of MSME',
     badgeType: 'msme',
   },
   {
     id: 'iec',
-    code: 'IEC / DGFT',
-    name: 'Import Export Code',
-    authority: 'Directorate General of Foreign Trade',
-    tag: 'Global Trade',
+    name: 'IEC (DGFT)',
+    subtext: 'Import Export Code',
     badgeType: 'iec',
   },
   {
     id: 'organic',
-    code: 'NPOP / USDA',
-    name: 'Organic Botanical Standard',
-    authority: 'Agricultural Standard',
-    tag: 'Purity Assured',
+    name: 'India Organic',
+    subtext: 'NPOP Standard',
     badgeType: 'organic',
+  },
+  {
+    id: 'usfda',
+    name: 'US FDA Registered',
+    subtext: 'Facility Compliant',
+    badgeType: 'usfda',
   },
 ];

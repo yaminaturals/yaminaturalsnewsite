@@ -3,183 +3,354 @@ import { Container } from '../../ui/Container/Container';
 import { certificationsData, CertificationItem } from '../../../data/certifications.data';
 import './CertificationsSection.css';
 
-const renderBadgeIcon = (badgeType: CertificationItem['badgeType']) => {
+const renderOfficialLogo = (badgeType: CertificationItem['badgeType']) => {
   switch (badgeType) {
     case 'fssai':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <rect x="3" y="3" width="34" height="34" rx="8" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M10 14h20M10 20h14M10 26h8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          <circle cx="28" cy="24" r="5" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M26 24l1.5 1.5L30.5 22" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="FSSAI Logo">
+          {/* FSSAI iconic swoosh arches */}
+          <path d="M 24 54 C 24 24, 75 14, 136 28 C 110 18, 55 18, 38 40 C 30 50, 30 54, 24 54 Z" fill="#F58220" />
+          <path d="M 28 58 C 45 68, 95 68, 136 50 C 105 60, 60 58, 42 46 C 36 42, 32 48, 28 58 Z" fill="#0054A6" />
+          {/* FSSAI Typography */}
+          <text x="36" y="50" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="27" fill="#0054A6" letterSpacing="-0.5">
+            fssai
+          </text>
+          {/* Orange dot on i */}
+          <circle cx="94" cy="34" r="3.2" fill="#F58220" />
+          {/* Subtitle */}
+          <text x="80" y="68" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="700" fontSize="6.5" fill="#4B5563" letterSpacing="0.4">
+            FOOD SAFETY &amp; STANDARDS
+          </text>
         </svg>
       );
-    case 'gmp':
-      return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="1.8" strokeDasharray="3 2" />
-          <circle cx="20" cy="20" r="11" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M15 20l3.5 3.5L25 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      );
+
     case 'gst':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <path d="M20 4L34 11v10c0 9-6 15-14 17C12 36 6 30 6 21V11L20 4z" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M14 20l4 4 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="GST Logo">
+          {/* Tricolor circular emblem */}
+          <circle cx="44" cy="40" r="26" fill="#FFFFFF" stroke="#000080" strokeWidth="1.5" />
+          {/* Saffron arc */}
+          <path d="M 20 32 A 26 26 0 0 1 68 32 Z" fill="#FF9933" />
+          {/* Green arc */}
+          <path d="M 20 48 A 26 26 0 0 0 68 48 Z" fill="#138808" />
+          {/* Chakra wheel */}
+          <circle cx="44" cy="40" r="6" fill="none" stroke="#000080" strokeWidth="1.2" />
+          <circle cx="44" cy="40" r="1.5" fill="#000080" />
+          {/* GST Text */}
+          <text x="80" y="44" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="28" fill="#000080" letterSpacing="0.5">
+            GST
+          </text>
+          <text x="80" y="58" fontFamily="Arial, sans-serif" fontWeight="700" fontSize="7.5" fill="#138808" letterSpacing="0.3">
+            GOODS &amp; SERVICES TAX
+          </text>
+          <text x="80" y="68" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="5.5" fill="#FF9933" letterSpacing="0.2">
+            GOVERNMENT OF INDIA
+          </text>
         </svg>
       );
-    case 'spiceboard':
+
+    case 'gmp':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <path d="M20 6c-8 6-12 14-6 22 4 5 10 6 12 6s8-1 12-6c6-8 2-16-6-22-3 5-9 8-12 0z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-          <path d="M20 16v14M16 23l4-4 4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="GMP Certified Logo">
+          {/* Circular Gold/Navy Seal */}
+          <circle cx="44" cy="40" r="28" fill="#0A2540" stroke="#D4AF37" strokeWidth="2.5" />
+          <circle cx="44" cy="40" r="23" fill="none" stroke="#D4AF37" strokeWidth="1" strokeDasharray="3 2" />
+          {/* Stars */}
+          <text x="44" y="24" textAnchor="middle" fill="#D4AF37" fontSize="8">★★★</text>
+          {/* GMP Text */}
+          <text x="44" y="44" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="18" fill="#FFFFFF" letterSpacing="1">
+            GMP
+          </text>
+          <text x="44" y="54" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="5.5" fill="#D4AF37" letterSpacing="0.8">
+            CERTIFIED
+          </text>
+          {/* Side text */}
+          <text x="82" y="36" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="15" fill="#0A2540">
+            GMP
+          </text>
+          <text x="82" y="48" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="700" fontSize="8.5" fill="#C98A1E">
+            CERTIFIED FACILITY
+          </text>
+          <text x="82" y="60" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            Good Manufacturing Practice
+          </text>
         </svg>
       );
-    case 'apeda':
-      return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M11 26c3-8 9-12 18-12M29 14c-3 8-9 12-18 12M20 7v26" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          <circle cx="20" cy="14" r="2.5" fill="currentColor" />
-        </svg>
-      );
+
     case 'halal':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M26 12a10 10 0 1 1-10 16 11.5 11.5 0 0 0 10-16z" stroke="currentColor" strokeWidth="1.6" />
-          <polygon points="25,18 26.5,21.5 30,22 27.5,24.5 28,28 25,26.5 22,28 22.5,24.5 20,22 23.5,21.5" fill="currentColor" transform="scale(0.5) translate(14, 8)" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="Halal Certified Logo">
+          {/* Green circular seal */}
+          <circle cx="44" cy="40" r="28" fill="#007A3D" stroke="#25A25A" strokeWidth="2" />
+          <circle cx="44" cy="40" r="24" fill="none" stroke="#FFFFFF" strokeWidth="1.2" />
+          {/* Arabic Calligraphy Style حلال */}
+          <path d="M 34 46 C 34 33, 40 30, 48 30 C 44 38, 44 44, 54 44 C 56 44, 57 41, 56 36 L 58 36 C 60 44, 54 48, 46 48 C 38 48, 34 47, 34 46 Z" fill="#FFFFFF" />
+          <circle cx="40" cy="32" r="2.2" fill="#FFFFFF" />
+          {/* Text HALAL */}
+          <text x="82" y="37" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="17" fill="#007A3D" letterSpacing="1">
+            HALAL
+          </text>
+          <text x="82" y="50" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="9" fill="#166534" letterSpacing="0.5">
+            CERTIFIED
+          </text>
+          <text x="82" y="62" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            Global Compliance
+          </text>
         </svg>
       );
+
+    case 'spiceboard':
+      return (
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="Spices Board India Logo">
+          {/* Spices Board Green Medallion */}
+          <circle cx="44" cy="40" r="28" fill="#0D5C3A" stroke="#16A34A" strokeWidth="1.5" />
+          {/* Mortar & pestle with spice leaves */}
+          <path d="M 33 46 C 33 52, 55 52, 55 46 L 55 43 L 33 43 Z" fill="#EAB308" />
+          <path d="M 44 26 L 49 43 L 42 43 Z" fill="#FFFFFF" />
+          <path d="M 36 34 C 36 26, 44 26, 44 34 C 40 34, 38 31, 36 34 Z" fill="#4ADE80" />
+          <path d="M 52 34 C 52 26, 44 26, 44 34 C 48 34, 50 31, 52 34 Z" fill="#4ADE80" />
+          {/* Side text */}
+          <text x="82" y="32" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="12" fill="#0D5C3A" letterSpacing="0.3">
+            SPICES BOARD
+          </text>
+          <text x="82" y="45" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="10.5" fill="#166534">
+            INDIA
+          </text>
+          <text x="82" y="58" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="6.5" fill="#64748B">
+            Ministry of Commerce &amp; Ind.
+          </text>
+        </svg>
+      );
+
+    case 'apeda':
+      return (
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="APEDA Logo">
+          {/* APEDA circular badge with sun & wheat sheaf */}
+          <circle cx="44" cy="40" r="27" fill="#FFFDF0" stroke="#006837" strokeWidth="2" />
+          {/* Golden wheat stalk & sun */}
+          <circle cx="44" cy="30" r="7" fill="#F59E0B" />
+          <path d="M 34 52 C 38 40, 44 36, 44 32 C 44 36, 50 40, 54 52 Z" fill="#006837" />
+          <path d="M 44 32 L 44 54" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+          {/* APEDA text */}
+          <text x="80" y="38" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="19" fill="#006837" letterSpacing="1.2">
+            APEDA
+          </text>
+          <text x="80" y="51" fontFamily="Arial, sans-serif" fontWeight="700" fontSize="7.5" fill="#D97706" letterSpacing="0.2">
+            AGRI &amp; PROCESSED FOOD
+          </text>
+          <text x="80" y="61" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="6.5" fill="#64748B">
+            Export Development Authority
+          </text>
+        </svg>
+      );
+
     case 'iso':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <polygon points="20,4 34,12 34,28 20,36 6,28 6,12" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-          <circle cx="20" cy="20" r="7" stroke="currentColor" strokeWidth="1.5" />
-          <circle cx="20" cy="20" r="2" fill="currentColor" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="ISO 22000 Logo">
+          {/* ISO Octagonal Badge */}
+          <polygon points="44,14 62,22 70,40 62,58 44,66 26,58 18,40 26,22" fill="#0F2C59" stroke="#C98A1E" strokeWidth="2" />
+          <text x="44" y="37" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="13" fill="#FFFFFF">
+            ISO
+          </text>
+          <text x="44" y="50" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="8" fill="#F59E0B">
+            22000
+          </text>
+          {/* Text */}
+          <text x="82" y="34" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="15" fill="#0F2C59">
+            ISO 22000
+          </text>
+          <text x="82" y="47" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="700" fontSize="8.5" fill="#C98A1E">
+            FOOD SAFETY MGMT
+          </text>
+          <text x="82" y="59" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            HACCP Compliant Quality
+          </text>
         </svg>
       );
+
     case 'nongmo':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <path d="M8 32C12 24 16 8 32 8c0 16-16 20-24 24z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-          <path d="M12 28l16-16M18 22l6-2M14 16l4 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="Non-GMO Verified Logo">
+          {/* Non-GMO badge */}
+          <rect x="18" y="16" width="52" height="48" rx="8" fill="#FF7900" />
+          {/* Butterfly & leaf outline */}
+          <path d="M 32 30 C 36 22, 48 24, 44 36 C 40 40, 32 38, 32 30 Z" fill="#FFFFFF" opacity="0.9" />
+          <path d="M 56 30 C 52 22, 40 24, 44 36 C 48 40, 56 38, 56 30 Z" fill="#FFFFFF" opacity="0.9" />
+          <circle cx="44" cy="34" r="2" fill="#2E7D32" />
+          <text x="44" y="56" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="8" fill="#FFFFFF">
+            VERIFIED
+          </text>
+          {/* Text */}
+          <text x="78" y="35" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="15" fill="#EA580C">
+            NON-GMO
+          </text>
+          <text x="78" y="48" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="8.5" fill="#16A34A">
+            100% NATURAL
+          </text>
+          <text x="78" y="60" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            Botanical Origin Verified
+          </text>
         </svg>
       );
+
     case 'kosher':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="1.8" />
-          <polygon points="20,8 24,16 32,16 26,22 28,30 20,25 12,30 14,22 8,16 16,16" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="Kosher Certified Logo">
+          {/* Kosher Circle K Emblem */}
+          <circle cx="44" cy="40" r="27" fill="#1E293B" stroke="#38BDF8" strokeWidth="2" />
+          <polygon points="44,22 49,34 60,34 51,42 54,53 44,46 34,53 37,42 28,34 39,34" fill="none" stroke="#38BDF8" strokeWidth="1.2" />
+          <text x="44" y="46" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="18" fill="#FFFFFF">
+            K
+          </text>
+          {/* Text */}
+          <text x="80" y="36" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="16" fill="#1E293B">
+            KOSHER
+          </text>
+          <text x="80" y="49" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="700" fontSize="8.5" fill="#0284C7">
+            CERTIFIED STANDARD
+          </text>
+          <text x="80" y="60" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            Global Dietary Compliance
+          </text>
         </svg>
       );
+
     case 'msme':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <rect x="5" y="8" width="30" height="24" rx="4" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M5 16h30M13 8v8M27 8v8M12 24h6M12 28h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="MSME Udyam Logo">
+          {/* MSME Industrial Gear & Tricolor */}
+          <circle cx="44" cy="40" r="27" fill="#FFF7ED" stroke="#EA580C" strokeWidth="2" />
+          <circle cx="44" cy="40" r="18" fill="none" stroke="#16A34A" strokeWidth="1.5" strokeDasharray="4 2" />
+          <text x="44" y="44" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="9" fill="#EA580C">
+            UDYAM
+          </text>
+          {/* Text */}
+          <text x="80" y="34" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="16" fill="#EA580C">
+            MSME
+          </text>
+          <text x="80" y="47" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="9" fill="#16A34A">
+            UDYAM REGISTERED
+          </text>
+          <text x="80" y="59" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            Ministry of MSME, Govt. of India
+          </text>
         </svg>
       );
+
     case 'iec':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="1.8" />
-          <ellipse cx="20" cy="20" rx="8" ry="16" stroke="currentColor" strokeWidth="1.5" />
-          <path d="M4 20h32M7 11h26M7 29h26" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="IEC DGFT Logo">
+          {/* DGFT Globe & Trade Shield */}
+          <circle cx="44" cy="40" r="27" fill="#0A2540" stroke="#EAB308" strokeWidth="2" />
+          <ellipse cx="44" cy="40" rx="12" ry="24" fill="none" stroke="#60A5FA" strokeWidth="1.2" />
+          <path d="M 20 40 L 68 40 M 24 28 L 64 28 M 24 52 L 64 52" stroke="#60A5FA" strokeWidth="1" />
+          {/* Text */}
+          <text x="80" y="35" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="16" fill="#0A2540">
+            IEC CODE
+          </text>
+          <text x="80" y="48" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="8.5" fill="#CA8A04">
+            DGFT RECOGNIZED
+          </text>
+          <text x="80" y="60" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            Import Export Licenced Entity
+          </text>
         </svg>
       );
+
     case 'organic':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <path d="M20 5C11 5 7 14 7 22c0 9 6 13 13 13s13-4 13-13c0-8-4-17-13-17z" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M20 11v18M14 18c3 2 6 2 6-2M20 23c3 2 6 2 6-2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="India Organic Logo">
+          {/* India Organic Sprout Sun Emblem */}
+          <circle cx="44" cy="40" r="27" fill="#F0FDF4" stroke="#16A34A" strokeWidth="2" />
+          <path d="M 44 20 C 35 25, 32 35, 36 48 C 40 42, 44 38, 44 20 Z" fill="#15803D" />
+          <path d="M 44 20 C 53 25, 56 35, 52 48 C 48 42, 44 38, 44 20 Z" fill="#4ADE80" />
+          <circle cx="44" cy="50" r="3" fill="#CA8A04" />
+          {/* Text */}
+          <text x="80" y="34" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="14" fill="#15803D">
+            INDIA ORGANIC
+          </text>
+          <text x="80" y="47" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="8.5" fill="#16A34A">
+            NPOP CERTIFIED
+          </text>
+          <text x="80" y="59" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            100% Pure Botanical Quality
+          </text>
         </svg>
       );
-    default:
+
+    case 'usfda':
       return (
-        <svg viewBox="0 0 40 40" fill="none" className="cert-badge-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="1.8" />
-          <path d="M14 20l4 4 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 160 80" className="cert-real-logo-svg" aria-label="US FDA Registered Logo">
+          {/* US FDA Navy Medallion */}
+          <circle cx="44" cy="40" r="27" fill="#003366" stroke="#FFFFFF" strokeWidth="1.5" />
+          <circle cx="44" cy="40" r="24" fill="none" stroke="#93C5FD" strokeWidth="1" />
+          <text x="44" y="46" textAnchor="middle" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="16" fill="#FFFFFF" letterSpacing="0.8">
+            FDA
+          </text>
+          {/* Text */}
+          <text x="80" y="35" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="900" fontSize="15" fill="#003366">
+            US FDA
+          </text>
+          <text x="80" y="48" fontFamily="'Plus Jakarta Sans', Arial, sans-serif" fontWeight="800" fontSize="8.5" fill="#2563EB">
+            REGISTERED FACILITY
+          </text>
+          <text x="80" y="60" fontFamily="Arial, sans-serif" fontWeight="600" fontSize="7" fill="#64748B">
+            U.S. Food &amp; Drug Administration
+          </text>
         </svg>
       );
+
+    default:
+      return null;
   }
 };
 
 export const CertificationsSection: React.FC = () => {
   return (
-    <section className="certifications-section" aria-labelledby="certifications-heading">
+    <section className="certifications-section" aria-label="Our Certifications">
       <Container size="default">
-        <div className="certifications-header animate-fade-up">
-          <div className="certifications-eyebrow-wrap">
-            <span className="certifications-eyebrow-icon" aria-hidden="true">🛡️</span>
-            <span className="certifications-eyebrow">OUR CERTIFICATIONS</span>
-          </div>
-          <h2 id="certifications-heading" className="certifications-title">
-            Compliance, Quality &amp; Trade Accreditations
+        <div className="certifications-header">
+          <h2 className="certifications-title">
+            OUR CERTIFICATIONS
           </h2>
-          <p className="certifications-subtitle">
-            Operating under established regulatory standards, food safety protocols, and export facilitation frameworks.
-          </p>
         </div>
       </Container>
 
-      {/* Full-Width Continuous Horizontal Moving Marquee */}
-      <div className="certifications-marquee-container" aria-label="Accreditations and certifications continuous list">
+      {/* Continuous Horizontal Moving Marquee */}
+      <div className="certifications-marquee-container" aria-label="Certifications and accreditations moving list">
         <div className="certifications-marquee-track">
           {/* Sequence 1 */}
           <div className="certifications-sequence">
             {certificationsData.map((item) => (
-              <div key={`cert-seq1-${item.id}`} className="cert-badge-card">
-                <div className="cert-badge-icon-box">
-                  {renderBadgeIcon(item.badgeType)}
+              <div key={`cert-seq1-${item.id}`} className="cert-logo-item">
+                <div className="cert-logo-graphic-box">
+                  {renderOfficialLogo(item.badgeType)}
                 </div>
-                <div className="cert-badge-info">
-                  <div className="cert-badge-top">
-                    <span className="cert-badge-code">{item.code}</span>
-                    <span className="cert-badge-pill">{item.tag}</span>
-                  </div>
-                  <span className="cert-badge-name">{item.name}</span>
-                  <span className="cert-badge-authority">{item.authority}</span>
-                </div>
+                <span className="cert-logo-caption-name">{item.name}</span>
               </div>
             ))}
           </div>
 
-          {/* Sequence 2 for seamless loop */}
+          {/* Sequence 2 for seamless infinite loop */}
           <div className="certifications-sequence" aria-hidden="true">
             {certificationsData.map((item) => (
-              <div key={`cert-seq2-${item.id}`} className="cert-badge-card">
-                <div className="cert-badge-icon-box">
-                  {renderBadgeIcon(item.badgeType)}
+              <div key={`cert-seq2-${item.id}`} className="cert-logo-item">
+                <div className="cert-logo-graphic-box">
+                  {renderOfficialLogo(item.badgeType)}
                 </div>
-                <div className="cert-badge-info">
-                  <div className="cert-badge-top">
-                    <span className="cert-badge-code">{item.code}</span>
-                    <span className="cert-badge-pill">{item.tag}</span>
-                  </div>
-                  <span className="cert-badge-name">{item.name}</span>
-                  <span className="cert-badge-authority">{item.authority}</span>
-                </div>
+                <span className="cert-logo-caption-name">{item.name}</span>
               </div>
             ))}
           </div>
 
-          {/* Sequence 3 for ultra-wide displays */}
+          {/* Sequence 3 for ultra-wide screens */}
           <div className="certifications-sequence" aria-hidden="true">
             {certificationsData.map((item) => (
-              <div key={`cert-seq3-${item.id}`} className="cert-badge-card">
-                <div className="cert-badge-icon-box">
-                  {renderBadgeIcon(item.badgeType)}
+              <div key={`cert-seq3-${item.id}`} className="cert-logo-item">
+                <div className="cert-logo-graphic-box">
+                  {renderOfficialLogo(item.badgeType)}
                 </div>
-                <div className="cert-badge-info">
-                  <div className="cert-badge-top">
-                    <span className="cert-badge-code">{item.code}</span>
-                    <span className="cert-badge-pill">{item.tag}</span>
-                  </div>
-                  <span className="cert-badge-name">{item.name}</span>
-                  <span className="cert-badge-authority">{item.authority}</span>
-                </div>
+                <span className="cert-logo-caption-name">{item.name}</span>
               </div>
             ))}
           </div>
@@ -187,18 +358,11 @@ export const CertificationsSection: React.FC = () => {
           {/* Sequence 4 for continuous looping */}
           <div className="certifications-sequence" aria-hidden="true">
             {certificationsData.map((item) => (
-              <div key={`cert-seq4-${item.id}`} className="cert-badge-card">
-                <div className="cert-badge-icon-box">
-                  {renderBadgeIcon(item.badgeType)}
+              <div key={`cert-seq4-${item.id}`} className="cert-logo-item">
+                <div className="cert-logo-graphic-box">
+                  {renderOfficialLogo(item.badgeType)}
                 </div>
-                <div className="cert-badge-info">
-                  <div className="cert-badge-top">
-                    <span className="cert-badge-code">{item.code}</span>
-                    <span className="cert-badge-pill">{item.tag}</span>
-                  </div>
-                  <span className="cert-badge-name">{item.name}</span>
-                  <span className="cert-badge-authority">{item.authority}</span>
-                </div>
+                <span className="cert-logo-caption-name">{item.name}</span>
               </div>
             ))}
           </div>
