@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Container } from '../../ui/Container/Container';
+import { Button } from '../../ui/Button/Button';
 import { ParallaxLayer } from '../../ui/ParallaxLayer/ParallaxLayer';
 import { faqSectionContent } from '../../../data/faq.data';
 import { FAQItem } from './FAQItem';
 import './FAQSection.css';
 
 export const FAQSection: React.FC = () => {
-  const { eyebrow, heading, headingEmphasis, supportingText, items } =
+  const { eyebrow, heading, headingEmphasis, supportingText, items, cta } =
     faqSectionContent;
 
   // Initial state: only first item open initially
@@ -104,7 +106,7 @@ export const FAQSection: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT: Accordion FAQ List */}
+          {/* RIGHT: Accordion FAQ List + Understated Editorial CTA */}
           <div className="faq-right">
             <div className="faq-accordion-list" role="presentation">
               {items.map((item, idx) => (
@@ -117,6 +119,31 @@ export const FAQSection: React.FC = () => {
                 />
               ))}
             </div>
+
+            {/* Understated Editorial Post-FAQ CTA */}
+            {cta && (
+              <div className="faq-post-cta animate-fade-up delay-4">
+                <div className="faq-post-cta-content">
+                  <h3 className="faq-post-cta-title">{cta.heading}</h3>
+                  <p className="faq-post-cta-desc">{cta.text}</p>
+                </div>
+                <div className="faq-post-cta-actions">
+                  <Button
+                    to={cta.buttonLink}
+                    variant="primary"
+                    size="md"
+                    className="faq-view-all-btn"
+                  >
+                    {cta.buttonText}
+                  </Button>
+                  {cta.secondaryLink && cta.secondaryText && (
+                    <Link to={cta.secondaryLink} className="faq-post-cta-secondary-link">
+                      Have a specific requirement? <span className="faq-post-cta-link-highlight">{cta.secondaryText}</span>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Container>
