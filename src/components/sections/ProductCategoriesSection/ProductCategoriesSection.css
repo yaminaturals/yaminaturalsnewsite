@@ -290,8 +290,8 @@
   width: 100%;
   overflow: hidden;
   background-color: #FAF8F5;
-  border-top: 1px solid rgba(13, 92, 58, 0.12);
-  border-bottom: 1px solid rgba(13, 92, 58, 0.12);
+  border-top: 1px solid rgba(13, 92, 58, 0.15);
+  border-bottom: 1px solid rgba(13, 92, 58, 0.15);
   height: clamp(68px, 5.2vw, 76px);
   display: flex;
   align-items: center;
