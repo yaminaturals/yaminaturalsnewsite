@@ -32,10 +32,13 @@ import { AdminLeads } from '../pages/admin/AdminLeads';
 import { AdminContent } from '../pages/admin/AdminContent';
 import { AdminMedia } from '../pages/admin/AdminMedia';
 import { AdminSettings } from '../pages/admin/AdminSettings';
+import { ScrollToTop } from '../components/common/ScrollToTop';
 
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
+      {/* Ensures every page navigation starts at the very top */}
+      <ScrollToTop />
       <Routes>
         {/* PUBLIC WEBSITE ROUTES */}
         <Route element={<PublicLayout />}>
