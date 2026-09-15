@@ -4,6 +4,7 @@ import { generateOrganizationSchema, generateWebSiteSchema } from '../../utils/s
 import { EditorialHeroSection } from '../../components/sections/EditorialHeroSection/EditorialHeroSection';
 import { ProductCategoriesSection } from '../../components/sections/ProductCategoriesSection/ProductCategoriesSection';
 import { WhyYamiSection } from '../../components/sections/WhyYamiSection';
+import { CertificationsSection } from '../../components/sections/CertificationsSection';
 import { SpecificationDocumentationSection } from '../../components/sections/SpecificationDocumentationSection';
 import { FAQSection } from '../../components/sections/FAQSection';
 import './HomePage.css';
@@ -26,10 +27,13 @@ export const HomePage: React.FC = () => {
       {/* 3. WHY YAMI NATURALS (Step 5F: Requirement-First Procurement Approach) */}
       <WhyYamiSection />
 
-      {/* 4. SPECIFICATION & DOCUMENTATION (Step 5I: Requirement Details & Context) */}
+      {/* 4. OUR CERTIFICATIONS (Continuous Horizontal Legal & Compliance Marquee) */}
+      <CertificationsSection />
+
+      {/* 5. SPECIFICATION & DOCUMENTATION (Step 5I: Requirement Details & Context) */}
       <SpecificationDocumentationSection />
 
-      {/* 5. FAQ SECTION (Step 5K: Common Questions & Sourcing Guidance) */}
+      {/* 6. FAQ SECTION (Step 5K: Common Questions & Sourcing Guidance) */}
       <FAQSection />
     </div>
   );
