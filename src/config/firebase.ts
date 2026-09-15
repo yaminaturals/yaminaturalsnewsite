@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { 
   getAuth, 
   GoogleAuthProvider, 
@@ -9,29 +9,98 @@ import {
   Auth 
 } from 'firebase/auth';
 
-// Firebase configuration using Vite environment variables with sensible defaults
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDummyKeyForYamiNaturalsProdAuth',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'yaminaturals-auth.firebaseapp.com',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'yaminaturals-auth',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'yaminaturals-auth.appspot.com',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '123456789012',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:123456789012:web:abcdef1234567890'
-};
-
-let app: FirebaseApp;
-try {
-  app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-} catch {
-  app = initializeApp(firebaseConfig);
+export interface FirebaseConfigObject {
+  apiKey: string;
+  authDomain: string;
+  projectId: string;
+  storageBucket?: string;
+  messagingSenderId?: string;
+  appId: string;
 }
 
-export const auth: Auth = getAuth(app);
+const STORAGE_KEY = 'yami_firebase_config';
+
+export function getSavedFirebaseConfig(): FirebaseConfigObject | null {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.apiKey && parsed.authDomain && parsed.projectId) {
+        return parsed;
+      }
+    }
+  } catch {
+    // Ignore JSON parse errors
+  }
+
+  // Fallback to Vite env variables if valid
+  if (
+    import.meta.env.VITE_FIREBASE_API_KEY && 
+    !import.meta.env.VITE_FIREBASE_API_KEY.includes('DummyKey')
+  ) {
+    return {
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'yaminaturals.firebaseapp.com',
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'yaminaturals',
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+      appId: import.meta.env.VITE_FIREBASE_APP_ID || ''
+    };
+  }
+
+  return null;
+}
+
+export function saveFirebaseConfig(config: FirebaseConfigObject): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+  initFirebase();
+}
+
+export function isFirebaseConfigured(): boolean {
+  return getSavedFirebaseConfig() !== null;
+}
+
+let app: FirebaseApp | null = null;
+let auth: Auth | null = null;
 
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
   prompt: 'select_account'
 });
 
-export { signInWithPopup, signOut, onAuthStateChanged };
+export function initFirebase(): { app: FirebaseApp; auth: Auth } | null {
+  const config = getSavedFirebaseConfig();
+  if (!config || !config.apiKey || config.apiKey.includes('DummyKey')) {
+    return null;
+  }
+
+  try {
+    const apps = getApps();
+    if (apps.length > 0) {
+      app = apps[0];
+    } else {
+      app = initializeApp(config);
+    }
+    auth = getAuth(app);
+    return { app, auth };
+  } catch (err) {
+    console.error('Failed to initialize Firebase with current config:', err);
+    return null;
+  }
+}
+
+// Initial setup attempt
+initFirebase();
+
+export function getFirebaseAuth(): Auth | null {
+  if (!auth) {
+    const initialized = initFirebase();
+    if (initialized) {
+      return initialized.auth;
+    }
+  }
+  return auth;
+}
+
+export { app, auth, signInWithPopup, signOut, onAuthStateChanged };
 export type { User };

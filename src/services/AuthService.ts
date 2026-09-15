@@ -1,6 +1,6 @@
 import { AdminUser, AuthSession } from '../types';
 import { storageService } from './StorageService';
-import { auth, googleProvider, signInWithPopup, signOut } from '../config/firebase';
+import { getFirebaseAuth, googleProvider, signInWithPopup, signOut } from '../config/firebase';
 
 export const AUTHORIZED_ADMIN_EMAIL = 'yaminaturals@gmail.com';
 
@@ -40,14 +40,22 @@ class AuthService implements IAuthService {
    */
   async loginWithGoogle(): Promise<{ success: boolean; session?: AuthSession; error?: string }> {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const activeAuth = getFirebaseAuth();
+      if (!activeAuth) {
+        return {
+          success: false,
+          error: 'Firebase project is not configured yet. Please enter your Firebase Web App configuration below to enable Google Authentication.'
+        };
+      }
+
+      const result = await signInWithPopup(activeAuth, googleProvider);
       const firebaseUser = result.user;
       const authenticatedEmail = firebaseUser.email ? firebaseUser.email.toLowerCase().trim() : '';
 
       // Strict Authorization Gate
       if (authenticatedEmail !== AUTHORIZED_ADMIN_EMAIL) {
         // Immediately revoke and sign out unauthorized account
-        await signOut(auth);
+        await signOut(activeAuth);
         return {
           success: false,
           error: `Access Denied: Account "${authenticatedEmail}" is not authorized. Only ${AUTHORIZED_ADMIN_EMAIL} can access the Admin Panel.`
@@ -87,13 +95,17 @@ class AuthService implements IAuthService {
       if (errorObj.code === 'auth/unauthorized-domain') {
         return { 
           success: false, 
-          error: 'Current domain is not whitelisted in Firebase Console Authentication settings.' 
+          error: 'Current domain is not authorized in Firebase Console -> Authentication -> Settings -> Authorized domains. Please add this domain to the list.' 
         };
       }
-      if (errorObj.code === 'auth/invalid-api-key' || errorObj.code === 'auth/api-key-not-valid.pleas') {
+      if (
+        errorObj.code === 'auth/invalid-api-key' || 
+        errorObj.code === 'auth/api-key-not-valid.-please-pass-a-valid-api-key.' ||
+        errorObj.message?.includes('api-key-not-valid')
+      ) {
         return {
           success: false,
-          error: 'Firebase API key needs to be configured in environment variables (VITE_FIREBASE_API_KEY).'
+          error: 'Invalid Firebase API Key. Please provide a valid Firebase configuration from your Firebase Console.'
         };
       }
 
@@ -106,7 +118,10 @@ class AuthService implements IAuthService {
 
   async logout(): Promise<void> {
     try {
-      await signOut(auth);
+      const activeAuth = getFirebaseAuth();
+      if (activeAuth) {
+        await signOut(activeAuth);
+      }
     } catch {
       // Ignore signOut cleanup errors
     }
