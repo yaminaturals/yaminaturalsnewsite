@@ -3,6 +3,7 @@ import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { SEO } from '../../common/SEO';
 import { siteConfig } from '../../../config/siteConfig';
 import { authService } from '../../../services/AuthService';
+import { BackToTop } from '../../common/BackToTop';
 import './AdminLayout.css';
 
 export const AdminLayout: React.FC = () => {
@@ -103,6 +104,7 @@ export const AdminLayout: React.FC = () => {
         <main className="admin-content-area">
           <Outlet />
         </main>
+        <BackToTop />
       </div>
     </div>
   );

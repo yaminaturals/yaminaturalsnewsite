@@ -1,0 +1,117 @@
+/* ==========================================================================
+   BACK TO TOP FLOATING BUTTON - YAMI NATURALS
+   ========================================================================== */
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: clamp(1.5rem, 3vw, 2.25rem);
+  right: clamp(1.25rem, 3vw, 2.25rem);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0D5C3A 0%, #073B24 100%);
+  color: #FFFFFF;
+  border: 1.5px solid rgba(201, 138, 30, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 4px 18px rgba(7, 59, 36, 0.28),
+              0 1px 3px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.9);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              background 0.25s ease,
+              border-color 0.25s ease;
+  pointer-events: none;
+  outline: none;
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.back-to-top-btn:hover {
+  background: linear-gradient(135deg, #073B24 0%, #042416 100%);
+  border-color: #C98A1E;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 26px rgba(13, 92, 58, 0.38),
+              0 2px 6px rgba(201, 138, 30, 0.3);
+  color: #F8F6F1;
+}
+
+.back-to-top-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 12px rgba(7, 59, 36, 0.25);
+}
+
+.back-to-top-btn:focus-visible {
+  outline: 2px solid #C98A1E;
+  outline-offset: 3px;
+}
+
+.back-to-top-icon {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.25s ease;
+}
+
+.back-to-top-btn:hover .back-to-top-icon {
+  transform: translateY(-2px);
+}
+
+/* Subtle ring pulse animation on idle */
+.back-to-top-pulse {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 138, 30, 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.back-to-top-btn.visible .back-to-top-pulse {
+  animation: backToTopPulse 3s infinite ease-out;
+}
+
+@keyframes backToTopPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+  .back-to-top-btn {
+    width: 44px;
+    height: 44px;
+    bottom: 1.25rem;
+    right: 1.15rem;
+  }
+
+  .back-to-top-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
