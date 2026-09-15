@@ -1,34 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { Card } from '../../components/ui/Card/Card';
-import { Badge } from '../../components/ui/Badge/Badge';
-import { Button } from '../../components/ui/Button/Button';
+import React, { useEffect, useState, useMemo } from 'react';
 import { requirementService } from '../../services/RequirementService';
 import { CustomerRequirement, RequirementStatus } from '../../types';
+import './AdminRequirements.css';
 
 export const AdminRequirements: React.FC = () => {
   const [requirements, setRequirements] = useState<CustomerRequirement[]>([]);
   const [selectedReq, setSelectedReq] = useState<CustomerRequirement | null>(null);
-  const [filterStatus, setFilterStatus] = useState<RequirementStatus | 'all'>('all');
-  const [newNote, setNewNote] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const loadRequirements = () => {
+  // Search & Filter States
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<RequirementStatus | 'all'>('all');
+  const [dateFilterType, setDateFilterType] = useState<'all' | 'year' | 'month' | 'range'>('all');
+  const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>(`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`);
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
+
+  // Internal Note State
+  const [newNote, setNewNote] = useState('');
+  const [exportFeedback, setExportFeedback] = useState<string | null>(null);
+
+  const loadRequirements = async () => {
     setLoading(true);
-    requirementService.getRequirements(filterStatus === 'all' ? undefined : filterStatus).then((res) => {
+    try {
+      const res = await requirementService.getRequirements();
       setRequirements(res);
+    } catch (err) {
+      console.error('Failed to fetch requirements:', err);
+    } finally {
       setLoading(false);
-    });
+    }
   };
 
   useEffect(() => {
     loadRequirements();
-  }, [filterStatus]);
+  }, []);
 
   const handleStatusChange = async (reqId: string, status: RequirementStatus) => {
     await requirementService.updateStatus(reqId, status);
     loadRequirements();
     if (selectedReq && selectedReq.id === reqId) {
-      setSelectedReq({ ...selectedReq, status });
+      setSelectedReq(prev => prev ? { ...prev, status } : null);
     }
   };
 
@@ -43,243 +56,921 @@ export const AdminRequirements: React.FC = () => {
     setSelectedReq(updated);
   };
 
+  // Available Years from dataset
+  const availableYears = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+    const years = new Set<string>([currentYear.toString(), (currentYear - 1).toString()]);
+    requirements.forEach(r => {
+      if (r.createdAt) {
+        const y = new Date(r.createdAt).getFullYear().toString();
+        if (y && !isNaN(Number(y))) years.add(y);
+      }
+    });
+    return Array.from(years).sort((a, b) => Number(b) - Number(a));
+  }, [requirements]);
+
+  // Filtered Requirements
+  const filteredRequirements = useMemo(() => {
+    return requirements.filter((req) => {
+      // 1. Status Filter
+      if (statusFilter !== 'all' && req.status !== statusFilter) {
+        return false;
+      }
+
+      // 2. Date Filter
+      if (req.createdAt) {
+        const reqDate = new Date(req.createdAt);
+        const reqYear = reqDate.getFullYear().toString();
+        const reqMonth = `${reqYear}-${String(reqDate.getMonth() + 1).padStart(2, '0')}`;
+        const reqDateString = reqDate.toISOString().slice(0, 10);
+
+        if (dateFilterType === 'year' && reqYear !== selectedYear) {
+          return false;
+        }
+        if (dateFilterType === 'month' && reqMonth !== selectedMonth) {
+          return false;
+        }
+        if (dateFilterType === 'range') {
+          if (startDate && reqDateString < startDate) return false;
+          if (endDate && reqDateString > endDate) return false;
+        }
+      }
+
+      // 3. Search Query
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const searchableFields = [
+          req.referenceNumber,
+          req.contact?.fullName,
+          req.contact?.email,
+          req.contact?.phone,
+          req.contact?.country,
+          req.contact?.cityOrPort,
+          req.contact?.companyName,
+          req.productName,
+          req.botanicalOrInciName,
+          req.applicationUse,
+          req.specificationStandard,
+          req.packagingPreference,
+          req.additionalNotes,
+          ...(req.adminNotes || [])
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+        if (!searchableFields.includes(query)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [requirements, statusFilter, dateFilterType, selectedYear, selectedMonth, startDate, endDate, searchQuery]);
+
+  // Dynamic Status Counts (overall & for quick view)
+  const statusCounts = useMemo(() => {
+    const counts = {
+      all: requirements.length,
+      new: 0,
+      'in-review': 0,
+      quoted: 0,
+      fulfilled: 0,
+      archived: 0
+    };
+    requirements.forEach(r => {
+      if (counts[r.status] !== undefined) {
+        counts[r.status]++;
+      }
+    });
+    return counts;
+  }, [requirements]);
+
+  // Export to Excel / CSV Function
+  const handleExportToExcel = () => {
+    // If table has filtered items, export filtered. If no filter applied, exports all RFQ items till date.
+    const dataToExport = filteredRequirements.length > 0 ? filteredRequirements : requirements;
+
+    if (dataToExport.length === 0) {
+      alert('No RFQ records available to export.');
+      return;
+    }
+
+    const headers = [
+      'Reference No',
+      'Submission Date',
+      'Status',
+      'Customer Type',
+      'Client Name',
+      'Company Name',
+      'Email ID',
+      'Phone Number',
+      'Country',
+      'City / Port',
+      'Ingredient / Material Name',
+      'Botanical / INCI Name',
+      'Required Quantity',
+      'Quantity Unit',
+      'Application / Intended Use',
+      'Specification Standard',
+      'Packaging Preference',
+      'Client Notes',
+      'Attached Documents Count',
+      'Attached File Names',
+      'Internal Operational Notes'
+    ];
+
+    const escapeCsv = (val: string | number | undefined | null): string => {
+      if (val === undefined || val === null) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    const csvRows: string[] = [];
+    csvRows.push(headers.map(escapeCsv).join(','));
+
+    dataToExport.forEach((req) => {
+      const formattedDate = req.createdAt ? new Date(req.createdAt).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      }) : '';
+
+      const docNames = (req.documents || []).map(d => d.name).join('; ');
+      const adminNotesStr = (req.adminNotes || []).join(' | ');
+
+      const row = [
+        escapeCsv(req.referenceNumber),
+        escapeCsv(formattedDate),
+        escapeCsv(req.status.toUpperCase()),
+        escapeCsv(req.customerType.toUpperCase()),
+        escapeCsv(req.contact?.fullName || ''),
+        escapeCsv(req.contact?.companyName || ''),
+        escapeCsv(req.contact?.email || ''),
+        escapeCsv(req.contact?.phone || ''),
+        escapeCsv(req.contact?.country || ''),
+        escapeCsv(req.contact?.cityOrPort || ''),
+        escapeCsv(req.productName || ''),
+        escapeCsv(req.botanicalOrInciName || ''),
+        escapeCsv(req.requiredQuantity || ''),
+        escapeCsv(req.quantityUnit || ''),
+        escapeCsv(req.applicationUse || ''),
+        escapeCsv(req.specificationStandard || ''),
+        escapeCsv(req.packagingPreference || ''),
+        escapeCsv(req.additionalNotes || ''),
+        escapeCsv(req.documents?.length || 0),
+        escapeCsv(docNames),
+        escapeCsv(adminNotesStr)
+      ];
+
+      csvRows.push(row.join(','));
+    });
+
+    // UTF-8 BOM for Excel native compatibility
+    const csvContent = '\uFEFF' + csvRows.join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    const dateSlug = new Date().toISOString().slice(0, 10);
+    const filterSlug = statusFilter !== 'all' ? `_${statusFilter}` : '_all';
+    link.setAttribute('href', url);
+    link.setAttribute('download', `Yami_Naturals_RFQs_${dateSlug}${filterSlug}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    setExportFeedback(`Exported ${dataToExport.length} RFQ record(s) to Excel successfully!`);
+    setTimeout(() => setExportFeedback(null), 4000);
+  };
+
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('all');
+    setDateFilterType('all');
+    setStartDate('');
+    setEndDate('');
+  };
+
+  const isFiltered = searchQuery !== '' || statusFilter !== 'all' || dateFilterType !== 'all';
+
   return (
-    <div className="animate-fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-6)', flexWrap: 'wrap', gap: 'var(--space-4)', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: 'var(--space-4)' }}>
-        <div>
-          <h2 style={{ margin: 0, color: 'var(--color-primary-900)' }}>Customer Requirements & RFQs</h2>
-          <p className="text-sm text-muted" style={{ margin: 'var(--space-1) 0 0' }}>
-            Inbound custom material requests, buyer specifications, and quotation workflow status.
+    <div className="rfq-admin-container animate-fade-in">
+      {/* 1. Header with RFQ Heading & Top Actions */}
+      <div className="rfq-header">
+        <div className="rfq-header-title">
+          <h1>RFQ</h1>
+          <p>
+            Inbound custom material requests, buyer specifications, quotation workflows, and export logs.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+        <div className="rfq-header-actions">
           <a
             href="/submit-requirement"
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              padding: '0.45rem 0.85rem',
-              backgroundColor: 'var(--color-primary-50)',
-              color: 'var(--color-primary-800)',
-              borderRadius: 'var(--radius-xs)',
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: 600,
-              textDecoration: 'none',
-              border: '1px solid var(--color-primary-200)'
-            }}
+            className="rfq-btn-link"
           >
             🌐 Public RFQ Form ↗
           </a>
-          <Button type="button" variant="outline" size="sm" onClick={loadRequirements}>
+
+          <button
+            type="button"
+            className="rfq-btn-refresh"
+            onClick={loadRequirements}
+            title="Refresh RFQs list"
+          >
             🔄 Refresh
-          </Button>
+          </button>
+
+          <button
+            type="button"
+            className="rfq-btn-export"
+            onClick={handleExportToExcel}
+            disabled={loading}
+            title="Export RFQs to Excel CSV"
+          >
+            📥 Export to Excel
+          </button>
         </div>
       </div>
 
-      {/* Filter Pills */}
-      <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
-        {(['all', 'new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map((st) => (
+      {/* Export Confirmation Feedback */}
+      {exportFeedback && (
+        <div style={{
+          backgroundColor: '#ECFDF5',
+          color: '#065F46',
+          border: '1px solid #A7F3D0',
+          padding: '0.65rem 1rem',
+          borderRadius: '6px',
+          fontSize: '0.8125rem',
+          fontWeight: 600,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <span>✅ {exportFeedback}</span>
           <button
-            key={st}
             type="button"
-            onClick={() => setFilterStatus(st)}
-            style={{
-              padding: '0.35rem 0.75rem',
-              borderRadius: 'var(--radius-full)',
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: 600,
-              border: '1px solid var(--color-border-medium)',
-              backgroundColor: filterStatus === st ? 'var(--color-primary-600)' : '#ffffff',
-              color: filterStatus === st ? '#ffffff' : 'var(--color-text-body)',
-              cursor: 'pointer'
-            }}
+            onClick={() => setExportFeedback(null)}
+            style={{ background: 'none', border: 'none', color: '#065F46', cursor: 'pointer', fontWeight: 'bold' }}
           >
-            {st.toUpperCase()}
+            ✕
           </button>
-        ))}
-      </div>
+        </div>
+      )}
 
-      <div className="grid grid-cols-1 tablet-grid-cols-2 gap-6" style={{ alignItems: 'start' }}>
-        {/* Table of Submissions */}
-        <Card variant="surface" padding="md">
-          {loading ? (
-            <p className="text-muted">Loading submissions...</p>
-          ) : requirements.length === 0 ? (
-            <p className="text-muted">No requirements found matching current filter.</p>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-              {requirements.map((req) => (
-                <div
-                  key={req.id}
-                  onClick={() => setSelectedReq(req)}
-                  style={{
-                    padding: 'var(--space-3)',
-                    borderRadius: 'var(--radius-sm)',
-                    border: `1.5px solid ${selectedReq?.id === req.id ? 'var(--color-primary-600)' : 'var(--color-border-subtle)'}`,
-                    backgroundColor: selectedReq?.id === req.id ? 'var(--color-primary-50)' : '#ffffff',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-1)' }}>
-                    <span style={{ fontWeight: 700, fontSize: 'var(--font-size-sm)' }}>{req.referenceNumber}</span>
-                    <Badge variant={req.status === 'new' ? 'warning' : 'primary'}>{req.status}</Badge>
-                  </div>
-                  <div style={{ fontWeight: 600, fontSize: 'var(--font-size-sm)', color: 'var(--color-primary-900)' }}>
-                    {req.productName} ({req.requiredQuantity} {req.quantityUnit})
-                  </div>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 'var(--space-1)' }}>
-                    Client: {req.contact.fullName} {req.contact.companyName ? `• ${req.contact.companyName}` : ''}
-                  </div>
-                </div>
+      {/* 2. Search & Filter Bar */}
+      <div className="rfq-filters-card">
+        {/* Search Row */}
+        <div className="rfq-search-row">
+          <div className="rfq-search-box">
+            <span className="rfq-search-icon">🔍</span>
+            <input
+              type="text"
+              className="rfq-search-input"
+              placeholder="Search by Ref No, Client, Email, Phone, Country, Company, Ingredient..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="rfq-search-clear"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Status Pills */}
+          <div className="rfq-status-pills">
+            {(['all', 'new', 'in-review', 'quoted', 'archived'] as const).map((st) => (
+              <button
+                key={st}
+                type="button"
+                className={`rfq-status-pill ${statusFilter === st ? 'active' : ''}`}
+                onClick={() => setStatusFilter(st)}
+              >
+                <span>{st === 'all' ? 'ALL' : st === 'in-review' ? 'IN-REVIEW' : st.toUpperCase()}</span>
+                <span className="rfq-pill-count">{statusCounts[st] || 0}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Date / Month / Year Filters Row */}
+        <div className="rfq-date-filters">
+          <span className="rfq-filter-label">📅 Filter By:</span>
+
+          <select
+            className="rfq-select"
+            value={dateFilterType}
+            onChange={(e) => setDateFilterType(e.target.value as any)}
+          >
+            <option value="all">All Dates</option>
+            <option value="year">Year wise</option>
+            <option value="month">Month wise</option>
+            <option value="range">Date Range / Specific Date</option>
+          </select>
+
+          {dateFilterType === 'year' && (
+            <select
+              className="rfq-select"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+            >
+              {availableYears.map((yr) => (
+                <option key={yr} value={yr}>Year {yr}</option>
               ))}
+            </select>
+          )}
+
+          {dateFilterType === 'month' && (
+            <input
+              type="month"
+              className="rfq-date-input"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+            />
+          )}
+
+          {dateFilterType === 'range' && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <input
+                type="date"
+                className="rfq-date-input"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                title="From Date"
+              />
+              <span style={{ color: '#9CA3AF' }}>to</span>
+              <input
+                type="date"
+                className="rfq-date-input"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                title="To Date"
+              />
             </div>
           )}
-        </Card>
 
-        {/* Selected Requirement Detail Inspector */}
-        <Card variant="surface" padding="lg">
-          {selectedReq ? (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-4)', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: 'var(--space-3)' }}>
+          {isFiltered && (
+            <button
+              type="button"
+              className="rfq-btn-reset-filters"
+              onClick={handleResetFilters}
+            >
+              ✕ Reset All Filters
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* 3. RFQ Table */}
+      <div className="rfq-table-card">
+        <div className="rfq-table-wrapper">
+          <table className="rfq-table">
+            <thead>
+              <tr>
+                <th>Ref. Number</th>
+                <th>Date</th>
+                <th>Client Name</th>
+                <th>Email ID</th>
+                <th>Phone Number</th>
+                <th>Country</th>
+                <th>Company Name</th>
+                <th>Ingredient Name</th>
+                <th>Status</th>
+                <th style={{ textAlign: 'center' }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={10} style={{ textAlign: 'center', padding: '3rem', color: '#6B7280' }}>
+                    Loading RFQ records...
+                  </td>
+                </tr>
+              ) : filteredRequirements.length === 0 ? (
+                <tr>
+                  <td colSpan={10} style={{ textAlign: 'center', padding: '3.5rem 1rem', color: '#6B7280' }}>
+                    <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>📭</div>
+                    <div style={{ fontWeight: 600, fontSize: '0.95rem', color: '#374151' }}>No RFQs found matching criteria.</div>
+                    <div style={{ fontSize: '0.8125rem', marginTop: '0.25rem' }}>
+                      {isFiltered ? 'Try adjusting your search or filters.' : 'Inbound requirements submitted via /submit-requirement will appear here.'}
+                    </div>
+                    {isFiltered && (
+                      <button
+                        type="button"
+                        onClick={handleResetFilters}
+                        style={{
+                          marginTop: '0.75rem',
+                          padding: '0.35rem 0.75rem',
+                          fontSize: '0.75rem',
+                          color: '#0F5338',
+                          background: '#ECFDF5',
+                          border: '1px solid #A7F3D0',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontWeight: 600
+                        }}
+                      >
+                        Reset All Filters
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ) : (
+                filteredRequirements.map((req) => {
+                  const reqDate = req.createdAt ? new Date(req.createdAt) : null;
+                  const formattedDate = reqDate ? reqDate.toLocaleDateString('en-US', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                  }) : '—';
+
+                  const getStatusClass = (st: RequirementStatus) => {
+                    switch (st) {
+                      case 'new': return 'rfq-status-new';
+                      case 'in-review': return 'rfq-status-in-review';
+                      case 'quoted': return 'rfq-status-quoted';
+                      case 'fulfilled': return 'rfq-status-fulfilled';
+                      case 'archived': return 'rfq-status-archived';
+                      default: return '';
+                    }
+                  };
+
+                  return (
+                    <tr key={req.id}>
+                      {/* 1. Ref. Number */}
+                      <td>
+                        <span className="rfq-ref-badge" title={req.referenceNumber}>
+                          {req.referenceNumber}
+                        </span>
+                      </td>
+
+                      {/* 2. Date */}
+                      <td style={{ whiteSpace: 'nowrap', fontSize: '0.75rem', color: '#6B7280' }}>
+                        {formattedDate}
+                      </td>
+
+                      {/* 3. Client Name */}
+                      <td>
+                        <div className="rfq-cell-client">
+                          <span className="rfq-client-name">{req.contact?.fullName || '—'}</span>
+                          {req.customerType && (
+                            <span className="rfq-cust-type-tag">
+                              {req.customerType}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 4. Email ID */}
+                      <td>
+                        {req.contact?.email ? (
+                          <a
+                            href={`mailto:${req.contact.email}?subject=RFQ Ref: ${req.referenceNumber} - Yami Naturals`}
+                            className="rfq-cell-link"
+                            title={`Send email to ${req.contact.email}`}
+                          >
+                            {req.contact.email}
+                          </a>
+                        ) : '—'}
+                      </td>
+
+                      {/* 5. Phone Number */}
+                      <td>
+                        {req.contact?.phone ? (
+                          <a
+                            href={`tel:${req.contact.phone.replace(/\s+/g, '')}`}
+                            className="rfq-cell-link"
+                            title={`Call ${req.contact.phone}`}
+                          >
+                            {req.contact.phone}
+                          </a>
+                        ) : '—'}
+                      </td>
+
+                      {/* 6. Country */}
+                      <td>
+                        <div className="rfq-cell-country">
+                          <span>{req.contact?.country || '—'}</span>
+                          {req.contact?.cityOrPort && (
+                            <span style={{ fontSize: '0.6875rem', color: '#6B7280' }}>
+                              ({req.contact.cityOrPort})
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 7. Company Name */}
+                      <td style={{ fontWeight: 500, color: '#111827' }}>
+                        {req.contact?.companyName || '—'}
+                      </td>
+
+                      {/* 8. Ingredient Name */}
+                      <td>
+                        <div className="rfq-cell-ingredient">
+                          <div className="rfq-ingredient-title" title={req.productName}>
+                            {req.productName}
+                          </div>
+                          <div className="rfq-ingredient-qty">
+                            {req.requiredQuantity} {req.quantityUnit}
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* 9. Status Quick Action */}
+                      <td>
+                        <select
+                          className={`rfq-status-select ${getStatusClass(req.status)}`}
+                          value={req.status}
+                          onChange={(e) => handleStatusChange(req.id, e.target.value as RequirementStatus)}
+                          title="Change RFQ status"
+                        >
+                          <option value="new">NEW</option>
+                          <option value="in-review">IN-REVIEW</option>
+                          <option value="quoted">QUOTED</option>
+                          <option value="fulfilled">FULFILLED</option>
+                          <option value="archived">ARCHIVED</option>
+                        </select>
+                      </td>
+
+                      {/* 10. View Button */}
+                      <td style={{ textAlign: 'center' }}>
+                        <div className="rfq-action-btns" style={{ justifyContent: 'center' }}>
+                          <button
+                            type="button"
+                            className="rfq-btn-view"
+                            onClick={() => setSelectedReq(req)}
+                            title="View Full RFQ Details"
+                          >
+                            👁️ View
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Table Footer Summary */}
+        <div className="rfq-table-footer">
+          <div>
+            Showing <strong>{filteredRequirements.length}</strong> of <strong>{requirements.length}</strong> total RFQs
+            {isFiltered && ' (filtered view)'}
+          </div>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <button
+              type="button"
+              className="rfq-btn-link"
+              onClick={handleExportToExcel}
+              style={{ padding: '0.3rem 0.65rem' }}
+            >
+              📥 Export {isFiltered ? 'Filtered' : 'All'} to Excel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Detailed RFQ View Modal */}
+      {selectedReq && (
+        <div className="rfq-modal-overlay" onClick={() => setSelectedReq(null)}>
+          <div className="rfq-modal-dialog" onClick={(e) => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="rfq-modal-header">
+              <div className="rfq-modal-header-info">
+                <span className="rfq-ref-badge" style={{ fontSize: '0.9rem' }}>
+                  {selectedReq.referenceNumber}
+                </span>
+                <h3 className="rfq-modal-title">RFQ Details</h3>
+                <span className={`rfq-status-select ${
+                  selectedReq.status === 'new' ? 'rfq-status-new' :
+                  selectedReq.status === 'in-review' ? 'rfq-status-in-review' :
+                  selectedReq.status === 'quoted' ? 'rfq-status-quoted' :
+                  selectedReq.status === 'fulfilled' ? 'rfq-status-fulfilled' : 'rfq-status-archived'
+                }`}>
+                  {selectedReq.status.toUpperCase()}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="rfq-modal-close"
+                onClick={() => setSelectedReq(null)}
+                title="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="rfq-modal-body">
+              {/* Submission Meta */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#F9FAFB', padding: '0.65rem 1rem', borderRadius: '6px', fontSize: '0.8125rem' }}>
                 <div>
-                  <h3 style={{ margin: 0 }}>{selectedReq.referenceNumber}</h3>
-                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                    Submitted on {new Date(selectedReq.createdAt).toLocaleString()}
-                  </span>
+                  <span style={{ color: '#6B7280' }}>Submitted on: </span>
+                  <strong>{new Date(selectedReq.createdAt).toLocaleString()}</strong>
                 </div>
-                <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
-                  <Badge variant={selectedReq.customerType === 'b2b' ? 'neutral' : 'accent'}>
-                    {selectedReq.customerType.toUpperCase()}
-                  </Badge>
-                  <Badge variant="primary">{selectedReq.requirementType}</Badge>
+                <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  <span className="rfq-cust-type-tag" style={{ fontSize: '0.75rem', padding: '0.15rem 0.5rem' }}>
+                    Type: {selectedReq.customerType.toUpperCase()}
+                  </span>
+                  <span className="rfq-ref-badge">
+                    Category: {selectedReq.requirementType}
+                  </span>
                 </div>
               </div>
 
-              {/* Status Updater */}
-              <div style={{ marginBottom: 'var(--space-4)', padding: 'var(--space-3)', backgroundColor: 'var(--color-bg-subtle)', borderRadius: 'var(--radius-sm)' }}>
-                <label style={{ display: 'block', fontSize: 'var(--font-size-xs)', fontWeight: 600, marginBottom: 'var(--space-1)' }}>
-                  Change Workflow Status:
-                </label>
-                <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-                  {(['new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map(st => (
+              {/* Status Updater Box */}
+              <div style={{ backgroundColor: '#ECFDF5', border: '1px solid #A7F3D0', padding: '0.75rem 1rem', borderRadius: '6px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#065F46', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                  Workflow Status Action:
+                </div>
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  {(['new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map((st) => (
                     <button
                       key={st}
                       type="button"
                       onClick={() => handleStatusChange(selectedReq.id, st)}
                       style={{
-                        padding: '0.25rem 0.55rem',
-                        fontSize: 'var(--font-size-xs)',
-                        borderRadius: 'var(--radius-xs)',
-                        border: '1px solid var(--color-border-medium)',
-                        backgroundColor: selectedReq.status === st ? 'var(--color-primary-600)' : '#ffffff',
-                        color: selectedReq.status === st ? '#ffffff' : 'inherit',
-                        cursor: 'pointer'
+                        padding: '0.3rem 0.7rem',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        borderRadius: '4px',
+                        border: '1px solid #D1D5DB',
+                        cursor: 'pointer',
+                        backgroundColor: selectedReq.status === st ? '#0F5338' : '#ffffff',
+                        color: selectedReq.status === st ? '#ffffff' : '#374151',
+                        transition: 'all 0.15s ease'
                       }}
                     >
-                      {st}
+                      {st.toUpperCase()}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Detail fields */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', fontSize: 'var(--font-size-sm)' }}>
-                <div>
-                  <strong>Target Material:</strong> {selectedReq.productName}
-                </div>
-                <div>
-                  <strong>Required Volume:</strong> {selectedReq.requiredQuantity} {selectedReq.quantityUnit}
-                </div>
-                <div>
-                  <strong>Intended Application:</strong> {selectedReq.applicationUse}
-                </div>
-                {selectedReq.specificationStandard && (
-                  <div>
-                    <strong>Specification Standard:</strong> {selectedReq.specificationStandard}
+              {/* Section 1: Material & Specs */}
+              <div className="rfq-modal-section">
+                <h4 className="rfq-section-title">🌿 Material & Quantity Specifications</h4>
+                <div className="rfq-grid-2">
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Ingredient / Target Material</span>
+                    <span className="rfq-detail-value" style={{ fontWeight: 700, color: '#0F5338', fontSize: '0.95rem' }}>
+                      {selectedReq.productName}
+                    </span>
                   </div>
-                )}
-                {selectedReq.packagingPreference && (
-                  <div>
-                    <strong>Packaging Preference:</strong> {selectedReq.packagingPreference}
-                  </div>
-                )}
 
-                <div style={{ borderTop: '1px solid var(--color-border-subtle)', paddingTop: 'var(--space-3)', marginTop: 'var(--space-2)' }}>
-                  <h5 style={{ marginBottom: 'var(--space-2)' }}>Contact & Delivery</h5>
-                  <div><strong>Name:</strong> {selectedReq.contact.fullName}</div>
-                  {selectedReq.contact.companyName && <div><strong>Company:</strong> {selectedReq.contact.companyName}</div>}
-                  <div><strong>Email:</strong> {selectedReq.contact.email}</div>
-                  <div><strong>Phone:</strong> {selectedReq.contact.phone}</div>
-                  <div><strong>Country / Port:</strong> {selectedReq.contact.country} {selectedReq.contact.cityOrPort ? `(${selectedReq.contact.cityOrPort})` : ''}</div>
-                </div>
-
-                {selectedReq.additionalNotes && (
-                  <div style={{ borderTop: '1px solid var(--color-border-subtle)', paddingTop: 'var(--space-3)' }}>
-                    <strong>Client Notes:</strong>
-                    <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-body)', marginTop: 'var(--space-1)' }}>
-                      {selectedReq.additionalNotes}
-                    </p>
-                  </div>
-                )}
-
-                {/* Attached Documents */}
-                <div style={{ borderTop: '1px solid var(--color-border-subtle)', paddingTop: 'var(--space-3)' }}>
-                  <strong>Attached Documents ({selectedReq.documents.length}):</strong>
-                  {selectedReq.documents.length === 0 ? (
-                    <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>No files attached.</div>
-                  ) : (
-                    selectedReq.documents.map(d => (
-                      <div key={d.id} style={{ display: 'flex', justifyContent: 'space-between', padding: 'var(--space-2)', backgroundColor: 'var(--color-bg-subtle)', borderRadius: 'var(--radius-xs)', marginTop: 'var(--space-2)', fontSize: 'var(--font-size-xs)' }}>
-                        <span>📎 {d.name} ({(d.sizeBytes / 1024).toFixed(1)} KB)</span>
-                        {d.previewUrl && (
-                          <a href={d.previewUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--color-primary-600)', fontWeight: 600 }}>
-                            Inspect File
-                          </a>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </div>
-
-                {/* Internal Admin Notes */}
-                <div style={{ borderTop: '1px solid var(--color-border-subtle)', paddingTop: 'var(--space-3)' }}>
-                  <strong>Internal Operational Notes:</strong>
-                  {selectedReq.adminNotes && selectedReq.adminNotes.length > 0 ? (
-                    <ul style={{ paddingLeft: 'var(--space-4)', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-body)', marginTop: 'var(--space-2)' }}>
-                      {selectedReq.adminNotes.map((n, idx) => (
-                        <li key={idx}>{n}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 'var(--space-1)' }}>
-                      No internal notes recorded.
+                  {selectedReq.botanicalOrInciName && (
+                    <div className="rfq-detail-item">
+                      <span className="rfq-detail-label">Botanical / INCI Name</span>
+                      <span className="rfq-detail-value" style={{ fontStyle: 'italic' }}>
+                        {selectedReq.botanicalOrInciName}
+                      </span>
                     </div>
                   )}
 
-                  <form onSubmit={handleAddNote} style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-3)' }}>
-                    <input
-                      type="text"
-                      placeholder="Add an internal log note..."
-                      value={newNote}
-                      onChange={(e) => setNewNote(e.target.value)}
-                      style={{ flex: 1, padding: '0.45rem 0.65rem', fontSize: 'var(--font-size-xs)', border: '1px solid var(--color-border-medium)', borderRadius: 'var(--radius-xs)' }}
-                    />
-                    <Button type="submit" variant="primary" size="sm">
-                      Add Note
-                    </Button>
-                  </form>
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Required Quantity & Unit</span>
+                    <span className="rfq-detail-value" style={{ fontWeight: 700 }}>
+                      {selectedReq.requiredQuantity} {selectedReq.quantityUnit}
+                    </span>
+                  </div>
+
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Intended Application</span>
+                    <span className="rfq-detail-value">{selectedReq.applicationUse || 'General Wholesale / Formulation'}</span>
+                  </div>
+
+                  {selectedReq.specificationStandard && (
+                    <div className="rfq-detail-item">
+                      <span className="rfq-detail-label">Specification Standard</span>
+                      <span className="rfq-detail-value">{selectedReq.specificationStandard}</span>
+                    </div>
+                  )}
+
+                  {selectedReq.packagingPreference && (
+                    <div className="rfq-detail-item">
+                      <span className="rfq-detail-label">Packaging Preference</span>
+                      <span className="rfq-detail-value">{selectedReq.packagingPreference}</span>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {/* Section 2: Buyer Contact & Port Details */}
+              <div className="rfq-modal-section">
+                <h4 className="rfq-section-title">👤 Buyer & Delivery Information</h4>
+                <div className="rfq-grid-2">
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Full Name</span>
+                    <span className="rfq-detail-value" style={{ fontWeight: 600 }}>
+                      {selectedReq.contact?.fullName}
+                    </span>
+                  </div>
+
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Company Name</span>
+                    <span className="rfq-detail-value">
+                      {selectedReq.contact?.companyName || '— (Direct Buyer)'}
+                    </span>
+                  </div>
+
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Email ID</span>
+                    <a
+                      href={`mailto:${selectedReq.contact?.email}?subject=RFQ ${selectedReq.referenceNumber} - Yami Naturals`}
+                      className="rfq-cell-link"
+                      style={{ fontWeight: 600 }}
+                    >
+                      ✉️ {selectedReq.contact?.email}
+                    </a>
+                  </div>
+
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Phone / WhatsApp</span>
+                    <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+                      <a
+                        href={`tel:${selectedReq.contact?.phone?.replace(/\s+/g, '')}`}
+                        className="rfq-cell-link"
+                      >
+                        📞 {selectedReq.contact?.phone}
+                      </a>
+                      {selectedReq.contact?.phone && (
+                        <a
+                          href={`https://wa.me/${selectedReq.contact.phone.replace(/[^0-9]/g, '')}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            fontSize: '0.75rem',
+                            color: '#059669',
+                            textDecoration: 'none',
+                            fontWeight: 600,
+                            backgroundColor: '#ECFDF5',
+                            padding: '0.1rem 0.4rem',
+                            borderRadius: '3px',
+                            border: '1px solid #A7F3D0'
+                          }}
+                        >
+                          💬 WhatsApp
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="rfq-detail-item">
+                    <span className="rfq-detail-label">Country</span>
+                    <span className="rfq-detail-value">
+                      🌍 {selectedReq.contact?.country || '—'}
+                    </span>
+                  </div>
+
+                  {selectedReq.contact?.cityOrPort && (
+                    <div className="rfq-detail-item">
+                      <span className="rfq-detail-label">Destination Port / City</span>
+                      <span className="rfq-detail-value">
+                        ⚓ {selectedReq.contact.cityOrPort}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Section 3: Client Notes / Message */}
+              {selectedReq.additionalNotes && (
+                <div className="rfq-modal-section">
+                  <h4 className="rfq-section-title">📝 Client Requirements Note</h4>
+                  <div style={{ padding: '0.75rem 1rem', backgroundColor: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '6px', fontSize: '0.8125rem', color: '#374151', whiteSpace: 'pre-wrap' }}>
+                    {selectedReq.additionalNotes}
+                  </div>
+                </div>
+              )}
+
+              {/* Section 4: Attached Files */}
+              <div className="rfq-modal-section">
+                <h4 className="rfq-section-title">
+                  📎 Attached Files & Test Specs ({selectedReq.documents?.length || 0})
+                </h4>
+                {(!selectedReq.documents || selectedReq.documents.length === 0) ? (
+                  <p style={{ fontSize: '0.8125rem', color: '#6B7280', margin: 0 }}>
+                    No spec sheets or COA documents were attached with this submission.
+                  </p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {selectedReq.documents.map((doc) => (
+                      <div key={doc.id} className="rfq-doc-card">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ fontSize: '1.1rem' }}>📄</span>
+                          <div>
+                            <div style={{ fontWeight: 600, color: '#111827' }}>{doc.name}</div>
+                            <div style={{ fontSize: '0.6875rem', color: '#6B7280' }}>
+                              {(doc.sizeBytes / 1024).toFixed(1)} KB • {doc.mimeType || 'Document'}
+                            </div>
+                          </div>
+                        </div>
+                        {doc.previewUrl && (
+                          <a
+                            href={doc.previewUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              fontSize: '0.75rem',
+                              fontWeight: 600,
+                              color: '#0F5338',
+                              padding: '0.3rem 0.6rem',
+                              backgroundColor: '#ECFDF5',
+                              borderRadius: '4px',
+                              border: '1px solid #A7F3D0',
+                              textDecoration: 'none'
+                            }}
+                          >
+                            Inspect / Download ↗
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Section 5: Internal Admin Operational Notes */}
+              <div className="rfq-modal-section">
+                <h4 className="rfq-section-title">🔒 Internal Admin Logs & Notes</h4>
+                {(!selectedReq.adminNotes || selectedReq.adminNotes.length === 0) ? (
+                  <p style={{ fontSize: '0.8125rem', color: '#6B7280', margin: 0 }}>
+                    No internal operational notes logged yet.
+                  </p>
+                ) : (
+                  <ul className="rfq-notes-list">
+                    {selectedReq.adminNotes.map((note, index) => (
+                      <li key={index} className="rfq-note-item">
+                        {note}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <form onSubmit={handleAddNote} style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  <input
+                    type="text"
+                    placeholder="Log internal note (e.g. Quoted $14/kg FOB, sent COA to buyer)..."
+                    value={newNote}
+                    onChange={(e) => setNewNote(e.target.value)}
+                    style={{
+                      flex: 1,
+                      padding: '0.5rem 0.75rem',
+                      fontSize: '0.8125rem',
+                      border: '1px solid #D1D5DB',
+                      borderRadius: '6px'
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      padding: '0.5rem 0.85rem',
+                      backgroundColor: '#0F5338',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '6px',
+                      fontSize: '0.8125rem',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    + Add Note
+                  </button>
+                </form>
+              </div>
             </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: 'var(--space-12) 0', color: 'var(--color-text-muted)' }}>
-              Select a requirement submission from the list on the left to inspect complete specifications, attached files, and adjust workflow status.
+
+            {/* Modal Footer */}
+            <div className="rfq-modal-footer">
+              <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>
+                ID: {selectedReq.id}
+              </span>
+              <button
+                type="button"
+                className="rfq-btn-export"
+                style={{ padding: '0.4rem 0.85rem' }}
+                onClick={() => setSelectedReq(null)}
+              >
+                Done / Close
+              </button>
             </div>
-          )}
-        </Card>
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
