@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Link, Outlet, useNavigate } from 'react-router-dom';
 import { SEO } from '../../common/SEO';
 import { siteConfig } from '../../../config/siteConfig';
-import { authService } from '../../../services/AuthService';
+import { authService, AUTHORIZED_ADMIN_EMAIL } from '../../../services/AuthService';
+import { AdminUser } from '../../../types';
 import { BackToTop } from '../../common/BackToTop';
 import './AdminLayout.css';
 
 export const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState<AdminUser | null>(null);
+
+  useEffect(() => {
+    if (!authService.isAuthenticated()) {
+      navigate('/admin/login', { replace: true });
+      return;
+    }
+
+    authService.getSession().then((session) => {
+      if (!session.isAuthenticated || !session.user || session.user.email.toLowerCase().trim() !== AUTHORIZED_ADMIN_EMAIL) {
+        navigate('/admin/login', { replace: true });
+      } else {
+        setCurrentUser(session.user);
+      }
+    });
+  }, [navigate]);
 
   const handleLogout = async () => {
     await authService.logout();
-    navigate('/admin/login');
+    navigate('/admin/login', { replace: true });
   };
 
   return (
     <div className="admin-shell">
       <SEO
-        title="Admin Management Portal"
+        title="Admin Panel | Yami Naturals"
         noindex={true}
       />
       {/* Sidebar */}
@@ -76,27 +93,29 @@ export const AdminLayout: React.FC = () => {
 
       {/* Content Area */}
       <div className="admin-main">
-        {/* Prototype Warning Banner */}
-        <div className="admin-top-banner">
-          <span>
-            ⚠️ <strong>PROTOTYPE ARCHITECTURE:</strong> Simulated client-side session active. Production requires server-validated JWT/OAuth authentication.
-          </span>
-          <Link to="/" style={{ textDecoration: 'underline', color: 'inherit', fontWeight: 'bold' }}>
-            Exit to Public Site
-          </Link>
-        </div>
-
         {/* Top bar */}
         <header className="admin-top-bar">
           <div>
-            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
-              Procurement Management System
+            <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-primary-900)' }}>
+              Yami Naturals Admin Panel
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-            <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600 }}>
-              Admin Operator
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+            {currentUser?.photoURL && (
+              <img 
+                src={currentUser.photoURL} 
+                alt="Profile" 
+                style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }} 
+              />
+            )}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', lineHeight: 1.2 }}>
+              <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, color: 'var(--color-primary-900)' }}>
+                {currentUser?.name || 'Yami Naturals Admin'}
+              </span>
+              <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>
+                {currentUser?.email || AUTHORIZED_ADMIN_EMAIL}
+              </span>
+            </div>
           </div>
         </header>
 

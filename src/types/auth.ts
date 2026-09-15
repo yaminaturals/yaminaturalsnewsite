@@ -2,6 +2,7 @@ export interface AdminUser {
   id: string;
   email: string;
   name: string;
+  photoURL?: string;
   role: 'superadmin' | 'procurement-manager' | 'viewer';
   lastLogin?: string;
 }
@@ -11,7 +12,6 @@ export interface AuthSession {
   user: AdminUser | null;
   token?: string;
   expiresAt?: number;
-  /** Flag clearly indicating whether this session is running under prototype mode or production */
   isPrototypeSession: boolean;
 }
 
