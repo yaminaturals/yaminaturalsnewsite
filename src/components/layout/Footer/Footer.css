@@ -1,12 +1,12 @@
 /* ==========================================================================
    FOOTER STYLES - YAMI NATURALS
-   Deep green botanical ground, balanced editorial typography, neutral placeholders
+   Deep green botanical ground, sleek compact layout, balanced editorial typography
    ========================================================================== */
 
 .site-footer {
   background-color: var(--color-deep-green);
   color: var(--color-text-inverse-muted);
-  padding-top: clamp(3.5rem, 6vw, 5.5rem);
+  padding-top: clamp(1.25rem, 2vw, 1.75rem);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -15,15 +15,15 @@
 /* Background Watermark */
 .footer-bg-watermark {
   position: absolute;
-  bottom: 8%;
+  bottom: 2%;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-heading, "Playfair Display", Georgia, serif);
-  font-size: clamp(4rem, 12vw, 10.5rem);
+  font-size: clamp(2rem, 6vw, 4.5rem);
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.035);
+  color: rgba(255, 255, 255, 0.03);
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
@@ -33,9 +33,9 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1.3fr;
-  gap: clamp(1.75rem, 3vw, 3rem);
-  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  grid-template-columns: 1.6fr 0.9fr 1.1fr 1fr 1.3fr;
+  gap: clamp(1rem, 1.8vw, 1.75rem);
+  padding-bottom: clamp(1rem, 1.5vw, 1.25rem);
   position: relative;
   z-index: 1;
 }
@@ -43,7 +43,7 @@
 .footer-brand-col {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 0.35rem;
 }
 
 .footer-logo-link {
@@ -57,9 +57,9 @@
 }
 
 .footer-logo {
-  height: clamp(72px, 7vw, 92px);
+  height: clamp(42px, 3.8vw, 54px);
   width: auto;
-  max-width: 320px;
+  max-width: 220px;
   display: block;
   object-fit: contain;
   filter: invert(1) brightness(2.5) contrast(1.1);
@@ -69,26 +69,28 @@
 }
 
 .footer-logo-link:hover .footer-logo {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .footer-tagline {
   font-family: var(--font-body);
-  font-size: 0.88rem;
-  line-height: var(--line-height-relaxed);
+  font-size: 0.76rem;
+  line-height: 1.38;
   color: #b7d1c3;
-  max-width: 330px;
+  max-width: 320px;
   margin: 0;
 }
 
 .footer-neutral-badge {
-  font-size: 0.74rem;
+  font-size: 0.67rem;
   color: #8faea0;
-  line-height: 1.45;
-  background-color: rgba(0, 0, 0, 0.15);
-  padding: 0.65rem 0.85rem;
+  line-height: 1.3;
+  background-color: rgba(0, 0, 0, 0.18);
+  padding: 0.3rem 0.5rem;
   border-radius: var(--radius-xs);
   border-left: 2px solid var(--color-amber-accent);
+  margin-top: 0.15rem;
+  max-width: 320px;
 }
 
 .footer-col {
@@ -98,12 +100,12 @@
 
 .footer-col-title {
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #ffffff;
-  margin-bottom: var(--space-4);
+  margin-bottom: 0.45rem;
 }
 
 .footer-links-list {
@@ -112,14 +114,15 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.22rem;
 }
 
 .footer-link {
   font-family: var(--font-body);
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   color: #b7d1c3;
   text-decoration: none;
+  line-height: 1.3;
   transition: color var(--duration-fast) ease,
               padding-left var(--duration-fast) ease;
 }
@@ -130,7 +133,7 @@
 }
 
 .footer-admin-link {
-  font-size: 0.80rem;
+  font-size: 0.74rem;
   color: #8faea0;
 }
 
@@ -142,26 +145,28 @@
 .footer-contact-box {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 0.38rem;
 }
 
 .footer-contact-item {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0px;
 }
 
 .footer-contact-label {
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: #8faea0;
   font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
 }
 
 .footer-contact-val {
-  font-size: 0.84rem;
+  font-size: 0.77rem;
   color: #d1e5db;
+  line-height: 1.3;
   word-break: break-word;
 }
 
@@ -180,7 +185,7 @@
   color: #9fe2c0;
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   transition: color var(--duration-fast) ease;
 }
 
@@ -191,9 +196,9 @@
 
 /* Bottom Bar */
 .footer-bottom-bar {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem 0;
-  font-size: 0.78rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.65rem 0;
+  font-size: 0.72rem;
   color: #8faea0;
   position: relative;
   z-index: 1;
@@ -204,29 +209,30 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-2);
 }
 
 .footer-copyright {
   color: #b7d1c3;
+  font-size: 0.74rem;
 }
 
 /* Real Visitor Counter Badge */
 .footer-visitor-counter {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.4rem;
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.4rem 0.85rem;
+  padding: 0.2rem 0.55rem;
   border-radius: 20px;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: #b7d1c3;
 }
 
 .visitor-pulse-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
@@ -235,7 +241,7 @@
 
 @keyframes visitor-pulse {
   to {
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
   }
 }
 
@@ -246,12 +252,12 @@
 
 .visitor-counter-badge {
   font-family: monospace, var(--font-mono, monospace);
-  font-size: 0.92rem;
+  font-size: 0.80rem;
   font-weight: 800;
   color: #ffffff;
   background-color: rgba(255, 255, 255, 0.1);
-  padding: 0.1rem 0.45rem;
-  border-radius: 4px;
+  padding: 0.02rem 0.3rem;
+  border-radius: 3px;
   letter-spacing: 0.08em;
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
@@ -260,6 +266,7 @@
 @media (max-width: 1199px) {
   .footer-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
   }
   .footer-brand-col {
     grid-column: span 3;
@@ -269,7 +276,7 @@
 @media (max-width: 767px) {
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: 1.25rem;
   }
   .footer-brand-col {
     grid-column: span 1;
@@ -277,6 +284,8 @@
   .footer-bottom-inner {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
   }
 }
+
 
