@@ -34,6 +34,11 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="site-footer" role="contentinfo">
+      {/* Background Watermark */}
+      <div className="footer-bg-watermark" aria-hidden="true">
+        YAMI NATURALS
+      </div>
+
       <Container size="default">
         <div className="footer-grid">
           {/* Brand & Neutral Mission Description */}

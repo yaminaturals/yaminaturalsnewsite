@@ -9,6 +9,26 @@
   padding-top: clamp(3.5rem, 6vw, 5.5rem);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
+  overflow: hidden;
+}
+
+/* Background Watermark */
+.footer-bg-watermark {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-heading, "Playfair Display", Georgia, serif);
+  font-size: clamp(4rem, 12vw, 10.5rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.035);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  line-height: 1;
 }
 
 .footer-grid {
@@ -16,6 +36,8 @@
   grid-template-columns: 2fr 1fr 1fr 1fr 1.3fr;
   gap: clamp(1.75rem, 3vw, 3rem);
   padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  position: relative;
+  z-index: 1;
 }
 
 .footer-brand-col {
@@ -35,19 +57,19 @@
 }
 
 .footer-logo {
-  height: clamp(58px, 5.5vw, 76px);
+  height: clamp(72px, 7vw, 92px);
   width: auto;
-  max-width: 260px;
+  max-width: 320px;
   display: block;
   object-fit: contain;
-  mix-blend-mode: multiply;
+  filter: invert(1) brightness(2.5) contrast(1.1);
+  mix-blend-mode: screen;
   background: transparent;
-  filter: contrast(1.05);
   transition: transform var(--duration-fast) ease;
 }
 
 .footer-logo-link:hover .footer-logo {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .footer-tagline {
@@ -173,6 +195,8 @@
   padding: 1.5rem 0;
   font-size: 0.78rem;
   color: #8faea0;
+  position: relative;
+  z-index: 1;
 }
 
 .footer-bottom-inner {
