@@ -317,32 +317,31 @@
     margin-bottom: 0.25rem;
   }
 
-  /* Paragraph on the left, Logo on the right */
+  /* Logo and paragraph aligned on the left side */
   .footer-brand-header {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .footer-tagline {
-    flex: 1;
-    order: 1;
-    max-width: none;
-    font-size: 0.78rem;
-    line-height: 1.38;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
   }
 
   .footer-logo-link {
-    order: 2;
-    flex-shrink: 0;
+    order: 1;
+    text-align: left;
   }
 
   .footer-logo {
-    height: clamp(38px, 8.5vw, 52px);
+    height: clamp(40px, 9vw, 52px);
     width: auto;
-    max-width: 125px;
+    max-width: 180px;
+  }
+
+  .footer-tagline {
+    order: 2;
+    text-align: left;
+    max-width: 100%;
+    font-size: 0.80rem;
+    line-height: 1.4;
   }
 
   /* Dedicated requirement badge below both logo and paragraph */
@@ -353,6 +352,7 @@
     order: 3;
     font-size: 0.68rem;
     line-height: 1.32;
+    text-align: left;
   }
 
   /* Row 1 below brand: Quick Links on left, Contact on right */
