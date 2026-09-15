@@ -522,13 +522,13 @@
 .rfq-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
-  z-index: 9999;
+  z-index: 999999;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding: 2.5rem 1rem 1.5rem;
+  padding: 1.5rem;
   overflow-y: auto;
   animation: rfqFadeIn 0.2s ease-out;
 }
@@ -538,12 +538,24 @@
   border-radius: 12px;
   width: 100%;
   max-width: 740px;
-  max-height: min(72vh, 580px);
+  max-height: min(85vh, 680px);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
   overflow: hidden;
-  margin: 0 auto;
+  margin: auto;
+  position: relative;
+  animation: rfqSlideUp 0.2s ease-out;
+}
+
+.rfq-delete-dialog {
+  background-color: #ffffff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin: auto;
   position: relative;
   animation: rfqSlideUp 0.2s ease-out;
 }

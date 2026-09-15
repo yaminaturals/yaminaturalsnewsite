@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { requirementService } from '../../services/RequirementService';
 import { CustomerRequirement, RequirementStatus } from '../../types';
 import './AdminRequirements.css';
@@ -669,7 +670,7 @@ export const AdminRequirements: React.FC = () => {
       </div>
 
       {/* 4. Detailed RFQ View Modal */}
-      {selectedReq && (
+      {selectedReq && createPortal(
         <div className="rfq-modal-overlay" onClick={() => setSelectedReq(null)}>
           <div className="rfq-modal-dialog" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
@@ -985,46 +986,46 @@ export const AdminRequirements: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* 5. Delete Confirmation Modal */}
-      {deleteConfirmReq && (
-        <div className="rfq-modal-overlay" onClick={() => !isDeleting && setDeleteConfirmReq(null)} style={{ zIndex: 10000 }}>
+      {/* 5. Delete Confirmation Modal (Rendered via Portal into body to stay above all headers) */}
+      {deleteConfirmReq && createPortal(
+        <div className="rfq-modal-overlay" onClick={() => !isDeleting && setDeleteConfirmReq(null)}>
           <div
-            className="rfq-modal-dialog"
+            className="rfq-delete-dialog"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '440px', padding: 0 }}
           >
-            <div style={{ padding: '1.25rem 1.25rem 0.75rem', display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+            <div style={{ padding: '1.5rem 1.5rem 0.85rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
               <div style={{
-                width: '40px',
-                height: '40px',
+                width: '44px',
+                height: '44px',
                 borderRadius: '50%',
                 backgroundColor: '#FEE2E2',
                 color: '#DC2626',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.25rem',
+                fontSize: '1.35rem',
                 flexShrink: 0
               }}>
                 🗑️
               </div>
               <div>
-                <h3 style={{ margin: '0 0 0.4rem', fontSize: '1.05rem', fontWeight: 700, color: '#111827' }}>
+                <h3 style={{ margin: '0 0 0.45rem', fontSize: '1.1rem', fontWeight: 700, color: '#111827' }}>
                   Delete RFQ Entry?
                 </h3>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#4B5563', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: '0.85rem', color: '#4B5563', lineHeight: 1.5 }}>
                   Are you sure you want to permanently delete RFQ <strong>{deleteConfirmReq.referenceNumber}</strong> ({deleteConfirmReq.productName}) submitted by <strong>{deleteConfirmReq.contact?.fullName || 'Client'}</strong> from the database?
                 </p>
                 <div style={{
-                  marginTop: '0.65rem',
-                  padding: '0.4rem 0.65rem',
+                  marginTop: '0.75rem',
+                  padding: '0.5rem 0.75rem',
                   backgroundColor: '#FEF2F2',
                   border: '1px solid #FECACA',
                   borderRadius: '6px',
-                  fontSize: '0.75rem',
+                  fontSize: '0.78rem',
                   color: '#991B1B'
                 }}>
                   ⚠️ This action cannot be undone. The entry will be permanently removed from all records and reports.
@@ -1035,8 +1036,8 @@ export const AdminRequirements: React.FC = () => {
             <div style={{
               display: 'flex',
               justifyContent: 'flex-end',
-              gap: '0.6rem',
-              padding: '0.85rem 1.25rem',
+              gap: '0.65rem',
+              padding: '1rem 1.5rem',
               backgroundColor: '#F9FAFB',
               borderTop: '1px solid #E5E7EB',
               marginTop: '0.5rem'
@@ -1046,7 +1047,7 @@ export const AdminRequirements: React.FC = () => {
                 disabled={isDeleting}
                 onClick={() => setDeleteConfirmReq(null)}
                 style={{
-                  padding: '0.45rem 0.9rem',
+                  padding: '0.5rem 1rem',
                   border: '1px solid #D1D5DB',
                   backgroundColor: '#ffffff',
                   color: '#374151',
@@ -1064,7 +1065,7 @@ export const AdminRequirements: React.FC = () => {
                 onClick={handleConfirmDelete}
                 className="rfq-btn-delete-confirm"
                 style={{
-                  padding: '0.45rem 1rem',
+                  padding: '0.5rem 1.15rem',
                   backgroundColor: isDeleting ? '#9CA3AF' : '#DC2626',
                   color: '#ffffff',
                   border: 'none',
@@ -1081,7 +1082,8 @@ export const AdminRequirements: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
