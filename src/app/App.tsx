@@ -32,6 +32,11 @@ import { AdminProductAdd } from '../pages/admin/AdminProductAdd';
 import { AdminCategories } from '../pages/admin/AdminCategories';
 import { AdminRequirements } from '../pages/admin/AdminRequirements';
 import { AdminLeads } from '../pages/admin/AdminLeads';
+import { AdminContent } from '../pages/admin/AdminContent';
+import { AdminMedia } from '../pages/admin/AdminMedia';
+import { AdminOrders } from '../pages/admin/AdminOrders';
+import { AdminAnalytics } from '../pages/admin/AdminAnalytics';
+import { AdminSEO } from '../pages/admin/AdminSEO';
 import { AdminSettings } from '../pages/admin/AdminSettings';
 import { ScrollToTop } from '../components/common/ScrollToTop';
 
@@ -75,10 +80,18 @@ export const App: React.FC = () => {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="products/add" element={<AdminProductAdd />} />
+          <Route path="products/new" element={<Navigate to="/admin/products/add" replace />} />
           <Route path="products/edit" element={<AdminProducts />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="requirements" element={<AdminRequirements />} />
+          <Route path="enquiries" element={<Navigate to="/admin/requirements" replace />} />
           <Route path="leads" element={<AdminLeads />} />
+          <Route path="users" element={<Navigate to="/admin/leads" replace />} />
+          <Route path="content" element={<AdminContent />} />
+          <Route path="media" element={<AdminMedia />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="analytics" element={<AdminAnalytics />} />
+          <Route path="seo" element={<AdminSEO />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>
