@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
             <div className="footer-brand-header">
               <Link to="/" className="footer-logo-link" aria-label="Yami Naturals Home">
                 <img
-                  src={siteConfig.brand.logoPath}
+                  src="/logo-white.png"
                   alt="Yami Naturals"
                   className="footer-logo"
                   width="220"

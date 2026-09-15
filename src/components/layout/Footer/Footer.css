@@ -5,11 +5,14 @@
 
 .site-footer {
   background-color: var(--color-deep-green);
-  color: var(--color-text-inverse-muted);
+  color: #e2ede7;
   padding-top: clamp(1.25rem, 2vw, 1.75rem);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Background Watermark */
@@ -69,13 +72,11 @@
 }
 
 .footer-logo {
-  height: clamp(42px, 3.8vw, 54px);
+  height: clamp(44px, 4vw, 56px);
   width: auto;
   max-width: 220px;
   display: block;
   object-fit: contain;
-  filter: invert(1) brightness(2.5) contrast(1.1);
-  mix-blend-mode: screen;
   background: transparent;
   transition: transform var(--duration-fast) ease;
 }
@@ -87,17 +88,17 @@
 .footer-tagline {
   font-family: var(--font-body);
   font-size: 0.82rem;
-  line-height: 1.42;
-  color: #b7d1c3;
+  line-height: 1.45;
+  color: #d1e5db;
   max-width: 320px;
   margin: 0;
 }
 
 .footer-neutral-badge {
   font-size: 0.70rem;
-  color: #8faea0;
+  color: #a3cbb7;
   line-height: 1.35;
-  background-color: rgba(0, 0, 0, 0.18);
+  background-color: rgba(0, 0, 0, 0.22);
   padding: 0.35rem 0.55rem;
   border-radius: var(--radius-xs);
   border-left: 2px solid var(--color-amber-accent);
@@ -113,7 +114,7 @@
 .footer-col-title {
   font-family: var(--font-body);
   font-size: 0.78rem;
-  font-weight: var(--font-weight-bold);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #ffffff;
@@ -132,7 +133,7 @@
 .footer-link {
   font-family: var(--font-body);
   font-size: 0.82rem;
-  color: #b7d1c3;
+  color: #d8eae1;
   text-decoration: none;
   line-height: 1.35;
   transition: color var(--duration-fast) ease,
@@ -146,11 +147,11 @@
 
 .footer-admin-link {
   font-size: 0.78rem;
-  color: #8faea0;
+  color: #9ec5b2;
 }
 
 .footer-admin-link:hover {
-  color: var(--color-amber-accent);
+  color: #ffffff;
 }
 
 /* Contact Details */
@@ -170,31 +171,32 @@
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #8faea0;
-  font-weight: var(--font-weight-semibold);
+  color: #9ec5b2;
+  font-weight: 600;
   line-height: 1.25;
 }
 
 .footer-contact-val {
   font-size: 0.80rem;
-  color: #d1e5db;
+  color: #ffffff;
+  font-weight: 400;
   line-height: 1.35;
   word-break: break-word;
 }
 
 .footer-contact-link {
-  color: #d1e5db;
+  color: #ffffff;
   text-decoration: none;
   transition: color var(--duration-fast) ease;
 }
 
 .footer-contact-link:hover {
-  color: #ffffff;
+  color: #a7f3d0;
   text-decoration: underline;
 }
 
 .footer-map-link {
-  color: #9fe2c0;
+  color: #8eedbe;
   text-decoration: none;
   font-weight: 500;
   font-size: 0.78rem;
@@ -211,7 +213,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.7rem 0;
   font-size: 0.76rem;
-  color: #8faea0;
+  color: #a3cbb7;
   position: relative;
   z-index: 1;
 }
@@ -225,7 +227,7 @@
 }
 
 .footer-copyright {
-  color: #b7d1c3;
+  color: #d1e5db;
   font-size: 0.76rem;
   order: 1;
 }
@@ -235,12 +237,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 0.22rem 0.6rem;
   border-radius: 20px;
   font-size: 0.74rem;
-  color: #b7d1c3;
+  color: #d1e5db;
   order: 2;
 }
 
@@ -269,11 +271,11 @@
   font-size: 0.85rem;
   font-weight: 800;
   color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.12);
   padding: 0.03rem 0.35rem;
   border-radius: 3px;
   letter-spacing: 0.08em;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* ==========================================================================
