@@ -407,15 +407,24 @@
   height: 76px;
 }
 
+/* Fluid Container for edge-to-edge desktop alignment */
+.header-fluid-container {
+  width: 100%;
+  max-width: 100%;
+  padding-left: clamp(1.25rem, 3.2vw, 3.5rem);
+  padding-right: clamp(1.25rem, 3.2vw, 3.5rem);
+  box-sizing: border-box;
+}
+
 .header-main-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  gap: clamp(1rem, 2vw, 2.5rem);
+  gap: clamp(1.5rem, 3vw, 4rem);
 }
 
-/* Brand Logo */
+/* Brand Logo (anchored on the left) */
 .header-brand-wrap {
   flex-shrink: 0;
   display: flex;
@@ -444,21 +453,30 @@
   height: clamp(54px, 3.8vw, 60px);
 }
 
+/* Right Cluster (All nav links + Get a Quote button anchored on the right) */
+.header-right-cluster {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 2.2vw, 2.75rem);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 /* Desktop Navigation */
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: clamp(0.65rem, 1.25vw, 1.45rem);
+  gap: clamp(0.75rem, 1.35vw, 1.7rem);
 }
 
 .nav-item-link {
   font-family: var(--font-body);
-  font-size: clamp(0.78rem, 0.88vw, 0.84rem);
+  font-size: clamp(0.80rem, 0.9vw, 0.86rem);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.035em;
   color: var(--color-charcoal);
   text-decoration: none;
-  padding: 0.5rem 0.2rem;
+  padding: 0.5rem 0.25rem;
   position: relative;
   transition: color var(--duration-fast) ease;
   white-space: nowrap;

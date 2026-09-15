@@ -226,7 +226,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
     >
       {/* Top Utility Announcement Bar */}
       <div className="header-top-bar">
-        <Container size="default">
+        <Container size="fluid" className="header-fluid-container">
           <div className="header-top-inner">
             <div className="header-top-left">
               <span className="header-top-tag">
@@ -405,7 +405,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
 
       {/* Main Sticky Header */}
       <div className="header-main-bar">
-        <Container size="default">
+        <Container size="fluid" className="header-fluid-container">
           <div className="header-main-inner">
             {/* LEFT: Yami Naturals Brand Logo */}
             <div className="header-brand-wrap">
@@ -414,192 +414,195 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileNav }) => {
                   src={siteConfig.brand.logoPath}
                   alt="Yami Naturals"
                   className="brand-logo-img"
-                  width="210"
-                  height="58"
+                  width="220"
+                  height="62"
                   loading="eager"
                 />
               </Link>
             </div>
 
-            {/* CENTER: Desktop Navigation */}
-            <nav className="desktop-nav" aria-label="Main Navigation">
-              <NavLink
-                to="/"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-                end
-              >
-                HOME
-              </NavLink>
-
-              {/* Products / Brochure Item with Dropdown / Mega-Menu */}
-              <div
-                className={`nav-dropdown-wrapper ${isProductsOpen ? 'is-open' : ''}`}
-                ref={dropdownRef}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                <button
-                  type="button"
-                  className={`nav-item-link nav-dropdown-trigger ${
-                    location.pathname.startsWith('/products') ? 'active' : ''
-                  }`}
-                  aria-expanded={isProductsOpen}
-                  aria-haspopup="true"
-                  aria-controls="products-mega-menu"
-                  onClick={() => setIsProductsOpen(!isProductsOpen)}
+            {/* RIGHT: Navigation Links + Get a Quote Button */}
+            <div className="header-right-cluster">
+              {/* Desktop Navigation */}
+              <nav className="desktop-nav" aria-label="Main Navigation">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                  end
                 >
-                  <span>PRODUCT CATALOGUE</span>
-                  <svg
-                    className={`nav-dropdown-chevron ${isProductsOpen ? 'rotate' : ''}`}
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
+                  HOME
+                </NavLink>
 
-                {/* Products Mega-Menu Dropdown Panel */}
+                {/* Products / Brochure Item with Dropdown / Mega-Menu */}
                 <div
-                  id="products-mega-menu"
-                  className={`mega-menu-panel ${isProductsOpen ? 'visible' : ''}`}
-                  role="region"
-                  aria-label="Products Categories Mega Menu"
+                  className={`nav-dropdown-wrapper ${isProductsOpen ? 'is-open' : ''}`}
+                  ref={dropdownRef}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <div className="mega-menu-inner">
-                    <div className="mega-menu-header">
-                      <div>
-                        <span className="eyebrow">Natural Catalog &amp; Specification Dossiers</span>
-                        <p className="mega-menu-title">Botanical &amp; Herbal Categories</p>
-                        <p className="mega-menu-subtitle">
-                          Botanical whole powders, herbal extracts, natural oils, cosmetic clays, and dietary ingredients.
-                        </p>
-                      </div>
-                      <Link
-                        to="/products"
-                        className="mega-menu-view-all"
-                        onClick={() => setIsProductsOpen(false)}
-                      >
-                        <span>View All Products</span>
-                        <span className="arrow-icon">→</span>
-                      </Link>
-                    </div>
+                  <button
+                    type="button"
+                    className={`nav-item-link nav-dropdown-trigger ${
+                      location.pathname.startsWith('/products') ? 'active' : ''
+                    }`}
+                    aria-expanded={isProductsOpen}
+                    aria-haspopup="true"
+                    aria-controls="products-mega-menu"
+                    onClick={() => setIsProductsOpen(!isProductsOpen)}
+                  >
+                    <span>PRODUCT CATALOGUE</span>
+                    <svg
+                      className={`nav-dropdown-chevron ${isProductsOpen ? 'rotate' : ''}`}
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
 
-                    <div className="mega-menu-grid">
-                      {categories.map((cat) => (
+                  {/* Products Mega-Menu Dropdown Panel */}
+                  <div
+                    id="products-mega-menu"
+                    className={`mega-menu-panel ${isProductsOpen ? 'visible' : ''}`}
+                    role="region"
+                    aria-label="Products Categories Mega Menu"
+                  >
+                    <div className="mega-menu-inner">
+                      <div className="mega-menu-header">
+                        <div>
+                          <span className="eyebrow">Natural Catalog &amp; Specification Dossiers</span>
+                          <p className="mega-menu-title">Botanical &amp; Herbal Categories</p>
+                          <p className="mega-menu-subtitle">
+                            Botanical whole powders, herbal extracts, natural oils, cosmetic clays, and dietary ingredients.
+                          </p>
+                        </div>
                         <Link
-                          key={cat.id}
-                          to={`/products?category=${cat.slug}`}
-                          className="mega-menu-card"
+                          to="/products"
+                          className="mega-menu-view-all"
                           onClick={() => setIsProductsOpen(false)}
                         >
-                          <div className="mega-menu-icon-wrap">
-                            {getCategoryIcon(cat.slug)}
-                          </div>
-                          <div className="mega-menu-card-text">
-                            <span className="mega-menu-card-name">{cat.name}</span>
-                            <span className="mega-menu-card-desc">{cat.shortDescription}</span>
-                          </div>
+                          <span>View All Products</span>
+                          <span className="arrow-icon">→</span>
                         </Link>
-                      ))}
-                    </div>
+                      </div>
 
-                    <div className="mega-menu-footer">
-                      <span className="mega-menu-footer-hint">
-                        📄 Need our full commercial catalog &amp; technical specification dossier?
-                      </span>
-                      <Link
-                        to="/submit-requirement"
-                        className="mega-menu-footer-cta"
-                        onClick={() => setIsProductsOpen(false)}
-                      >
-                        Request Complete Product Brochure →
-                      </Link>
+                      <div className="mega-menu-grid">
+                        {categories.map((cat) => (
+                          <Link
+                            key={cat.id}
+                            to={`/products?category=${cat.slug}`}
+                            className="mega-menu-card"
+                            onClick={() => setIsProductsOpen(false)}
+                          >
+                            <div className="mega-menu-icon-wrap">
+                              {getCategoryIcon(cat.slug)}
+                            </div>
+                            <div className="mega-menu-card-text">
+                              <span className="mega-menu-card-name">{cat.name}</span>
+                              <span className="mega-menu-card-desc">{cat.shortDescription}</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+
+                      <div className="mega-menu-footer">
+                        <span className="mega-menu-footer-hint">
+                          📄 Need our full commercial catalog &amp; technical specification dossier?
+                        </span>
+                        <Link
+                          to="/submit-requirement"
+                          className="mega-menu-footer-cta"
+                          onClick={() => setIsProductsOpen(false)}
+                        >
+                          Request Complete Product Brochure →
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <NavLink
-                to="/partnership"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                PARTNERSHIP
-              </NavLink>
+                <NavLink
+                  to="/partnership"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                >
+                  PARTNERSHIP
+                </NavLink>
 
-              <NavLink
-                to="/private-labelling"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                PRIVATE LABELLING
-              </NavLink>
+                <NavLink
+                  to="/private-labelling"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                >
+                  PRIVATE LABELLING
+                </NavLink>
 
-              <NavLink
-                to="/why-yami-naturals"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                WHY YAMI NATURALS
-              </NavLink>
+                <NavLink
+                  to="/why-yami-naturals"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                >
+                  WHY YAMI NATURALS
+                </NavLink>
 
-              <NavLink
-                to="/about"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                ABOUT
-              </NavLink>
+                <NavLink
+                  to="/about"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                >
+                  ABOUT
+                </NavLink>
 
-              <NavLink
-                to="/career"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                CAREER
-              </NavLink>
+                <NavLink
+                  to="/career"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                >
+                  CAREER
+                </NavLink>
 
-              <NavLink
-                to="/contact"
-                className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
-              >
-                CONTACT
-              </NavLink>
-            </nav>
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) => `nav-item-link ${isActive ? 'active' : ''}`}
+                >
+                  CONTACT
+                </NavLink>
+              </nav>
 
-            {/* RIGHT: Action CTAs & Mobile Trigger */}
-            <div className="header-actions">
-              <Button
-                to="/submit-requirement"
-                variant="primary"
-                size="sm"
-                className="header-cta-primary"
-                iconRight={
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
+              {/* Action CTAs & Mobile Trigger */}
+              <div className="header-actions">
+                <Button
+                  to="/submit-requirement"
+                  variant="primary"
+                  size="sm"
+                  className="header-cta-primary"
+                  iconRight={
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  }
+                >
+                  Get a Quote
+                </Button>
+
+                {/* Mobile Menu Hamburger Trigger */}
+                <button
+                  type="button"
+                  className="mobile-menu-trigger"
+                  onClick={onOpenMobileNav}
+                  aria-label="Open navigation drawer"
+                  aria-expanded="false"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
                   </svg>
-                }
-              >
-                Get a Quote
-              </Button>
-
-              {/* Mobile Menu Hamburger Trigger */}
-              <button
-                type="button"
-                className="mobile-menu-trigger"
-                onClick={onOpenMobileNav}
-                aria-label="Open navigation drawer"
-                aria-expanded="false"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </svg>
-              </button>
+                </button>
+              </div>
             </div>
           </div>
         </Container>
