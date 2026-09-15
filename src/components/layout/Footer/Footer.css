@@ -29,6 +29,12 @@
   user-select: none;
   z-index: 0;
   line-height: 1;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.watermark-line {
+  display: inline-block;
 }
 
 .footer-grid {
@@ -41,6 +47,12 @@
 }
 
 .footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footer-brand-header {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -215,6 +227,7 @@
 .footer-copyright {
   color: #b7d1c3;
   font-size: 0.76rem;
+  order: 1;
 }
 
 /* Real Visitor Counter Badge */
@@ -228,6 +241,7 @@
   border-radius: 20px;
   font-size: 0.74rem;
   color: #b7d1c3;
+  order: 2;
 }
 
 .visitor-pulse-dot {
@@ -262,29 +276,128 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Responsive Adaptations */
-@media (max-width: 1199px) {
-  .footer-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-  .footer-brand-col {
-    grid-column: span 3;
-  }
-}
-
-@media (max-width: 767px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-  .footer-brand-col {
-    grid-column: span 1;
-  }
-  .footer-bottom-inner {
+/* ==========================================================================
+   MOBILE & TABLET VIEW CUSTOM ADAPTATIONS (<= 991px)
+   ========================================================================== */
+@media (max-width: 991px) {
+  /* Watermark spanning entire footer vertically and horizontally */
+  .footer-bg-watermark {
+    top: 50%;
+    bottom: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(3.2rem, 14vw, 5.8rem);
+    line-height: 0.9;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.035);
+    text-align: center;
+    width: 100%;
+    gap: 0;
+  }
+
+  .watermark-line {
+    display: block;
+  }
+
+  /* 2-Column Responsive Layout */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 1rem;
+    padding-bottom: 1.25rem;
+  }
+
+  /* Brand Column: full width at top */
+  .footer-brand-col {
+    grid-column: 1 / -1;
+    order: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Paragraph on the left, Logo on the right */
+  .footer-brand-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .footer-tagline {
+    flex: 1;
+    order: 1;
+    max-width: none;
+    font-size: 0.78rem;
+    line-height: 1.38;
+  }
+
+  .footer-logo-link {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  .footer-logo {
+    height: clamp(38px, 8.5vw, 52px);
+    width: auto;
+    max-width: 125px;
+  }
+
+  /* Dedicated requirement badge below both logo and paragraph */
+  .footer-neutral-badge {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0.35rem;
+    order: 3;
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+
+  /* Row 1 below brand: Quick Links on left, Contact on right */
+  .footer-quick-col {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .footer-contact-col {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  /* Row 2: Support Links on left, Product Categories on right */
+  .footer-support-col {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .footer-categories-col {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  /* Bottom bar: visitor counter on left, copyright on right */
+  .footer-bottom-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
     gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-visitor-counter {
+    order: 1;
+    margin: 0;
+  }
+
+  .footer-copyright {
+    order: 2;
+    text-align: right;
+    font-size: 0.72rem;
+    margin: 0;
   }
 }
 

@@ -58,33 +58,36 @@ export const Footer: React.FC = () => {
     <footer className="site-footer" role="contentinfo">
       {/* Background Watermark */}
       <div className="footer-bg-watermark" aria-hidden="true">
-        YAMI NATURALS
+        <span className="watermark-line">YAMI</span>
+        <span className="watermark-line">NATURALS</span>
       </div>
 
       <Container size="default">
         <div className="footer-grid">
           {/* Brand & Neutral Mission Description */}
           <div className="footer-brand-col">
-            <Link to="/" className="footer-logo-link" aria-label="Yami Naturals Home">
-              <img
-                src={siteConfig.brand.logoPath}
-                alt="Yami Naturals"
-                className="footer-logo"
-                width="220"
-                height="65"
-                loading="lazy"
-              />
-            </Link>
-            <p className="footer-tagline">
-              Yami Naturals manufactures herbal and natural products while connecting businesses and individuals with the solutions they need. We bridge the journey from your requirement to its fulfillment, with a focus on finding the right product and sourcing path.
-            </p>
+            <div className="footer-brand-header">
+              <Link to="/" className="footer-logo-link" aria-label="Yami Naturals Home">
+                <img
+                  src={siteConfig.brand.logoPath}
+                  alt="Yami Naturals"
+                  className="footer-logo"
+                  width="220"
+                  height="65"
+                  loading="lazy"
+                />
+              </Link>
+              <p className="footer-tagline">
+                Yami Naturals manufactures herbal and natural products while connecting businesses and individuals with the solutions they need. We bridge the journey from your requirement to its fulfillment, with a focus on finding the right product and sourcing path.
+              </p>
+            </div>
             <div className="footer-neutral-badge">
               * Dedicated requirement submission & direct sourcing platform — no online shopping cart or direct payment processing.
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="footer-col">
+          <div className="footer-col footer-quick-col">
             <p className="footer-col-title">Quick Links</p>
             <ul className="footer-links-list">
               <li><Link to="/" className="footer-link">Home</Link></li>
@@ -99,7 +102,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Product Categories */}
-          <div className="footer-col">
+          <div className="footer-col footer-categories-col">
             <p className="footer-col-title">Product Categories</p>
             <ul className="footer-links-list">
               {categories.map((cat) => (
@@ -113,7 +116,7 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Support */}
-          <div className="footer-col">
+          <div className="footer-col footer-support-col">
             <p className="footer-col-title">Support</p>
             <ul className="footer-links-list">
               <li><Link to="/submit-requirement" className="footer-link">Submit Requirement</Link></li>
