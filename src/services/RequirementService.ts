@@ -20,19 +20,39 @@ class RequirementService implements IRequirementService {
     storageService.setItem(this.storageKey, reqs);
   }
 
-  private generateReferenceNumber(): string {
+  private generateReferenceNumber(existingReqs: CustomerRequirement[]): string {
     const year = new Date().getFullYear();
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    return `YN-REQ-${year}-${randomSuffix}`;
+    const existingRefs = new Set(existingReqs.map(r => r.referenceNumber));
+
+    // Try generating a random 4-digit unique reference (1000 - 9999)
+    for (let i = 0; i < 1000; i++) {
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const candidate = `YN-REQ-${year}-${randomSuffix}`;
+      if (!existingRefs.has(candidate)) {
+        return candidate;
+      }
+    }
+
+    // If 4-digit collision occurs, use timestamp milliseconds suffix for guaranteed uniqueness
+    const timeSuffix = (Date.now() % 90000 + 10000).toString();
+    let candidate = `YN-REQ-${year}-${timeSuffix}`;
+    while (existingRefs.has(candidate)) {
+      const extra = Math.floor(1000 + Math.random() * 9000);
+      candidate = `YN-REQ-${year}-${extra}`;
+    }
+
+    return candidate;
   }
 
   async submitRequirement(data: Omit<CustomerRequirement, 'id' | 'referenceNumber' | 'createdAt' | 'status' | 'updatedAt'>): Promise<CustomerRequirement> {
     const reqs = this.getStoredRequirements();
     const now = new Date().toISOString();
+    const uniqueRef = this.generateReferenceNumber(reqs);
+
     const newRequirement: CustomerRequirement = {
       ...data,
-      id: `req-${Date.now()}`,
-      referenceNumber: this.generateReferenceNumber(),
+      id: `req-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+      referenceNumber: uniqueRef,
       createdAt: now,
       status: 'new',
       updatedAt: now,
