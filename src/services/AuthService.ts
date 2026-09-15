@@ -2,7 +2,7 @@ import { AdminUser, AuthSession } from '../types';
 import { storageService } from './StorageService';
 import { getFirebaseAuth, googleProvider, signInWithPopup, signOut } from '../config/firebase';
 
-export const AUTHORIZED_ADMIN_EMAIL = 'yaminaturals@gmail.com';
+export const AUTHORIZED_ADMIN_EMAIL = 'adminyaminaturals@gmail.com';
 
 export interface IAuthService {
   getSession(): Promise<AuthSession>;
