@@ -20,12 +20,13 @@ export const siteConfig = {
     twitterCard: 'summary_large_image',
   },
   contact: {
-    // Official client details to be confirmed
-    email: '[Client to provide official contact email]',
+    companyName: 'Yami Naturals',
+    email: 'info@yaminaturals.com',
     phone: '[Client to provide official phone number]',
-    whatsapp: '[Client to provide WhatsApp number]',
+    whatsapp: '+91 8780664057',
     address: '[Client to provide registered office / warehouse address]',
-    businessHours: '[Client to provide operational hours]',
+    googleMapsUrl: 'https://maps.google.com',
+    businessHours: 'Mon - Sat: 9:00 AM - 6:00 PM IST',
   },
   social: {
     linkedin: '#',

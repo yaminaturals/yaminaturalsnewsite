@@ -21,6 +21,7 @@ import { PrivacyPolicyPage } from '../pages/public/PrivacyPolicyPage';
 import { TermsConditionsPage } from '../pages/public/TermsConditionsPage';
 import { CareerPage } from '../pages/public/CareerPage';
 import { PrivateLabellingPage } from '../pages/public/PrivateLabellingPage';
+import { ShippingPolicyPage } from '../pages/public/ShippingPolicyPage';
 import { NotFoundPage } from '../pages/public/NotFoundPage';
 
 // Admin Pages
@@ -63,6 +64,7 @@ export const App: React.FC = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+          <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
 
