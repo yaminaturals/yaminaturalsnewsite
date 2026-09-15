@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { SEO } from '../../components/common/SEO';
 import { Card } from '../../components/ui/Card/Card';
-import { authService, AUTHORIZED_ADMIN_EMAIL } from '../../services/AuthService';
+import { authService } from '../../services/AuthService';
 import { siteConfig } from '../../config/siteConfig';
 
 export const AdminLoginPage: React.FC = () => {
@@ -63,24 +63,6 @@ export const AdminLoginPage: React.FC = () => {
         </div>
 
         <Card variant="surface" padding="lg">
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.75rem', 
-            padding: '0.85rem 1rem', 
-            backgroundColor: 'rgba(21, 57, 41, 0.05)', 
-            border: '1px solid rgba(21, 57, 41, 0.12)', 
-            borderRadius: 'var(--radius-md)', 
-            marginBottom: 'var(--space-5)' 
-          }}>
-            <span style={{ fontSize: '1.25rem' }}>🔒</span>
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-primary-900)', lineHeight: 1.4 }}>
-              <strong>Authorized Google Authentication</strong>
-              <div style={{ color: 'var(--color-text-muted)', fontSize: '0.74rem', marginTop: '2px' }}>
-                Sign in with <strong>{AUTHORIZED_ADMIN_EMAIL}</strong> to manage requirements, products, and leads.
-              </div>
-            </div>
-          </div>
 
           {error && (
             <div style={{ 

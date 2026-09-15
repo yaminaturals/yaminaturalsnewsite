@@ -58,7 +58,7 @@ class AuthService implements IAuthService {
         await signOut(activeAuth);
         return {
           success: false,
-          error: `Access Denied: Account "${authenticatedEmail}" is not authorized. Only ${AUTHORIZED_ADMIN_EMAIL} can access the Admin Panel.`
+          error: 'Access Denied: This Google account is not authorized to access the Admin Panel.'
         };
       }
 
