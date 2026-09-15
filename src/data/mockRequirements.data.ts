@@ -3,7 +3,7 @@ import { CustomerRequirement } from '../types';
 export const initialRequirements: CustomerRequirement[] = [
   {
     id: 'req-001',
-    referenceNumber: 'YN-REQ-2026-0042',
+    referenceNumber: '00001',
     createdAt: '2026-03-01T09:24:00Z',
     customerType: 'b2b',
     requirementType: 'herbal-extract',
@@ -38,7 +38,7 @@ export const initialRequirements: CustomerRequirement[] = [
   },
   {
     id: 'req-002',
-    referenceNumber: 'YN-REQ-2026-0039',
+    referenceNumber: '00002',
     createdAt: '2026-02-28T14:15:00Z',
     customerType: 'b2c',
     requirementType: 'herbal-powder',

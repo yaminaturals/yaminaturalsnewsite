@@ -21,27 +21,35 @@ class RequirementService implements IRequirementService {
   }
 
   private generateReferenceNumber(existingReqs: CustomerRequirement[]): string {
-    const year = new Date().getFullYear();
-    const existingRefs = new Set(existingReqs.map(r => r.referenceNumber));
+    // Collect all existing numerical sequence IDs
+    const existingNumbers = new Set<number>();
 
-    // Try generating a random 4-digit unique reference (1000 - 9999)
-    for (let i = 0; i < 1000; i++) {
-      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-      const candidate = `YN-REQ-${year}-${randomSuffix}`;
-      if (!existingRefs.has(candidate)) {
-        return candidate;
+    existingReqs.forEach(r => {
+      // Extracts trailing digits from formats like '00001', 'YN-REQ-2026-0042', or pure numbers
+      const match = r.referenceNumber.match(/\d+$/);
+      if (match) {
+        const num = parseInt(match[0], 10);
+        if (!isNaN(num)) {
+          existingNumbers.add(num);
+        }
       }
+    });
+
+    // Check last stored counter sequence or calculate from existing items
+    const storedCounter = storageService.getItem<number>('yn_req_seq_counter', 0);
+    const maxExisting = existingNumbers.size > 0 ? Math.max(...Array.from(existingNumbers)) : 0;
+    
+    // Determine next sequential number
+    let nextSeq = Math.max(storedCounter, maxExisting) + 1;
+    while (existingNumbers.has(nextSeq)) {
+      nextSeq++;
     }
 
-    // If 4-digit collision occurs, use timestamp milliseconds suffix for guaranteed uniqueness
-    const timeSuffix = (Date.now() % 90000 + 10000).toString();
-    let candidate = `YN-REQ-${year}-${timeSuffix}`;
-    while (existingRefs.has(candidate)) {
-      const extra = Math.floor(1000 + Math.random() * 9000);
-      candidate = `YN-REQ-${year}-${extra}`;
-    }
+    // Persist latest counter in storage
+    storageService.setItem('yn_req_seq_counter', nextSeq);
 
-    return candidate;
+    // Return zero-padded 5-digit sequential reference number: 00001, 00002, 00003...
+    return String(nextSeq).padStart(5, '0');
   }
 
   async submitRequirement(data: Omit<CustomerRequirement, 'id' | 'referenceNumber' | 'createdAt' | 'status' | 'updatedAt'>): Promise<CustomerRequirement> {
