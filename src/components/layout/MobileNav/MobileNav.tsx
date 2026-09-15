@@ -370,15 +370,6 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
                   <span className="mobile-sublink-arrow">→</span>
                 </Link>
 
-                <Link
-                  to="/submit-requirement"
-                  className="mobile-sublink"
-                  onClick={onClose}
-                >
-                  <span>📄 Request Product Brochure (PDF)</span>
-                  <span className="mobile-sublink-arrow">→</span>
-                </Link>
-
                 {categories.map((cat) => (
                   <Link
                     key={cat.id}
@@ -390,6 +381,15 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
                     <span className="mobile-sublink-count">({cat.productCount})</span>
                   </Link>
                 ))}
+
+                <Link
+                  to="/submit-requirement"
+                  className="mobile-sublink mobile-sublink-brochure"
+                  onClick={onClose}
+                >
+                  <span>📄 Request Product Brochure (PDF)</span>
+                  <span className="mobile-sublink-arrow">→</span>
+                </Link>
               </div>
             </div>
           </div>
