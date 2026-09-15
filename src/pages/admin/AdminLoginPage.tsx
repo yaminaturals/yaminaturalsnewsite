@@ -2,29 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { SEO } from '../../components/common/SEO';
 import { Card } from '../../components/ui/Card/Card';
-import { Button } from '../../components/ui/Button/Button';
 import { authService, AUTHORIZED_ADMIN_EMAIL } from '../../services/AuthService';
-import { 
-  isFirebaseConfigured, 
-  getSavedFirebaseConfig, 
-  saveFirebaseConfig,
-  FirebaseConfigObject 
-} from '../../config/firebase';
 import { siteConfig } from '../../config/siteConfig';
 
 export const AdminLoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showConfigModal, setShowConfigModal] = useState(false);
-  
-  // Firebase config input state
-  const [rawSnippet, setRawSnippet] = useState('');
-  const [apiKey, setApiKey] = useState('');
-  const [authDomain, setAuthDomain] = useState('');
-  const [projectId, setProjectId] = useState('');
-  const [appId, setAppId] = useState('');
-  const [configSuccess, setConfigSuccess] = useState('');
 
   // If already authenticated with authorized email, redirect to dashboard
   useEffect(() => {
@@ -33,26 +17,8 @@ export const AdminLoginPage: React.FC = () => {
     }
   }, [navigate]);
 
-  // Load existing config into modal fields if present
-  useEffect(() => {
-    const existing = getSavedFirebaseConfig();
-    if (existing) {
-      setApiKey(existing.apiKey || '');
-      setAuthDomain(existing.authDomain || '');
-      setProjectId(existing.projectId || '');
-      setAppId(existing.appId || '');
-    }
-  }, [showConfigModal]);
-
   const handleGoogleLogin = async () => {
     setError('');
-    
-    if (!isFirebaseConfigured()) {
-      setShowConfigModal(true);
-      setError('Please connect your Firebase project credentials first.');
-      return;
-    }
-
     setIsLoading(true);
 
     try {
@@ -61,9 +27,6 @@ export const AdminLoginPage: React.FC = () => {
         navigate('/admin/dashboard', { replace: true });
       } else {
         setError(res.error || 'Authentication failed.');
-        if (res.error?.includes('API key') || res.error?.includes('not configured')) {
-          setShowConfigModal(true);
-        }
       }
     } catch {
       setError('An unexpected error occurred during Google authentication.');
@@ -72,60 +35,13 @@ export const AdminLoginPage: React.FC = () => {
     }
   };
 
-  const handleSnippetParse = (snippetText: string) => {
-    setRawSnippet(snippetText);
-    try {
-      // Regex extraction from JS/JSON object
-      const extract = (key: string) => {
-        const regex = new RegExp(`${key}["']?\\s*:\\s*["']([^"']+)["']`, 'i');
-        const match = snippetText.match(regex);
-        return match ? match[1] : '';
-      };
-
-      const extractedApiKey = extract('apiKey');
-      const extractedAuthDomain = extract('authDomain');
-      const extractedProjectId = extract('projectId');
-      const extractedAppId = extract('appId');
-
-      if (extractedApiKey) setApiKey(extractedApiKey);
-      if (extractedAuthDomain) setAuthDomain(extractedAuthDomain);
-      if (extractedProjectId) setProjectId(extractedProjectId);
-      if (extractedAppId) setAppId(extractedAppId);
-    } catch {
-      // Ignore parse errors
-    }
-  };
-
-  const handleSaveConfig = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!apiKey || !authDomain || !projectId) {
-      setError('API Key, Auth Domain, and Project ID are required.');
-      return;
-    }
-
-    const newConfig: FirebaseConfigObject = {
-      apiKey: apiKey.trim(),
-      authDomain: authDomain.trim(),
-      projectId: projectId.trim(),
-      appId: appId.trim() || '1:123456789012:web:abcdef123456'
-    };
-
-    saveFirebaseConfig(newConfig);
-    setConfigSuccess('Firebase configuration saved successfully! You can now sign in with Google.');
-    setError('');
-    setTimeout(() => {
-      setShowConfigModal(false);
-      setConfigSuccess('');
-    }, 1200);
-  };
-
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-bg-base)', padding: 'var(--space-6)' }}>
       <SEO
         title="Admin Panel Login | Yami Naturals"
         noindex={true}
       />
-      <div style={{ width: '100%', maxWidth: '460px' }}>
+      <div style={{ width: '100%', maxWidth: '440px' }}>
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
           <Link to="/" aria-label="Yami Naturals Home">
             <img 
@@ -231,126 +147,7 @@ export const AdminLoginPage: React.FC = () => {
                 </>
               )}
             </button>
-
-            {/* Quick Firebase Connection Toggle */}
-            <button
-              type="button"
-              onClick={() => setShowConfigModal(!showConfigModal)}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--color-primary-700)',
-                fontSize: '0.76rem',
-                cursor: 'pointer',
-                textAlign: 'center',
-                padding: '0.25rem',
-                textDecoration: 'underline'
-              }}
-            >
-              {isFirebaseConfigured() ? '⚙ Update Firebase Project Keys' : '⚙ Connect Firebase Project Credentials'}
-            </button>
           </div>
-
-          {/* Config Setup Drawer */}
-          {showConfigModal && (
-            <div style={{ 
-              marginTop: 'var(--space-4)', 
-              padding: 'var(--space-4)', 
-              backgroundColor: '#f8faf9', 
-              border: '1px solid var(--color-border-medium)', 
-              borderRadius: 'var(--radius-md)',
-              fontSize: 'var(--font-size-xs)'
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
-                <strong style={{ color: 'var(--color-primary-900)' }}>Firebase Project Setup</strong>
-                <button 
-                  type="button" 
-                  onClick={() => setShowConfigModal(false)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem' }}
-                >
-                  ✕
-                </button>
-              </div>
-
-              {configSuccess && (
-                <div style={{ backgroundColor: 'var(--color-success-bg, #dcfce7)', color: 'var(--color-success, #166534)', padding: '0.5rem', borderRadius: '4px', marginBottom: '0.75rem' }}>
-                  ✓ {configSuccess}
-                </div>
-              )}
-
-              <p style={{ color: 'var(--color-text-muted)', marginBottom: '0.75rem', lineHeight: 1.4 }}>
-                Paste the <code>firebaseConfig</code> object from your <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-primary-700)', textDecoration: 'underline' }}>Firebase Console</a>:
-              </p>
-
-              <textarea
-                placeholder={`const firebaseConfig = {\n  apiKey: "AIzaSy...",\n  authDomain: "...",\n  projectId: "..."\n};`}
-                value={rawSnippet}
-                onChange={(e) => handleSnippetParse(e.target.value)}
-                rows={3}
-                style={{
-                  width: '100%',
-                  fontFamily: 'monospace',
-                  fontSize: '0.72rem',
-                  padding: '0.5rem',
-                  borderRadius: '4px',
-                  border: '1px solid var(--color-border-medium)',
-                  marginBottom: '0.75rem'
-                }}
-              />
-
-              <form onSubmit={handleSaveConfig} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <div>
-                  <label style={{ display: 'block', fontWeight: 600, fontSize: '0.70rem', marginBottom: '2px' }}>API Key *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="AIzaSy..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    style={{ width: '100%', padding: '0.4rem 0.6rem', border: '1px solid var(--color-border-medium)', borderRadius: '4px' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontWeight: 600, fontSize: '0.70rem', marginBottom: '2px' }}>Auth Domain *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="your-project.firebaseapp.com"
-                    value={authDomain}
-                    onChange={(e) => setAuthDomain(e.target.value)}
-                    style={{ width: '100%', padding: '0.4rem 0.6rem', border: '1px solid var(--color-border-medium)', borderRadius: '4px' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontWeight: 600, fontSize: '0.70rem', marginBottom: '2px' }}>Project ID *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="your-project-id"
-                    value={projectId}
-                    onChange={(e) => setProjectId(e.target.value)}
-                    style={{ width: '100%', padding: '0.4rem 0.6rem', border: '1px solid var(--color-border-medium)', borderRadius: '4px' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontWeight: 600, fontSize: '0.70rem', marginBottom: '2px' }}>App ID (optional)</label>
-                  <input
-                    type="text"
-                    placeholder="1:123456789012:web:abcdef..."
-                    value={appId}
-                    onChange={(e) => setAppId(e.target.value)}
-                    style={{ width: '100%', padding: '0.4rem 0.6rem', border: '1px solid var(--color-border-medium)', borderRadius: '4px' }}
-                  />
-                </div>
-
-                <div style={{ marginTop: '0.5rem' }}>
-                  <Button type="submit" variant="primary" size="sm" fullWidth>
-                    Save & Activate Firebase
-                  </Button>
-                </div>
-              </form>
-            </div>
-          )}
 
           <div style={{ textAlign: 'center', marginTop: 'var(--space-5)' }}>
             <Link to="/" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-primary-700)', textDecoration: 'none' }}>
