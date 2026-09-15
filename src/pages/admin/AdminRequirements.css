@@ -491,13 +491,14 @@
 .rfq-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.25rem 1rem;
+  overflow-y: auto;
   animation: rfqFadeIn 0.2s ease-out;
 }
 
@@ -505,12 +506,14 @@
   background-color: #ffffff;
   border-radius: 12px;
   width: 100%;
-  max-width: 800px;
-  max-height: 90vh;
+  max-width: 780px;
+  max-height: calc(100vh - 2.5rem);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  margin: auto;
+  position: relative;
   animation: rfqSlideUp 0.2s ease-out;
 }
 
@@ -520,27 +523,32 @@
 }
 
 @keyframes rfqSlideUp {
-  from { transform: translateY(20px); opacity: 0; }
+  from { transform: translateY(16px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
 .rfq-modal-header {
-  padding: 1.25rem 1.5rem;
+  padding: 0.85rem 1.25rem;
   background-color: #F9FAFB;
   border-bottom: 1px solid #E5E7EB;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .rfq-modal-header-info {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
+  flex-wrap: wrap;
 }
 
 .rfq-modal-title {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #111827;
   margin: 0;
@@ -549,12 +557,13 @@
 .rfq-modal-close {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   line-height: 1;
   color: #9CA3AF;
   cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 4px;
+  padding: 0.25rem 0.4rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
 }
 
 .rfq-modal-close:hover {
@@ -563,11 +572,13 @@
 }
 
 .rfq-modal-body {
-  padding: 1.5rem;
+  padding: 1.25rem;
   overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .rfq-modal-section {
@@ -626,13 +637,14 @@
 }
 
 .rfq-modal-footer {
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   background-color: #F9FAFB;
   border-top: 1px solid #E5E7EB;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .rfq-notes-list {
