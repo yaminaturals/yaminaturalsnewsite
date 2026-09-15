@@ -4,6 +4,7 @@ import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
 import { MobileNav } from '../MobileNav/MobileNav';
 import { BackToTop } from '../../common/BackToTop';
+import { WhatsAppButton } from '../../common/WhatsAppButton';
 
 export const PublicLayout: React.FC = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -29,6 +30,8 @@ export const PublicLayout: React.FC = () => {
         <Outlet />
       </main>
       <Footer />
+      {/* Floating WhatsApp chat button on bottom left */}
+      <WhatsAppButton phoneNumber="918780664057" defaultMessage="Hi" />
       {/* Floating Back To Top button in bottom right corner */}
       <BackToTop />
     </div>

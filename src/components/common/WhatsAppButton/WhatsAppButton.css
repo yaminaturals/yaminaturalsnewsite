@@ -1,0 +1,140 @@
+/* ==========================================================================
+   WHATSAPP FLOATING BUTTON - BOTTOM LEFT - YAMI NATURALS
+   ========================================================================== */
+
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: clamp(1.5rem, 3vw, 2.25rem);
+  left: clamp(1.25rem, 3vw, 2.25rem);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(18, 140, 126, 0.35),
+              0 2px 6px rgba(0, 0, 0, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.25s ease;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.whatsapp-float-btn:hover {
+  transform: translateY(-4px) scale(1.06);
+  background: linear-gradient(135deg, #20BA5A 0%, #075E54 100%);
+  box-shadow: 0 8px 26px rgba(18, 140, 126, 0.5),
+              0 3px 10px rgba(0, 0, 0, 0.18);
+  color: #FFFFFF;
+}
+
+.whatsapp-float-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 12px rgba(18, 140, 126, 0.3);
+}
+
+.whatsapp-float-btn:focus-visible {
+  outline: 2px solid #25D366;
+  outline-offset: 3px;
+}
+
+.whatsapp-float-icon {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.25s ease;
+}
+
+.whatsapp-float-btn:hover .whatsapp-float-icon {
+  transform: scale(1.08);
+}
+
+/* Pulsing ambient ring */
+.whatsapp-float-pulse {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(37, 211, 102, 0.6);
+  pointer-events: none;
+  animation: whatsappPulse 2.8s infinite ease-out;
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  60% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* Subtle Desktop Tooltip on Hover */
+.whatsapp-tooltip {
+  position: absolute;
+  left: calc(100% + 12px);
+  background: rgba(7, 59, 36, 0.94);
+  color: #FFFFFF;
+  font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.whatsapp-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent rgba(7, 59, 36, 0.94) transparent transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .whatsapp-float-btn:hover .whatsapp-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+  .whatsapp-float-btn {
+    width: 46px;
+    height: 46px;
+    bottom: 1.25rem;
+    left: 1.15rem;
+  }
+
+  .whatsapp-float-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .whatsapp-tooltip {
+    display: none;
+  }
+}
