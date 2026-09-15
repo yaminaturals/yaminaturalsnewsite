@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Container } from '../../ui/Container/Container';
 import { ParallaxLayer } from '../../ui/ParallaxLayer/ParallaxLayer';
 import { whyYamiContent } from '../../../data/whyYami.data';
@@ -13,7 +12,6 @@ export const WhyYamiSection: React.FC = () => {
     headingEmphasis,
     supportingText,
     principles,
-    supportingLink,
   } = whyYamiContent;
 
   return (
@@ -89,34 +87,6 @@ export const WhyYamiSection: React.FC = () => {
                 &ldquo;You bring the requirement. We help organize the path toward the right product or ingredient.&rdquo;
               </p>
             </div>
-
-            {/* Subtle Text Link to Avoid Heavy CTA Repetition */}
-            {supportingLink && (
-              <div className="why-yami-link-wrapper">
-                <Link
-                  to={supportingLink.path}
-                  className="why-yami-approach-link"
-                  aria-label="Explore our requirement-first sourcing approach"
-                >
-                  <span className="link-text">{supportingLink.label}</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                    className="link-arrow"
-                  >
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-              </div>
-            )}
           </div>
 
           {/* RIGHT COLUMN: 2x2 Principle Cards Grid */}

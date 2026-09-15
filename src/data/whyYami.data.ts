@@ -12,10 +12,6 @@ export interface WhyYamiContent {
   headingEmphasis?: string;
   supportingText: string;
   principles: WhyYamiPrincipleItem[];
-  supportingLink?: {
-    label: string;
-    path: string;
-  };
 }
 
 export const whyYamiContent: WhyYamiContent = {
@@ -58,8 +54,4 @@ export const whyYamiContent: WhyYamiContent = {
       iconType: 'procurement-support',
     },
   ],
-  supportingLink: {
-    label: 'Explore Our Approach',
-    path: '/submit-requirement',
-  },
 };
