@@ -45,34 +45,59 @@ export const AdminRequirements: React.FC = () => {
 
   return (
     <div className="animate-fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-6)', flexWrap: 'wrap', gap: 'var(--space-4)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-6)', flexWrap: 'wrap', gap: 'var(--space-4)', borderBottom: '1px solid var(--color-border-subtle)', paddingBottom: 'var(--space-4)' }}>
         <div>
-          <h2>Customer Requirement Submissions</h2>
-          <p className="text-sm text-muted">Review incoming material requests, customer specifications, and update proposal status.</p>
+          <h2 style={{ margin: 0, color: 'var(--color-primary-900)' }}>Customer Requirements & RFQs</h2>
+          <p className="text-sm text-muted" style={{ margin: 'var(--space-1) 0 0' }}>
+            Inbound custom material requests, buyer specifications, and quotation workflow status.
+          </p>
         </div>
 
-        {/* Filter Pills */}
         <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-          {(['all', 'new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map((st) => (
-            <button
-              key={st}
-              type="button"
-              onClick={() => setFilterStatus(st)}
-              style={{
-                padding: '0.35rem 0.75rem',
-                borderRadius: 'var(--radius-full)',
-                fontSize: 'var(--font-size-xs)',
-                fontWeight: 600,
-                border: '1px solid var(--color-border-medium)',
-                backgroundColor: filterStatus === st ? 'var(--color-primary-600)' : '#ffffff',
-                color: filterStatus === st ? '#ffffff' : 'var(--color-text-body)',
-                cursor: 'pointer'
-              }}
-            >
-              {st.toUpperCase()}
-            </button>
-          ))}
+          <a
+            href="/submit-requirement"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: '0.45rem 0.85rem',
+              backgroundColor: 'var(--color-primary-50)',
+              color: 'var(--color-primary-800)',
+              borderRadius: 'var(--radius-xs)',
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 600,
+              textDecoration: 'none',
+              border: '1px solid var(--color-primary-200)'
+            }}
+          >
+            🌐 Public RFQ Form ↗
+          </a>
+          <Button type="button" variant="outline" size="sm" onClick={loadRequirements}>
+            🔄 Refresh
+          </Button>
         </div>
+      </div>
+
+      {/* Filter Pills */}
+      <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
+        {(['all', 'new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map((st) => (
+          <button
+            key={st}
+            type="button"
+            onClick={() => setFilterStatus(st)}
+            style={{
+              padding: '0.35rem 0.75rem',
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 600,
+              border: '1px solid var(--color-border-medium)',
+              backgroundColor: filterStatus === st ? 'var(--color-primary-600)' : '#ffffff',
+              color: filterStatus === st ? '#ffffff' : 'var(--color-text-body)',
+              cursor: 'pointer'
+            }}
+          >
+            {st.toUpperCase()}
+          </button>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 tablet-grid-cols-2 gap-6" style={{ alignItems: 'start' }}>

@@ -53,26 +53,20 @@ export const AdminLayout: React.FC = () => {
           <NavLink to="/admin/dashboard" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
             <span>📊 Dashboard</span>
           </NavLink>
-          <NavLink to="/admin/products" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
-            <span>🌿 Products</span>
-          </NavLink>
-          <NavLink to="/admin/categories" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
-            <span>📁 Categories</span>
-          </NavLink>
           <NavLink to="/admin/requirements" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
-            <span>📋 Customer Requirements</span>
+            <span>📋 Customer RFQs</span>
           </NavLink>
           <NavLink to="/admin/leads" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
             <span>📩 Leads & Inquiries</span>
           </NavLink>
-          <NavLink to="/admin/content" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
-            <span>📝 Content Manager</span>
+          <NavLink to="/admin/products" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
+            <span>🌿 Product Catalog</span>
           </NavLink>
-          <NavLink to="/admin/media" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
-            <span>🖼 Media Gallery</span>
+          <NavLink to="/admin/categories" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
+            <span>📁 Categories</span>
           </NavLink>
           <NavLink to="/admin/settings" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
-            <span>⚙ Settings</span>
+            <span>⚙ Brand & Settings</span>
           </NavLink>
         </nav>
 

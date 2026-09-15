@@ -32,8 +32,6 @@ import { AdminProductAdd } from '../pages/admin/AdminProductAdd';
 import { AdminCategories } from '../pages/admin/AdminCategories';
 import { AdminRequirements } from '../pages/admin/AdminRequirements';
 import { AdminLeads } from '../pages/admin/AdminLeads';
-import { AdminContent } from '../pages/admin/AdminContent';
-import { AdminMedia } from '../pages/admin/AdminMedia';
 import { AdminSettings } from '../pages/admin/AdminSettings';
 import { ScrollToTop } from '../components/common/ScrollToTop';
 
@@ -81,8 +79,6 @@ export const App: React.FC = () => {
           <Route path="categories" element={<AdminCategories />} />
           <Route path="requirements" element={<AdminRequirements />} />
           <Route path="leads" element={<AdminLeads />} />
-          <Route path="content" element={<AdminContent />} />
-          <Route path="media" element={<AdminMedia />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>
