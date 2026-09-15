@@ -20,7 +20,7 @@ export interface UploadedDocumentMetadata {
   uploadedAt: string;
 }
 
-export type RequirementStatus = 'new' | 'in-review' | 'quoted' | 'fulfilled' | 'archived';
+export type RequirementStatus = 'new' | 'in-review' | 'quoted' | 'archived';
 
 export interface CustomerRequirement {
   id: string;

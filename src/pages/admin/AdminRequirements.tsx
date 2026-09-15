@@ -21,6 +21,10 @@ export const AdminRequirements: React.FC = () => {
   const [newNote, setNewNote] = useState('');
   const [exportFeedback, setExportFeedback] = useState<string | null>(null);
 
+  // Deletion States
+  const [deleteConfirmReq, setDeleteConfirmReq] = useState<CustomerRequirement | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const loadRequirements = async () => {
     setLoading(true);
     try {
@@ -54,6 +58,33 @@ export const AdminRequirements: React.FC = () => {
     loadRequirements();
     const updated = await requirementService.getRequirementById(selectedReq.id);
     setSelectedReq(updated);
+  };
+
+  const handleDeleteClick = (req: CustomerRequirement) => {
+    setDeleteConfirmReq(req);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteConfirmReq) return;
+    setIsDeleting(true);
+    const refNum = deleteConfirmReq.referenceNumber;
+    const idToDelete = deleteConfirmReq.id;
+
+    try {
+      await requirementService.deleteRequirement(idToDelete);
+      if (selectedReq && selectedReq.id === idToDelete) {
+        setSelectedReq(null);
+      }
+      setDeleteConfirmReq(null);
+      await loadRequirements();
+      setExportFeedback(`RFQ "${refNum}" has been permanently removed from the database.`);
+      setTimeout(() => setExportFeedback(null), 4000);
+    } catch (err) {
+      console.error('Failed to delete requirement:', err);
+      alert('Failed to delete requirement entry.');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   // Available Years from dataset
@@ -135,7 +166,6 @@ export const AdminRequirements: React.FC = () => {
       new: 0,
       'in-review': 0,
       quoted: 0,
-      fulfilled: 0,
       archived: 0
     };
     requirements.forEach(r => {
@@ -494,7 +524,6 @@ export const AdminRequirements: React.FC = () => {
                       case 'new': return 'rfq-status-new';
                       case 'in-review': return 'rfq-status-in-review';
                       case 'quoted': return 'rfq-status-quoted';
-                      case 'fulfilled': return 'rfq-status-fulfilled';
                       case 'archived': return 'rfq-status-archived';
                       default: return '';
                     }
@@ -587,12 +616,11 @@ export const AdminRequirements: React.FC = () => {
                           <option value="new">NEW</option>
                           <option value="in-review">IN-REVIEW</option>
                           <option value="quoted">QUOTED</option>
-                          <option value="fulfilled">FULFILLED</option>
                           <option value="archived">ARCHIVED</option>
                         </select>
                       </td>
 
-                      {/* 10. View Button */}
+                      {/* 10. Action Buttons (View & Delete) */}
                       <td style={{ textAlign: 'center' }}>
                         <div className="rfq-action-btns" style={{ justifyContent: 'center' }}>
                           <button
@@ -602,6 +630,14 @@ export const AdminRequirements: React.FC = () => {
                             title="View Full RFQ Details"
                           >
                             👁️ View
+                          </button>
+                          <button
+                            type="button"
+                            className="rfq-btn-delete"
+                            onClick={() => handleDeleteClick(req)}
+                            title={`Delete RFQ ${req.referenceNumber} from database`}
+                          >
+                            🗑️ Delete
                           </button>
                         </div>
                       </td>
@@ -648,10 +684,9 @@ export const AdminRequirements: React.FC = () => {
                   <span className={`rfq-status-select ${
                     selectedReq.status === 'new' ? 'rfq-status-new' :
                     selectedReq.status === 'in-review' ? 'rfq-status-in-review' :
-                    selectedReq.status === 'quoted' ? 'rfq-status-quoted' :
-                    selectedReq.status === 'fulfilled' ? 'rfq-status-fulfilled' : 'rfq-status-archived'
+                    selectedReq.status === 'quoted' ? 'rfq-status-quoted' : 'rfq-status-archived'
                   }`}>
-                    {selectedReq.status.toUpperCase()}
+                    {selectedReq.status === 'in-review' ? 'IN-REVIEW' : selectedReq.status.toUpperCase()}
                   </span>
                 </div>
                 <button
@@ -669,7 +704,7 @@ export const AdminRequirements: React.FC = () => {
               <div className="rfq-modal-workflow-bar">
                 <div className="rfq-workflow-actions">
                   <span className="rfq-workflow-label">Workflow:</span>
-                  {(['new', 'in-review', 'quoted', 'fulfilled', 'archived'] as const).map((st) => (
+                  {(['new', 'in-review', 'quoted', 'archived'] as const).map((st) => (
                     <button
                       key={st}
                       type="button"
@@ -927,9 +962,19 @@ export const AdminRequirements: React.FC = () => {
 
             {/* Modal Footer */}
             <div className="rfq-modal-footer">
-              <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>
-                ID: {selectedReq.id}
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '0.75rem', color: '#6B7280' }}>
+                  ID: {selectedReq.id}
+                </span>
+                <button
+                  type="button"
+                  className="rfq-btn-delete"
+                  onClick={() => handleDeleteClick(selectedReq)}
+                  title="Delete this entry from database"
+                >
+                  🗑️ Delete Entry
+                </button>
+              </div>
               <button
                 type="button"
                 className="rfq-btn-export"
@@ -937,6 +982,102 @@ export const AdminRequirements: React.FC = () => {
                 onClick={() => setSelectedReq(null)}
               >
                 Done / Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. Delete Confirmation Modal */}
+      {deleteConfirmReq && (
+        <div className="rfq-modal-overlay" onClick={() => !isDeleting && setDeleteConfirmReq(null)} style={{ zIndex: 10000 }}>
+          <div
+            className="rfq-modal-dialog"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: '440px', padding: 0 }}
+          >
+            <div style={{ padding: '1.25rem 1.25rem 0.75rem', display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                backgroundColor: '#FEE2E2',
+                color: '#DC2626',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.25rem',
+                flexShrink: 0
+              }}>
+                🗑️
+              </div>
+              <div>
+                <h3 style={{ margin: '0 0 0.4rem', fontSize: '1.05rem', fontWeight: 700, color: '#111827' }}>
+                  Delete RFQ Entry?
+                </h3>
+                <p style={{ margin: 0, fontSize: '0.8125rem', color: '#4B5563', lineHeight: 1.5 }}>
+                  Are you sure you want to permanently delete RFQ <strong>{deleteConfirmReq.referenceNumber}</strong> ({deleteConfirmReq.productName}) submitted by <strong>{deleteConfirmReq.contact?.fullName || 'Client'}</strong> from the database?
+                </p>
+                <div style={{
+                  marginTop: '0.65rem',
+                  padding: '0.4rem 0.65rem',
+                  backgroundColor: '#FEF2F2',
+                  border: '1px solid #FECACA',
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  color: '#991B1B'
+                }}>
+                  ⚠️ This action cannot be undone. The entry will be permanently removed from all records and reports.
+                </div>
+              </div>
+            </div>
+
+            <div style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '0.6rem',
+              padding: '0.85rem 1.25rem',
+              backgroundColor: '#F9FAFB',
+              borderTop: '1px solid #E5E7EB',
+              marginTop: '0.5rem'
+            }}>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setDeleteConfirmReq(null)}
+                style={{
+                  padding: '0.45rem 0.9rem',
+                  border: '1px solid #D1D5DB',
+                  backgroundColor: '#ffffff',
+                  color: '#374151',
+                  borderRadius: '6px',
+                  fontSize: '0.8125rem',
+                  fontWeight: 600,
+                  cursor: isDeleting ? 'not-allowed' : 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleConfirmDelete}
+                className="rfq-btn-delete-confirm"
+                style={{
+                  padding: '0.45rem 1rem',
+                  backgroundColor: isDeleting ? '#9CA3AF' : '#DC2626',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '0.8125rem',
+                  fontWeight: 600,
+                  cursor: isDeleting ? 'not-allowed' : 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem'
+                }}
+              >
+                {isDeleting ? 'Deleting...' : '🗑️ Yes, Delete from Database'}
               </button>
             </div>
           </div>

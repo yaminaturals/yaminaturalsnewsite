@@ -67,7 +67,7 @@ export const AdminOrders: React.FC = () => {
                       {o.contact.cityOrPort || 'FOB Mumbai'}
                     </td>
                     <td style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>
-                      <Badge variant={o.status === 'fulfilled' ? 'success' : 'primary'}>
+                      <Badge variant={o.status === 'quoted' ? 'success' : 'primary'}>
                         {o.status.toUpperCase()}
                       </Badge>
                     </td>

@@ -7,6 +7,7 @@ export interface IRequirementService {
   getRequirements(statusFilter?: RequirementStatus): Promise<CustomerRequirement[]>;
   getRequirementById(id: string): Promise<CustomerRequirement | null>;
   updateStatus(id: string, status: RequirementStatus, note?: string): Promise<CustomerRequirement | null>;
+  deleteRequirement(id: string): Promise<boolean>;
 }
 
 class RequirementService implements IRequirementService {
@@ -104,6 +105,14 @@ class RequirementService implements IRequirementService {
 
     this.saveStoredRequirements(reqs);
     return reqs[index];
+  }
+
+  async deleteRequirement(id: string): Promise<boolean> {
+    const reqs = this.getStoredRequirements();
+    const filtered = reqs.filter(r => r.id !== id);
+    if (filtered.length === reqs.length) return false;
+    this.saveStoredRequirements(filtered);
+    return true;
   }
 }
 
